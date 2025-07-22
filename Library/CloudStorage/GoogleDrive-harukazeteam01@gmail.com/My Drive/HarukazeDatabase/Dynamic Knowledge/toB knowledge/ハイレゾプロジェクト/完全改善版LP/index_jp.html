@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPUSOROBAN - AI革新、信頼を築く | 日本のシリコンバレーから</title>
+    <meta name="description" content="日本発の企業向けGPUクラウド。50%のコスト削減、即日セットアップ、99.9%稼働率保証。世界中の2000社以上に信頼されています。">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=120&h=40&fit=crop" alt="GPUSOROBAN" class="logo-img">
+                </div>
+                <nav class="nav">
+                    <a href="#features">機能</a>
+                    <a href="#pricing">料金</a>
+                    <a href="#cases">成功事例</a>
+                    <a href="#contact">お問い合わせ</a>
+                    <div class="lang-switch">
+                        <span class="active">JP</span> | <span onclick="location.href='index.html'">EN</span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="https://cdn.midjourney.com/d7a78519-d0ef-4d1b-858c-2e112f6b1761/0_0.png" alt="自然環境のデータセンター" class="hero-bg-img">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="trust-badges">
+                    <div class="trust-badge">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>NVIDIA エリートパートナー</span>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="fas fa-users"></i>
+                        <span>2,000社以上の信頼</span>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="fas fa-clock"></i>
+                        <span>99.9% 稼働率保証</span>
+                    </div>
+                </div>
+                
+                <h1 class="hero-title">
+                    AI革新、<span class="highlight">信頼を築く</span>
+                </h1>
+                <p class="hero-subtitle">
+                    日本のシリコンバレーから – 精密さとパフォーマンスの融合
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">50%</span>
+                        <span class="stat-text">コスト削減</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">即日</span>
+                        <span class="stat-text">セットアップ</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">24時間</span>
+                        <span class="stat-text">サポート</span>
+                    </div>
+                </div>
+                
+                <div class="hero-cta">
+                    <button class="btn-primary" onclick="openCalculator()">
+                        <i class="fas fa-calculator"></i>
+                        コスト削減額を計算
+                    </button>
+                    <button class="btn-secondary">
+                        <i class="fas fa-play"></i>
+                        無料トライアル開始
+                    </button>
+                </div>
+                
+                <p class="hero-guarantee">
+                    30日間返金保証 • 初期費用なし • いつでもキャンセル可能
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Proposition -->
+    <section class="value-prop" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>AI開発の革新に集中し、インフラの悩みから解放</h2>
+                <p>他社が数ヶ月かけてセットアップする間に、あなたは既にイノベーションを始められます</p>
+            </div>
+            
+            <div class="value-layers">
+                <!-- Layer 1: WHY -->
+                <div class="value-layer">
+                    <div class="layer-content">
+                        <div class="layer-text">
+                            <span class="layer-label">課題</span>
+                            <h3>多くのAI企業が予算の50%をインフラに浪費しています</h3>
+                            <ul class="problem-list">
+                                <li><i class="fas fa-times-circle"></i> GPUインフラ構築に3ヶ月以上</li>
+                                <li><i class="fas fa-times-circle"></i> 予測不能なコストがR&D予算を圧迫</li>
+                                <li><i class="fas fa-times-circle"></i> セットアップ中に競合に先を越される</li>
+                            </ul>
+                        </div>
+                        <div class="layer-visual">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=400&fit=crop" alt="複雑なインフラ">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layer 2: WHAT -->
+                <div class="value-layer reverse">
+                    <div class="layer-content">
+                        <div class="layer-text">
+                            <span class="layer-label">解決策</span>
+                            <h3>初日から使える日本製GPUクラウド</h3>
+                            <div class="solution-grid">
+                                <div class="solution-item">
+                                    <i class="fas fa-rocket"></i>
+                                    <h4>即日セットアップ</h4>
+                                    <p>来四半期ではなく、今日からモデル訓練を開始</p>
+                                </div>
+                                <div class="solution-item">
+                                    <i class="fas fa-yen-sign"></i>
+                                    <h4>透明な料金体系</h4>
+                                    <p>隠れたコストなし、請求書に驚きなし</p>
+                                </div>
+                                <div class="solution-item">
+                                    <i class="fas fa-headset"></i>
+                                    <h4>人的サポート</h4>
+                                    <p>24時間365日、実際のエンジニアによる日本語サポート</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layer-visual">
+                            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=500&h=400&fit=crop" alt="モダンでクリーンなインターフェース">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layer 3: HOW -->
+                <div class="value-layer">
+                    <div class="layer-content">
+                        <div class="layer-text">
+                            <span class="layer-label">技術基盤</span>
+                            <h3>石川県の自然冷却環境に配置された10,000基のGPU</h3>
+                            <div class="tech-specs">
+                                <div class="spec-item">
+                                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=80&h=80&fit=crop" alt="GPU">
+                                    <div class="spec-content">
+                                        <h4>NVIDIA H200 最新世代</h4>
+                                        <p>最先端AI訓練ハードウェアへのアクセス</p>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <img src="https://images.unsplash.com/photo-1551808525-51a94da548ce?w=80&h=80&fit=crop" alt="コスト">
+                                    <div class="spec-content">
+                                        <h4>50%コスト削減</h4>
+                                        <p>品質妥協ではなく、運用効率による実現</p>
+                                    </div>
+                                </div>
+                                <div class="spec-item">
+                                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=80&h=80&fit=crop" alt="信頼性">
+                                    <div class="spec-content">
+                                        <h4>99.9% 稼働率</h4>
+                                        <p>自動フェイルオーバーと24時間監視</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layer-visual">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=400&fit=crop" alt="データセンター機器">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cost Calculator -->
+    <section class="calculator" id="calculator">
+        <div class="container">
+            <div class="calculator-content">
+                <h2>リアルタイムで削減効果を確認</h2>
+                <p>GPUSOROBAN と AWS、GCP、Azure を比較</p>
+                
+                <div class="calc-container">
+                    <div class="calc-inputs">
+                        <div class="input-group">
+                            <label>月間GPU利用時間</label>
+                            <input type="range" id="gpu-hours" min="100" max="10000" value="1000" oninput="updateCalculation()">
+                            <span id="hours-display">1,000 時間/月</span>
+                        </div>
+                        <div class="input-group">
+                            <label>GPU種類</label>
+                            <select id="gpu-type" onchange="updateCalculation()">
+                                <option value="h200">NVIDIA H200</option>
+                                <option value="a100">NVIDIA A100</option>
+                                <option value="v100">NVIDIA V100</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="calc-results">
+                        <div class="cost-comparison">
+                            <div class="provider">
+                                <h4>GPUSOROBAN</h4>
+                                <span class="cost" id="gpusoroban-cost">¥250,000</span>
+                                <span class="savings">お得</span>
+                            </div>
+                            <div class="provider">
+                                <h4>AWS</h4>
+                                <span class="cost competitor" id="aws-cost">¥520,000</span>
+                                <span class="difference" id="aws-diff">+¥270,000</span>
+                            </div>
+                            <div class="provider">
+                                <h4>GCP</h4>
+                                <span class="cost competitor" id="gcp-cost">¥480,000</span>
+                                <span class="difference" id="gcp-diff">+¥230,000</span>
+                            </div>
+                            <div class="provider">
+                                <h4>Azure</h4>
+                                <span class="cost competitor" id="azure-cost">¥510,000</span>
+                                <span class="difference" id="azure-diff">+¥260,000</span>
+                            </div>
+                        </div>
+                        <div class="annual-savings">
+                            <h3>年間削減額: <span id="annual-savings">¥3,000,000</span></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories -->
+    <section class="success-stories" id="cases">
+        <div class="container">
+            <div class="section-header">
+                <h2>実績のある企業、実証された結果</h2>
+                <p>リスクより信頼性を選んだ2,000社以上の仲間入りを</p>
+            </div>
+            
+            <div class="stories-grid">
+                <div class="story-card">
+                    <div class="story-header">
+                        <img src="https://images.unsplash.com/photo-1565688534245-05d6b5be184a?w=60&h=60&fit=crop" alt="製造業" class="story-icon">
+                        <div class="story-meta">
+                            <h4>製造業大手</h4>
+                            <span>日本 • 50,000名以上の従業員</span>
+                        </div>
+                    </div>
+                    <blockquote>
+                        「AI訓練時間を60%短縮し、年間2億円のコスト削減を実現。セットアップは2ヶ月ではなく2時間でした。」
+                    </blockquote>
+                    <div class="story-results">
+                        <div class="result">
+                            <span class="result-number">60%</span>
+                            <span class="result-text">訓練高速化</span>
+                        </div>
+                        <div class="result">
+                            <span class="result-number">2億円</span>
+                            <span class="result-text">年間削減額</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="story-card">
+                    <div class="story-header">
+                        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=60&h=60&fit=crop" alt="ヘルスケア" class="story-icon">
+                        <div class="story-meta">
+                            <h4>医療研究機関</h4>
+                            <span>シンガポール • 5,000名以上の研究者</span>
+                        </div>
+                    </div>
+                    <blockquote>
+                        「18ヶ月かかっていた創薬研究が8ヶ月に短縮。信頼性は他の追随を許しません。」
+                    </blockquote>
+                    <div class="story-results">
+                        <div class="result">
+                            <span class="result-number">56%</span>
+                            <span class="result-text">時間短縮</span>
+                        </div>
+                        <div class="result">
+                            <span class="result-number">99.99%</span>
+                            <span class="result-text">達成稼働率</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="story-card">
+                    <div class="story-header">
+                        <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?w=60&h=60&fit=crop" alt="自動車" class="story-icon">
+                        <div class="story-meta">
+                            <h4>自動車AI スタートアップ</h4>
+                            <span>ドイツ • 200名以上のエンジニア</span>
+                        </div>
+                    </div>
+                    <blockquote>
+                        「自動運転シミュレーションが70%高速化。競合より6ヶ月早く市場投入できました。」
+                    </blockquote>
+                    <div class="story-results">
+                        <div class="result">
+                            <span class="result-number">70%</span>
+                            <span class="result-text">シミュレーション高速化</span>
+                        </div>
+                        <div class="result">
+                            <span class="result-number">6ヶ月</span>
+                            <span class="result-text">早期ローンチ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="global-stats">
+                <h3>50ヶ国以上、2,000社以上の信頼</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">1,200社</span>
+                        <span class="stat-label">アジア太平洋</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">500社</span>
+                        <span class="stat-label">ヨーロッパ</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">300社</span>
+                        <span class="stat-label">アメリカ大陸</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="trust-section">
+        <div class="container">
+            <h2>世界の企業が日本のエンジニアリングを信頼する理由</h2>
+            
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=80&fit=crop" alt="ISO認証">
+                    <div class="trust-content">
+                        <h4>ISO 27001 認証</h4>
+                        <p>初日からの企業グレードセキュリティ標準</p>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=100&h=80&fit=crop" alt="NVIDIAパートナー">
+                    <div class="trust-content">
+                        <h4>NVIDIA エリートパートナー</h4>
+                        <p>直接技術サポート付きの最高位パートナーシップ</p>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=80&fit=crop" alt="SOC2">
+                    <div class="trust-content">
+                        <h4>SOC 2 準拠</h4>
+                        <p>安心のための監査済みセキュリティ統制</p>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100&h=80&fit=crop" alt="サポート">
+                    <div class="trust-content">
+                        <h4>24時間365日人的サポート</h4>
+                        <p>チャットボットではなく、流暢な日本語を話す実際のエンジニア</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <div class="cta-content">
+                <h2>今日からAI革新の旅を始めましょう</h2>
+                <p>リスクより信頼性を選んだ2,000社以上の仲間入りを</p>
+                
+                <div class="cta-buttons">
+                    <button class="btn-primary large">
+                        <i class="fas fa-rocket"></i>
+                        無料トライアル開始
+                    </button>
+                    <button class="btn-secondary large">
+                        <i class="fas fa-phone"></i>
+                        専門家に相談
+                    </button>
+                </div>
+                
+                <div class="cta-features">
+                    <div class="feature">
+                        <i class="fas fa-check"></i>
+                        <span>30日間返金保証</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check"></i>
+                        <span>即日セットアップ</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check"></i>
+                        <span>長期契約なし</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=120&h=40&fit=crop" alt="GPUSOROBAN" class="footer-logo">
+                    <p>AI革新、信頼を築く<br>日本のシリコンバレーから</p>
+                </div>
+                <div class="footer-section">
+                    <h4>製品</h4>
+                    <a href="#">GPU クラウド</a>
+                    <a href="#">料金</a>
+                    <a href="#">ドキュメント</a>
+                    <a href="#">API リファレンス</a>
+                </div>
+                <div class="footer-section">
+                    <h4>企業情報</h4>
+                    <a href="#">会社概要</a>
+                    <a href="#">採用情報</a>
+                    <a href="#">プレスリリース</a>
+                    <a href="#">お問い合わせ</a>
+                </div>
+                <div class="footer-section">
+                    <h4>サポート</h4>
+                    <a href="#">ヘルプセンター</a>
+                    <a href="#">ステータス</a>
+                    <a href="#">セキュリティ</a>
+                    <a href="#">プライバシー</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 GPUSOROBAN. All rights reserved.</p>
+                <p>石川県で精密に作られました 🇯🇵</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 日本語版用のコスト計算（円ベース）
+        function updateCalculation() {
+            const hours = document.getElementById('gpu-hours').value;
+            const gpuType = document.getElementById('gpu-type').value;
+            
+            // 時間数表示を更新
+            document.getElementById('hours-display').textContent = `${parseInt(hours).toLocaleString()} 時間/月`;
+            
+            // 時間単価（円）
+            const prices = {
+                h200: {
+                    gpusoroban: 250,
+                    aws: 520,
+                    gcp: 480,
+                    azure: 510
+                },
+                a100: {
+                    gpusoroban: 200,
+                    aws: 450,
+                    gcp: 420,
+                    azure: 460
+                },
+                v100: {
+                    gpusoroban: 120,
+                    aws: 310,
+                    gcp: 280,
+                    azure: 300
+                }
+            };
+            
+            const currentPrices = prices[gpuType];
+            
+            // 月額コストを計算
+            const gpusorobanCost = Math.round(currentPrices.gpusoroban * hours);
+            const awsCost = Math.round(currentPrices.aws * hours);
+            const gcpCost = Math.round(currentPrices.gcp * hours);
+            const azureCost = Math.round(currentPrices.azure * hours);
+            
+            // 表示を更新
+            document.getElementById('gpusoroban-cost').textContent = `¥${gpusorobanCost.toLocaleString()}`;
+            document.getElementById('aws-cost').textContent = `¥${awsCost.toLocaleString()}`;
+            document.getElementById('gcp-cost').textContent = `¥${gcpCost.toLocaleString()}`;
+            document.getElementById('azure-cost').textContent = `¥${azureCost.toLocaleString()}`;
+            
+            // 差額を計算
+            document.getElementById('aws-diff').textContent = `+¥${(awsCost - gpusorobanCost).toLocaleString()}`;
+            document.getElementById('gcp-diff').textContent = `+¥${(gcpCost - gpusorobanCost).toLocaleString()}`;
+            document.getElementById('azure-diff').textContent = `+¥${(azureCost - gpusorobanCost).toLocaleString()}`;
+            
+            // 年間削減額を計算
+            const avgCompetitorCost = (awsCost + gcpCost + azureCost) / 3;
+            const monthlySavings = avgCompetitorCost - gpusorobanCost;
+            const annualSavings = monthlySavings * 12;
+            
+            document.getElementById('annual-savings').textContent = `¥${Math.round(annualSavings).toLocaleString()}`;
+        }
+
+        // 計算機を開く
+        function openCalculator() {
+            const calculator = document.getElementById('calculator');
+            calculator.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+            
+            // ハイライト効果
+            calculator.style.background = 'linear-gradient(135deg, #1B365D 0%, #FF6B35 100%)';
+            setTimeout(() => {
+                calculator.style.background = 'linear-gradient(135deg, #1B365D 0%, #2c5282 100%)';
+            }, 2000);
+        }
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCalculation();
+            
+            // スムーススクロール
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
