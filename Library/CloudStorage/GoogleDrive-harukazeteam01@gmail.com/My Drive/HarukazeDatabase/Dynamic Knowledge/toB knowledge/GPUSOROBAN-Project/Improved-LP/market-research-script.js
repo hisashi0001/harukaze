@@ -63,8 +63,8 @@ function initializeMarketSizeChart() {
                 {
                     label: '2025年 (予測)',
                     data: chartData.marketSize.data2025,
-                    backgroundColor: 'rgba(255, 107, 53, 0.8)',
-                    borderColor: '#FF6B35',
+                    backgroundColor: 'rgba(130, 175, 39, 0.8)',
+                    borderColor: '#82af27',
                     borderWidth: 2,
                     borderRadius: 8
                 },
@@ -184,12 +184,12 @@ function initializeROIChart() {
                 {
                     label: '売上',
                     data: chartData.roiProjection.revenue,
-                    borderColor: '#FF6B35',
-                    backgroundColor: 'rgba(255, 107, 53, 0.1)',
+                    borderColor: '#82af27',
+                    backgroundColor: 'rgba(130, 175, 39, 0.1)',
                     borderWidth: 3,
                     fill: true,
                     tension: 0.4,
-                    pointBackgroundColor: '#FF6B35',
+                    pointBackgroundColor: '#82af27',
                     pointBorderColor: '#ffffff',
                     pointBorderWidth: 2,
                     pointRadius: 8
@@ -334,7 +334,7 @@ function setupCompetitorBars() {
     competitorBars.forEach(bar => {
         bar.addEventListener('mouseenter', () => {
             bar.style.transform = 'scaleY(1.2)';
-            bar.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)';
+            bar.style.boxShadow = '0 4px 15px rgba(130, 175, 39, 0.3)';
         });
         
         bar.addEventListener('mouseleave', () => {

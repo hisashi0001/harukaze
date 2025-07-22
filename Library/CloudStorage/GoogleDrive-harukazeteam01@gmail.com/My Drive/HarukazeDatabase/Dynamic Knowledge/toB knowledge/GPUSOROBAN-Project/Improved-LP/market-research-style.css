@@ -100,8 +100,8 @@ canvas {
 }
 
 .summary-card.highlight {
-    border-left-color: #FF6B35;
-    background: linear-gradient(135deg, #FF6B35 0%, rgba(255, 107, 53, 0.1) 100%);
+    border-left-color: #82af27;
+    background: linear-gradient(135deg, #82af27 0%, rgba(130, 175, 39, 0.1) 100%);
     color: white;
 }
 
@@ -122,7 +122,7 @@ canvas {
 .big-number {
     font-size: 3rem;
     font-weight: 700;
-    color: #FF6B35;
+    color: #82af27;
     margin-bottom: 0.5rem;
     display: block;
 }
@@ -167,12 +167,12 @@ canvas {
     padding: 1.5rem;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     border-radius: 12px;
-    border-left: 4px solid #FF6B35;
+    border-left: 4px solid #82af27;
 }
 
 .insight i {
     font-size: 1.5rem;
-    color: #FF6B35;
+    color: #82af27;
     flex-shrink: 0;
 }
 
@@ -217,10 +217,10 @@ canvas {
 
 .tab-btn:hover,
 .tab-btn.active {
-    background: #FF6B35;
+    background: #82af27;
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 4px 15px rgba(130, 175, 39, 0.3);
 }
 
 .tab-btn img {
@@ -324,7 +324,7 @@ canvas {
     padding: 2rem;
     border-radius: 12px;
     text-align: center;
-    border-top: 4px solid #FF6B35;
+    border-top: 4px solid #82af27;
 }
 
 .stat-card h4 {
@@ -361,7 +361,7 @@ canvas {
     background: #f8fafc;
     padding: 2rem;
     border-radius: 12px;
-    border-left: 4px solid #FF6B35;
+    border-left: 4px solid #82af27;
 }
 
 .detail-section h4 {
@@ -374,7 +374,7 @@ canvas {
 }
 
 .detail-section i {
-    color: #FF6B35;
+    color: #82af27;
 }
 
 .detail-section ul {
@@ -392,7 +392,7 @@ canvas {
     content: "→";
     position: absolute;
     left: 0;
-    color: #FF6B35;
+    color: #82af27;
     font-weight: bold;
 }
 
@@ -419,7 +419,7 @@ canvas {
 
 .target-item i {
     font-size: 2rem;
-    color: #FF6B35;
+    color: #82af27;
     margin-bottom: 1rem;
 }
 
@@ -467,12 +467,12 @@ canvas {
 }
 
 .opportunity-bar {
-    background: linear-gradient(135deg, #FF6B35 0%, #ff8a65 100%);
+    background: linear-gradient(135deg, #82af27 0%, #96c441 100%);
 }
 
 .competitor.opportunity {
-    border: 2px solid #FF6B35;
-    background: linear-gradient(135deg, rgba(255, 107, 53, 0.05) 0%, white 100%);
+    border: 2px solid #82af27;
+    background: linear-gradient(135deg, rgba(130, 175, 39, 0.05) 0%, white 100%);
 }
 
 /* Strategy Timeline */
@@ -491,7 +491,7 @@ canvas {
 .timeline-dot {
     width: 40px;
     height: 40px;
-    background: #FF6B35;
+    background: #82af27;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -561,8 +561,8 @@ canvas {
 }
 
 .competitor-card.opportunity {
-    border-top-color: #FF6B35;
-    background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, #f8fafc 100%);
+    border-top-color: #82af27;
+    background: linear-gradient(135deg, rgba(130, 175, 39, 0.1) 0%, #f8fafc 100%);
 }
 
 .competitor-card h3 {
@@ -574,7 +574,7 @@ canvas {
 .market-share {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #FF6B35;
+    color: #82af27;
     text-align: center;
     margin-bottom: 1.5rem;
 }
@@ -603,7 +603,7 @@ canvas {
 }
 
 .opportunity h4 {
-    color: #FF6B35;
+    color: #82af27;
     margin-bottom: 1rem;
 }
 
@@ -637,7 +637,7 @@ canvas {
     content: "★";
     position: absolute;
     left: 0;
-    color: #FF6B35;
+    color: #82af27;
 }
 
 /* ROI Projection */
@@ -672,8 +672,8 @@ canvas {
 }
 
 .roi-card.highlight {
-    background: rgba(255, 107, 53, 0.2);
-    border-color: #FF6B35;
+    background: rgba(130, 175, 39, 0.2);
+    border-color: #82af27;
 }
 
 .roi-card h3 {
@@ -684,7 +684,7 @@ canvas {
 .roi-value {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #FF6B35;
+    color: #82af27;
     margin-bottom: 0.5rem;
 }
 
@@ -785,7 +785,7 @@ canvas {
     font-size: 1.2rem;
     background: white;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    border: 3px solid #FF6B35;
+    border: 3px solid #82af27;
 }
 
 .matrix-item span {
@@ -817,13 +817,13 @@ canvas {
     padding: 2rem;
     background: #f8fafc;
     border-radius: 12px;
-    border-left: 4px solid #FF6B35;
+    border-left: 4px solid #82af27;
 }
 
 .sequence-number {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #FF6B35 0%, #ff8a65 100%);
+    background: linear-gradient(135deg, #82af27 0%, #96c441 100%);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -873,7 +873,7 @@ canvas {
 }
 
 .footer-section h4 {
-    color: #FF6B35;
+    color: #82af27;
     margin-bottom: 1rem;
     font-size: 1.2rem;
 }

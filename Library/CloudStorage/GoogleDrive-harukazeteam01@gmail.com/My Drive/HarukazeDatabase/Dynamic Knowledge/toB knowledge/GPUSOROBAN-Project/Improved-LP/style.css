@@ -30,7 +30,7 @@ h3 { font-size: 1.8rem; line-height: 1.4; }
 h4 { font-size: 1.2rem; line-height: 1.4; }
 
 .highlight {
-    color: #FF6B35;
+    color: #82af27;
     position: relative;
 }
 
@@ -71,7 +71,7 @@ h4 { font-size: 1.2rem; line-height: 1.4; }
 }
 
 .nav a:hover {
-    color: #FF6B35;
+    color: #82af27;
 }
 
 .lang-switch {
@@ -80,7 +80,7 @@ h4 { font-size: 1.2rem; line-height: 1.4; }
 }
 
 .lang-switch .active {
-    color: #FF6B35;
+    color: #82af27;
     font-weight: 600;
 }
 
@@ -175,7 +175,7 @@ h4 { font-size: 1.2rem; line-height: 1.4; }
     display: block;
     font-size: 2.5rem;
     font-weight: 700;
-    color: #FF6B35;
+    color: #82af27;
     margin-bottom: 0.5rem;
 }
 
@@ -207,14 +207,14 @@ h4 { font-size: 1.2rem; line-height: 1.4; }
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #FF6B35 0%, #FF8A65 100%);
+    background: linear-gradient(135deg, #82af27 0%, #96c441 100%);
     color: white;
-    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 4px 15px rgba(130, 175, 39, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    box-shadow: 0 6px 20px rgba(130, 175, 39, 0.4);
 }
 
 .btn-secondary {
@@ -293,7 +293,7 @@ h4 { font-size: 1.2rem; line-height: 1.4; }
 
 .layer-label {
     display: inline-block;
-    background: #FF6B35;
+    background: #82af27;
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 20px;
@@ -336,7 +336,7 @@ h4 { font-size: 1.2rem; line-height: 1.4; }
 }
 
 .solution-item i {
-    color: #FF6B35;
+    color: #82af27;
     font-size: 1.5rem;
     margin-top: 0.25rem;
 }
@@ -446,7 +446,7 @@ h4 { font-size: 1.2rem; line-height: 1.4; }
 }
 
 .provider:first-child {
-    border-color: #FF6B35;
+    border-color: #82af27;
 }
 
 .provider h4 {
@@ -477,13 +477,13 @@ h4 { font-size: 1.2rem; line-height: 1.4; }
 .annual-savings {
     text-align: center;
     padding: 2rem;
-    background: rgba(255, 107, 53, 0.2);
+    background: rgba(130, 175, 39, 0.2);
     border-radius: 12px;
-    border: 1px solid #FF6B35;
+    border: 1px solid #82af27;
 }
 
 .annual-savings h3 {
-    color: #FF6B35;
+    color: #82af27;
 }
 
 /* Success Stories */
@@ -552,7 +552,7 @@ blockquote {
     display: block;
     font-size: 1.8rem;
     font-weight: 700;
-    color: #FF6B35;
+    color: #82af27;
     margin-bottom: 0.25rem;
 }
 
@@ -589,7 +589,7 @@ blockquote {
     display: block;
     font-size: 2.5rem;
     font-weight: 700;
-    color: #FF6B35;
+    color: #82af27;
     margin-bottom: 0.5rem;
 }
 
@@ -645,7 +645,7 @@ blockquote {
 /* CTA Section */
 .cta-section {
     padding: 6rem 0;
-    background: linear-gradient(135deg, #FF6B35 0%, #FF8A65 100%);
+    background: linear-gradient(135deg, #82af27 0%, #96c441 100%);
     color: white;
     text-align: center;
 }
@@ -670,7 +670,7 @@ blockquote {
 
 .cta-buttons .btn-primary {
     background: white;
-    color: #FF6B35;
+    color: #82af27;
 }
 
 .cta-buttons .btn-primary:hover {
@@ -716,7 +716,7 @@ blockquote {
 
 .footer-section h4 {
     margin-bottom: 1rem;
-    color: #FF6B35;
+    color: #82af27;
 }
 
 .footer-section a {
