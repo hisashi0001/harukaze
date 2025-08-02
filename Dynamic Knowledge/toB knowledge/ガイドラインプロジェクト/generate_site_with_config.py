@@ -70,6 +70,7 @@ def generate_site():
         page_html = page_html.replace('{{CONTENT}}', html_content)
         page_html = page_html.replace('{{SIDEBAR}}', '')  # 旧テンプレート用
         page_html = page_html.replace('{{NAV_LINKS}}', '')  # 後で更新
+        page_html = page_html.replace('{{SIDEBAR_CONTENT}}', '')  # 後で更新
         
         # ファイルを保存
         output_path = os.path.join(OUTPUT_FOLDER, output_filename)
@@ -87,6 +88,7 @@ def generate_site():
     
     # 全ページのナビゲーションを更新
     nav_links_html = generate_nav_links(nav_items)
+    sidebar_html = generate_sidebar_content(nav_items)
     
     for filename in os.listdir(OUTPUT_FOLDER):
         if filename.endswith('.html'):
@@ -104,6 +106,7 @@ def generate_site():
             
             content = content.replace('{{NAV_LINKS}}', updated_nav)
             content = content.replace('{{SIDEBAR}}', '')  # 旧テンプレート対応
+            content = content.replace('{{SIDEBAR_CONTENT}}', sidebar_html)
             
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(content)
@@ -120,6 +123,38 @@ def generate_nav_links(nav_items):
         links.append(f'<a href="{item["url"]}">{simple_title}</a>')
     
     return '\n                '.join(links)
+
+def generate_sidebar_content(nav_items):
+    """サイドバーコンテンツHTMLを生成"""
+    # カテゴリごとにグループ化
+    categories = {}
+    for item in nav_items:
+        category = item['category']
+        if category not in categories:
+            categories[category] = []
+        categories[category].append(item)
+    
+    # HTMLを生成
+    html = []
+    
+    # カテゴリの順序を定義（基本情報を先に、必須項目を後に）
+    category_order = ['基本情報', '必須項目', 'その他要素']
+    
+    for category in category_order:
+        if category in categories:
+            html.append(f'<div class="sidebar-category">')
+            html.append(f'    <h2>{category}</h2>')
+            html.append(f'    <ul class="sidebar-nav">')
+            
+            for item in categories[category]:
+                # 絵文字を除去してシンプルなタイトルに
+                simple_title = item['title'].split(' ')[1] if ' ' in item['title'] else item['title']
+                html.append(f'        <li><a href="{item["url"]}">{simple_title}</a></li>')
+            
+            html.append(f'    </ul>')
+            html.append(f'</div>')
+    
+    return '\n'.join(html)
 
 if __name__ == "__main__":
     generate_site()

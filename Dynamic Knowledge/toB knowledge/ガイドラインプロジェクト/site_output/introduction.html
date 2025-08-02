@@ -16,107 +16,153 @@
             line-height: 1.8;
             color: #333;
             background: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* ヘッダー */
         .header {
-            background: #f8f8f8;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 12px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background: #333;
+            color: #fff;
+            padding: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .header h1 {
-            font-size: 16px;
-            font-weight: normal;
-            color: #666;
+            font-size: 24px;
+            font-weight: 600;
         }
 
-        .header nav {
-            display: flex;
-            gap: 20px;
-        }
-
-        .header nav a {
-            color: #666;
-            text-decoration: none;
+        .header p {
             font-size: 14px;
-            padding: 4px 8px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        /* メインコンテナ */
+        .main-container {
+            display: flex;
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* サイドバー */
+        .sidebar {
+            width: 260px;
+            padding: 30px 20px;
+            background: #f8f9fa;
+            border-right: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+
+        .sidebar-category {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-category h2 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 8px 12px;
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
             border-radius: 4px;
+            transition: all 0.2s ease;
         }
 
-        .header nav a:hover {
-            background: #e8e8e8;
+        .sidebar-nav a:hover {
+            background: #e9ecef;
+            color: #0066cc;
         }
 
-        .header nav a.active {
-            background: #333;
+        .sidebar-nav a.active {
+            background: #0066cc;
             color: #fff;
+            font-weight: 500;
         }
 
         /* メインコンテンツ */
-        .main {
+        .main-content {
+            flex: 1;
+            padding: 40px;
             max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px 80px;
         }
 
         /* コンテンツスタイル */
-        h1 {
+        .main-content h1 {
             font-size: 32px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             padding-bottom: 16px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 2px solid #e0e0e0;
         }
 
-        h2 {
+        .main-content h2 {
             font-size: 24px;
             margin: 40px 0 20px;
             padding-top: 20px;
         }
 
-        h3 {
+        .main-content h3 {
             font-size: 18px;
             margin: 30px 0 15px;
             font-weight: 600;
         }
 
-        p {
+        .main-content p {
             margin-bottom: 20px;
         }
 
-        ul, ol {
+        .main-content ul, .main-content ol {
             margin: 0 0 20px 0;
             padding-left: 30px;
         }
 
-        li {
+        .main-content li {
             margin-bottom: 8px;
         }
 
         /* リンク */
-        a {
+        .main-content a {
             color: #0066cc;
             text-decoration: none;
         }
 
-        a:hover {
+        .main-content a:hover {
             text-decoration: underline;
         }
 
         /* コード */
-        code {
+        .main-content code {
             background: #f5f5f5;
             padding: 2px 6px;
             border-radius: 3px;
@@ -124,7 +170,7 @@
             font-size: 14px;
         }
 
-        pre {
+        .main-content pre {
             background: #f5f5f5;
             padding: 16px;
             border-radius: 6px;
@@ -132,13 +178,13 @@
             margin: 20px 0;
         }
 
-        pre code {
+        .main-content pre code {
             background: none;
             padding: 0;
         }
 
         /* 引用 */
-        blockquote {
+        .main-content blockquote {
             border-left: 4px solid #e0e0e0;
             padding-left: 16px;
             margin: 20px 0;
@@ -146,12 +192,12 @@
         }
 
         /* 強調 */
-        strong {
+        .main-content strong {
             font-weight: 600;
         }
 
         /* 動画埋め込み */
-        div[style*="position: relative"] {
+        .main-content div[style*="position: relative"] {
             margin: 30px 0;
             border-radius: 8px;
             overflow: hidden;
@@ -159,49 +205,55 @@
         }
 
         /* テーブル */
-        table {
+        .main-content table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
         }
 
-        th, td {
+        .main-content th, .main-content td {
             text-align: left;
             padding: 12px;
             border-bottom: 1px solid #e0e0e0;
         }
 
-        th {
+        .main-content th {
             font-weight: 600;
             background: #f8f8f8;
         }
 
         /* レスポンシブ */
         @media (max-width: 768px) {
-            .header-content {
+            .main-container {
                 flex-direction: column;
-                gap: 10px;
             }
 
-            .header nav {
+            .sidebar {
                 width: 100%;
-                overflow-x: auto;
-                padding-bottom: 5px;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                padding: 20px;
             }
 
-            .main {
-                padding: 20px 15px 60px;
+            .main-content {
+                padding: 20px;
             }
 
-            h1 {
-                font-size: 24px;
-            }
-
-            h2 {
+            .header h1 {
                 font-size: 20px;
             }
 
-            h3 {
+            .main-content h1 {
+                font-size: 24px;
+            }
+
+            .main-content h2 {
+                font-size: 20px;
+            }
+
+            .main-content h3 {
                 font-size: 16px;
             }
         }
@@ -211,14 +263,17 @@
     <header class="header">
         <div class="header-content">
             <h1>Harukazeガイドライン</h1>
-            <nav>
-                
-            </nav>
+            <p>toB事業 品質管理マニュアル</p>
         </div>
     </header>
 
-    <main class="main">
-        <h1 id="_1">はじめに</h1>
+    <div class="main-container">
+        <aside class="sidebar">
+            
+        </aside>
+
+        <main class="main-content">
+            <h1 id="_1">はじめに</h1>
 <h2 id="_2">動画で理解する（必須）</h2>
 <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/7990e66509a946b1a2859f4b54bf9dc0?sid=95a9d275-d84d-49da-99c6-412916601a73" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
@@ -293,6 +348,21 @@
 <p><strong>外部パートナーの方へ</strong>
 - Harukazeの考え方と進め方の理解
 - より円滑なコミュニケーションのために</p>
-    </main>
+        </main>
+    </div>
+
+    <script>
+        // アクティブなページをハイライト
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.sidebar-nav a');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
