@@ -12,6 +12,7 @@ import re
 import json
 import yaml
 from datetime import datetime
+from bs4 import BeautifulSoup
 
 class AutoSiteGenerator:
     def __init__(self, content_dir="../01_現行ガイドライン/サイトコンテンツ", 
@@ -260,6 +261,74 @@ class AutoSiteGenerator:
         sidebar_html += '\n</nav>'
         return sidebar_html
     
+    def generate_search_index(self):
+        """検索用のインデックスを生成"""
+        search_index = []
+        
+        for page in self.pages:
+            # Markdownをパース
+            md = markdown.Markdown(extensions=['extra', 'codehilite', 'toc'])
+            html_content = md.convert(page['content'])
+            
+            # HTMLタグを除去してテキストのみ抽出
+            soup = BeautifulSoup(html_content, 'html.parser')
+            text_content = soup.get_text()
+            
+            # セクションごとに分割してインデックスを作成
+            sections = []
+            lines = text_content.split('\n')
+            current_section = {
+                'title': page['title'],
+                'content': '',
+                'level': 0
+            }
+            
+            # コンテンツを見出しごとに分割
+            for line in page['content'].split('\n'):
+                line = line.strip()
+                
+                # 見出しを検出
+                heading_match = re.match(r'^(#{1,3})\s+(.+)$', line)
+                if heading_match:
+                    # 前のセクションを保存
+                    if current_section['content']:
+                        sections.append(current_section.copy())
+                    
+                    level = len(heading_match.group(1))
+                    title = heading_match.group(2)
+                    
+                    # 新しいセクションを開始
+                    current_section = {
+                        'title': title,
+                        'content': '',
+                        'level': level
+                    }
+                else:
+                    # 見出し以外のコンテンツを追加
+                    if line:
+                        current_section['content'] += line + ' '
+            
+            # 最後のセクションを保存
+            if current_section['content']:
+                sections.append(current_section)
+            
+            # 各セクションをインデックスに追加
+            for section in sections:
+                # セクションIDを生成（アンカーリンク用）
+                section_id = re.sub(r'[^\w\s-]', '', section['title'])
+                section_id = re.sub(r'\s+', '-', section_id).lower()
+                
+                search_index.append({
+                    'pageTitle': page['title'],
+                    'sectionTitle': section['title'],
+                    'content': section['content'][:300],  # 最初の300文字
+                    'url': page['output_name'],
+                    'sectionId': section_id,
+                    'category': page['category']
+                })
+        
+        return search_index
+    
     def generate_site(self):
         """サイト全体を生成"""
         print("🔍 Markdownファイルを検索中...")
@@ -303,6 +372,12 @@ class AutoSiteGenerator:
             # 最初のページをindex.htmlとしてもコピー
             if i == 0:
                 shutil.copy(output_path, self.output_dir / 'index.html')
+        
+        # 検索インデックスを生成
+        search_index = self.generate_search_index()
+        search_index_path = self.output_dir / 'search-index.json'
+        with open(search_index_path, 'w', encoding='utf-8') as f:
+            json.dump(search_index, f, ensure_ascii=False, indent=2)
         
         print(f"✅ サイト生成完了！ {self.output_dir} を確認してください")
         

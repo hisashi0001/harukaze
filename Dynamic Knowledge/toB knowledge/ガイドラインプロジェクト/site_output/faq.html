@@ -67,6 +67,38 @@
             color: var(--text-primary);
             margin-bottom: 4px;
         }
+        
+        /* モバイル用ハンバーガーメニュー */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 1001;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .mobile-menu-toggle svg {
+            width: 24px;
+            height: 24px;
+            color: var(--text-primary);
+        }
+        
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+        }
 
         .sidebar-header p {
             font-size: 13px;
@@ -555,10 +587,22 @@
 
         /* レスポンシブ */
         @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
             .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
+                width: 280px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .sidebar-overlay.active {
+                display: block;
             }
 
             .main-content {
@@ -566,10 +610,11 @@
             }
 
             .container {
-                flex-direction: column;
+                flex-direction: row;
             }
             
             .content-header {
+                padding-left: 60px; /* ハンバーガーボタンの分のスペース */
                 flex-direction: column;
                 gap: 12px;
                 align-items: stretch;
@@ -581,6 +626,7 @@
 
             .content-body {
                 padding: 20px;
+                padding-top: 40px;
             }
 
             .video-embed iframe {
@@ -611,8 +657,18 @@
     </style>
 </head>
 <body>
+    <!-- モバイル用ハンバーガーメニュー -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12h18M3 6h18M3 18h18"></path>
+        </svg>
+    </button>
+    
+    <!-- サイドバーオーバーレイ -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
     <div class="container">
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
 <div class="sidebar-header">
 <h1>Harukazeガイドライン</h1>
 <p>toB事業 品質管理マニュアル</p>
@@ -887,51 +943,51 @@ Google Driveの自動同期設定をしておけば、保存し忘れのリス�
             const observer = new MutationObserver(optimizeLoomVideos);
             observer.observe(document.body, { childList: true, subtree: true });
             
+            // モバイルメニューの制御
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                });
+                
+                sidebarOverlay.addEventListener('click', () => {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+                
+                // サイドバー内のリンクをクリックしたらメニューを閉じる
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        if (window.innerWidth <= 768) {
+                            sidebar.classList.remove('active');
+                            sidebarOverlay.classList.remove('active');
+                        }
+                    });
+                });
+            }
+            
             // 検索機能の実装
             const searchBox = document.getElementById('searchBox');
             const searchResults = document.getElementById('searchResults');
+            let searchIndex = [];
             
-            // 検索対象のデータを収集
-            const searchData = [];
-            
-            // 現在のページのコンテンツを収集
-            function collectCurrentPageData() {
-                const title = document.querySelector('.content-header span').textContent;
-                const content = document.querySelector('.content-body').textContent;
-                const url = window.location.pathname.split('/').pop();
-                
-                searchData.push({
-                    title: title,
-                    content: content,
-                    url: url
+            // 検索インデックスを読み込む
+            fetch('search-index.json')
+                .then(response => response.json())
+                .then(data => {
+                    searchIndex = data;
+                })
+                .catch(error => {
+                    console.error('検索インデックスの読み込みに失敗しました:', error);
                 });
-            }
-            
-            // サイドバーから全ページの情報を収集
-            function collectAllPagesData() {
-                const navItems = document.querySelectorAll('.nav-item');
-                navItems.forEach(item => {
-                    const title = item.textContent.trim();
-                    const url = item.getAttribute('href');
-                    
-                    // 現在のページと重複しない場合のみ追加
-                    if (!searchData.some(data => data.url === url)) {
-                        searchData.push({
-                            title: title,
-                            content: '', // 他のページのコンテンツは初期状態では空
-                            url: url
-                        });
-                    }
-                });
-            }
-            
-            // 検索機能の初期化
-            collectCurrentPageData();
-            collectAllPagesData();
             
             // 検索実行
             function performSearch(query) {
-                if (!query || query.length < 2) {
+                if (!query || query.length < 2 || searchIndex.length === 0) {
                     searchResults.classList.remove('active');
                     return;
                 }
@@ -939,33 +995,50 @@ Google Driveの自動同期設定をしておけば、保存し忘れのリス�
                 const results = [];
                 const lowerQuery = query.toLowerCase();
                 
-                searchData.forEach(page => {
-                    const titleMatch = page.title.toLowerCase().includes(lowerQuery);
-                    const contentMatch = page.content.toLowerCase().includes(lowerQuery);
+                // 検索インデックスから検索
+                searchIndex.forEach(item => {
+                    const pageTitleMatch = item.pageTitle.toLowerCase().includes(lowerQuery);
+                    const sectionTitleMatch = item.sectionTitle.toLowerCase().includes(lowerQuery);
+                    const contentMatch = item.content.toLowerCase().includes(lowerQuery);
                     
-                    if (titleMatch || contentMatch) {
+                    if (pageTitleMatch || sectionTitleMatch || contentMatch) {
                         // コンテンツから該当部分を抽出
                         let excerpt = '';
-                        if (contentMatch && page.content) {
-                            const index = page.content.toLowerCase().indexOf(lowerQuery);
+                        if (contentMatch) {
+                            const index = item.content.toLowerCase().indexOf(lowerQuery);
                             const start = Math.max(0, index - 50);
-                            const end = Math.min(page.content.length, index + query.length + 50);
-                            excerpt = '...' + page.content.substring(start, end) + '...';
-                            
-                            // ハイライト処理
-                            const regex = new RegExp(query, 'gi');
-                            excerpt = excerpt.replace(regex, match => `<span class="search-result-highlight">${match}</span>`);
+                            const end = Math.min(item.content.length, index + query.length + 50);
+                            excerpt = '...' + item.content.substring(start, end) + '...';
+                        } else {
+                            excerpt = item.content.substring(0, 150) + '...';
+                        }
+                        
+                        // ハイライト処理
+                        const regex = new RegExp(query, 'gi');
+                        excerpt = excerpt.replace(regex, match => `<span class="search-result-highlight">${match}</span>`);
+                        
+                        // タイトルの構築
+                        let displayTitle = item.pageTitle;
+                        if (item.sectionTitle !== item.pageTitle) {
+                            displayTitle = `${item.pageTitle} > ${item.sectionTitle}`;
                         }
                         
                         results.push({
-                            title: page.title,
+                            title: displayTitle,
                             excerpt: excerpt,
-                            url: page.url
+                            url: item.url,
+                            sectionId: item.sectionId,
+                            category: item.category
                         });
                     }
                 });
                 
-                displaySearchResults(results);
+                // 重複を除去（同じURLとセクションIDの組み合わせ）
+                const uniqueResults = results.filter((result, index, self) =>
+                    index === self.findIndex((r) => r.url === result.url && r.sectionId === result.sectionId)
+                );
+                
+                displaySearchResults(uniqueResults);
             }
             
             // 検索結果の表示
@@ -983,7 +1056,12 @@ Google Driveの自動同期設定をしておけば、保存し忘れのリス�
                             ${result.excerpt ? `<div class="search-result-content">${result.excerpt}</div>` : ''}
                         `;
                         item.addEventListener('click', () => {
-                            window.location.href = result.url;
+                            // セクションIDがある場合はアンカーリンクを付加
+                            let targetUrl = result.url;
+                            if (result.sectionId && result.sectionId !== result.url.replace('.html', '')) {
+                                targetUrl = result.url + '#' + result.sectionId;
+                            }
+                            window.location.href = targetUrl;
                         });
                         searchResults.appendChild(item);
                     });
