@@ -68,7 +68,8 @@ def generate_site():
         page_html = template
         page_html = page_html.replace('{{TITLE}}', title)
         page_html = page_html.replace('{{CONTENT}}', html_content)
-        page_html = page_html.replace('{{SIDEBAR}}', '')  # 後で更新
+        page_html = page_html.replace('{{SIDEBAR}}', '')  # 旧テンプレート用
+        page_html = page_html.replace('{{NAV_LINKS}}', '')  # 後で更新
         
         # ファイルを保存
         output_path = os.path.join(OUTPUT_FOLDER, output_filename)
@@ -85,7 +86,7 @@ def generate_site():
         })
     
     # 全ページのナビゲーションを更新
-    sidebar_html = generate_sidebar(nav_items)
+    nav_links_html = generate_nav_links(nav_items)
     
     for filename in os.listdir(OUTPUT_FOLDER):
         if filename.endswith('.html'):
@@ -93,7 +94,16 @@ def generate_site():
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
             
-            content = content.replace('{{SIDEBAR}}', sidebar_html)
+            # 現在のページをアクティブにする
+            current_file = filename
+            updated_nav = nav_links_html
+            for item in nav_items:
+                if item['url'] == current_file:
+                    updated_nav = updated_nav.replace(f'href="{current_file}"', f'href="{current_file}" class="active"')
+                    break
+            
+            content = content.replace('{{NAV_LINKS}}', updated_nav)
+            content = content.replace('{{SIDEBAR}}', '')  # 旧テンプレート対応
             
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(content)
@@ -101,42 +111,15 @@ def generate_site():
     print(f"\n✅ サイト生成が完了しました！")
     print(f"📁 出力先: {os.path.join(ROOT_FOLDER, OUTPUT_FOLDER)}")
 
-def generate_sidebar(nav_items):
-    """サイドバーHTMLを生成"""
-    sidebar_html = '''
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h1>Harukaze ガイドライン</h1>
-            <p>toB事業 品質管理マニュアル</p>
-        </div>
-        
-        <nav class="sidebar-nav">
-    '''
-    
-    # カテゴリごとにグループ化
-    categories = {}
+def generate_nav_links(nav_items):
+    """ナビゲーションリンクHTMLを生成"""
+    links = []
     for item in nav_items:
-        category = item['category']
-        if category not in categories:
-            categories[category] = []
-        categories[category].append(item)
+        # 絵文字を除去してシンプルなタイトルに
+        simple_title = item['title'].split(' ')[1] if ' ' in item['title'] else item['title']
+        links.append(f'<a href="{item["url"]}">{simple_title}</a>')
     
-    # HTMLを生成
-    for category, items in categories.items():
-        sidebar_html += f'''
-            <div class="category">
-                <div class="category-title">{category}</div>
-        '''
-        for item in items:
-            sidebar_html += f'                <a href="{item["url"]}" class="nav-item">{item["title"]}</a>\n'
-        sidebar_html += '            </div>\n'
-    
-    sidebar_html += '''
-        </nav>
-    </aside>
-    '''
-    
-    return sidebar_html
+    return '\n                '.join(links)
 
 if __name__ == "__main__":
     generate_site()

@@ -3,7 +3,7 @@
   "site_subtitle": "必須項目マニュアル",
   "source_folder": "01_現行ガイドライン/サイトコンテンツ",
   "output_folder": "site_output",
-  "template_file": "guideline_site_generator/_templates/page_light.html",
+  "template_file": "guideline_site_generator/_templates/page_simple.html",
   
   "include_files": [
     "01_はじめに.md",
