@@ -275,7 +275,7 @@ class AutoSiteGenerator:
         
         for page in self.pages:
             # Markdownをパース
-            md = markdown.Markdown(extensions=['extra', 'codehilite', 'toc'])
+            md = markdown.Markdown(extensions=['extra', 'codehilite', 'toc', 'nl2br'])
             html_content = md.convert(page['content'])
             
             # HTMLタグを除去してテキストのみ抽出
@@ -357,7 +357,7 @@ class AutoSiteGenerator:
         sidebar_html = self.generate_sidebar()
         
         # 各ページを生成
-        md = markdown.Markdown(extensions=['extra', 'codehilite', 'toc'])
+        md = markdown.Markdown(extensions=['extra', 'codehilite', 'toc', 'nl2br'])
         
         for i, page in enumerate(self.pages):
             print(f"⚡ {page['title']} を生成中...")
