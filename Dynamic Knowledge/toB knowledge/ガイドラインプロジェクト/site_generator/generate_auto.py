@@ -39,8 +39,14 @@ class AutoSiteGenerator:
         """Markdownファイルを自動検出してページ情報を収集"""
         self.pages = []
         
+        # アーカイブフォルダは除外
+        exclude_dirs = ['アーカイブ', 'archive', 'Archive', '_archive']
+        
         # ディレクトリ構造を走査
         for md_file in self.content_dir.rglob('*.md'):
+            # アーカイブフォルダ内のファイルはスキップ
+            if any(exclude_dir in md_file.parts for exclude_dir in exclude_dirs):
+                continue
             # 相対パスを取得
             relative_path = md_file.relative_to(self.content_dir)
             
@@ -137,6 +143,8 @@ class AutoSiteGenerator:
             '実践改善事例集': 'improvement_cases',
             '新機能の使い方': 'new_features',
             '新規コンテンツの追加方法': 'add_new_content',
+            'よくある質問FAQ': 'faq',
+            'よくある質問（FAQ）': 'faq',
             'loomリンク集': 'loom_links',
             '文字起こし': 'transcript'
         }
