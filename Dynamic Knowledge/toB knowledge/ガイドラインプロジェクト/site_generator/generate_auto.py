@@ -50,6 +50,13 @@ class AutoSiteGenerator:
             # 相対パスを取得
             relative_path = md_file.relative_to(self.content_dir)
             
+            # デバッグ情報を出力
+            if "プロジェクト管理" in md_file.name:
+                print(f"DEBUG: {md_file.name}")
+                print(f"  - Full path: {md_file}")
+                print(f"  - Relative path: {relative_path}")
+                print(f"  - Parts: {relative_path.parts}")
+            
             # ファイル内容を読み込み
             with open(md_file, 'r', encoding='utf-8') as f:
                 content = f.read()
@@ -79,6 +86,10 @@ class AutoSiteGenerator:
                 page_info['order'] = self.extract_order(md_file.name)
                 page_info['date'] = None
                 page_info['tags'] = []
+            
+            # デバッグ：プロジェクト管理のコツのカテゴリを確認
+            if "プロジェクト管理" in md_file.name:
+                print(f"  - Assigned category: {page_info['category']}")
             
             # 出力ファイル名を生成
             page_info['output_name'] = self.safe_filename(md_file.stem, md_file.name) + '.html'
@@ -142,9 +153,10 @@ class AutoSiteGenerator:
             'ガイドライン要点まとめ': 'guideline_summary',
             '実践改善事例集': 'improvement_cases',
             '新機能の使い方': 'new_features',
-            '新規コンテンツの追加方法': 'add_new_content',
+            '新規コンテンツの追加方法': 'new_features',
             'よくある質問FAQ': 'faq',
             'よくある質問（FAQ）': 'faq',
+            'プロジェクト管理のコツ': 'project_management_tips',
             'loomリンク集': 'loom_links',
             '文字起こし': 'transcript'
         }
