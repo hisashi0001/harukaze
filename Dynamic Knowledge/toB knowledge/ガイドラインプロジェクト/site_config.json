@@ -1,0 +1,46 @@
+{
+  "site_title": "Harukaze toBガイドライン",
+  "site_subtitle": "必須項目マニュアル",
+  "source_folder": "01_現行ガイドライン/サイトコンテンツ",
+  "output_folder": "site_output",
+  "template_file": "guideline_site_generator/_templates/page_light.html",
+  
+  "include_files": [
+    "01_はじめに.md",
+    "02_ディレクターの心得.md",
+    "03_全体の業務プロセス.md",
+    "04_コミュニケーションガイド.md",
+    "05_代表的なトラブルシューティング.md"
+  ],
+  
+  "files": {
+    "01_はじめに.md": {
+      "title": "🌟 はじめに",
+      "category": "基本情報"
+    },
+    "02_ディレクターの心得.md": {
+      "title": "🎯 ディレクターの心得",
+      "category": "必須項目"
+    },
+    "03_全体の業務プロセス.md": {
+      "title": "🔄 全体の業務プロセス",
+      "category": "必須項目"
+    },
+    "04_コミュニケーションガイド.md": {
+      "title": "💬 コミュニケーションガイド",
+      "category": "必須項目"
+    },
+    "05_代表的なトラブルシューティング.md": {
+      "title": "🔧 代表的なトラブルシューティング",
+      "category": "必須項目"
+    }
+  },
+  
+  "filename_replacements": {
+    "01_はじめに": "introduction",
+    "02_ディレクターの心得": "director_mindset", 
+    "03_全体の業務プロセス": "business_process",
+    "04_コミュニケーションガイド": "communication_guide",
+    "05_代表的なトラブルシューティング": "troubleshooting"
+  }
+}
