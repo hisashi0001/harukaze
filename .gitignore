@@ -10,6 +10,10 @@
 # Google Drive
 .tmp/
 Desktop.ini
+*.gsheet
+*.gdoc
+*.gform
+*.gslides
 
 # Temporary files
 *.tmp
@@ -18,3 +22,6 @@ Desktop.ini
 
 # Log files
 *.log
+
+# Large or problematic files
+CLAUDE.md
