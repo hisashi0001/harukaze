@@ -113,11 +113,17 @@ class AutoSiteGenerator:
         if len(parts) > 1:
             # サブディレクトリ名をカテゴリとして使用
             category = parts[0]
-            # カテゴリ名の正規化
-            if category == "loomの動画":
-                return "Loom動画"
+            # カテゴリ名の正規化（番号プレフィックスを除去）
+            category = re.sub(r'^\d+[_-]', '', category)
+            
+            if category == "基本情報":
+                return "基本情報"
+            elif category == "商談のコツ":
+                return "商談のコツ"
             elif category == "その他":
                 return "その他"
+            elif category == "loomの動画":
+                return "Loom動画"
             else:
                 return category
         # ルートディレクトリのファイルは「基本情報」に分類
@@ -229,7 +235,7 @@ class AutoSiteGenerator:
 <nav class="sidebar-nav">'''
         
         # カテゴリの表示順序を定義
-        category_order = ["基本情報", "その他", "Loom動画"]
+        category_order = ["基本情報", "商談のコツ", "その他", "Loom動画"]
         
         # 定義された順序でカテゴリを表示
         for category in category_order:
