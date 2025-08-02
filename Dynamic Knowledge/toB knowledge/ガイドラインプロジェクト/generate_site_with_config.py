@@ -70,7 +70,7 @@ def generate_site():
         page_html = page_html.replace('{{CONTENT}}', html_content)
         page_html = page_html.replace('{{SIDEBAR}}', '')  # 旧テンプレート用
         page_html = page_html.replace('{{NAV_LINKS}}', '')  # 後で更新
-        page_html = page_html.replace('{{SIDEBAR_CONTENT}}', '')  # 後で更新
+        # {{SIDEBAR_CONTENT}} は後で置換するので、ここでは置換しない
         
         # ファイルを保存
         output_path = os.path.join(OUTPUT_FOLDER, output_filename)
