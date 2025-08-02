@@ -31,39 +31,55 @@ EXCLUDE_FOLDERS = {
 
 def create_slug(text):
     """日本語を含むテキストから英語のスラッグを生成"""
+    # まず番号プレフィックスを除去（タイトル表示用の処理と同じ）
+    text = re.sub(r'^\d+[_\-]\s*', '', text)
+    
+    # 詳細なマッピング
     slug_map = {
-        '基本情報': 'basic-info',
-        'その他': 'others',
+        # 基本情報
         'はじめに': 'introduction',
         'ディレクターの心得': 'director-mindset',
-        '業務プロセス': 'work-process',
-        'コミュニケーション': 'communication',
-        'トラブルシューティング': 'troubleshooting',
-        '改善提案': 'feedback',
-        '商談マニュアル': 'sales-manual',
+        '全体の業務プロセス': 'work-process',
+        'コミュニケーションガイド': 'communication',
+        '代表的なトラブルシューティング': 'troubleshooting',
+        # 商談マニュアル
+        '法人商談の全体像': 'sales-overview',
+        '法人商談の心得': 'sales-mindset',
+        '信頼関係の構築テクニック': 'trust-building',
+        'ヒアリングマスター講座': 'hearing-master',
+        '提案力を高める実践テクニック': 'proposal-techniques',
+        'クロージング成功の秘訣': 'closing-success',
+        '商材別の攻略法': 'product-strategies',
+        '難易度別の対処法': 'difficulty-handling',
+        # その他
+        'AIアシスタント': 'ai-assistant',
         'よくある質問': 'faq',
-        '実践': 'practice',
-        '事例': 'cases'
+        'ガイドライン改善提案': 'feedback',
+        '実践改善事例集': 'improvement-cases',
+        # カテゴリ名
+        '基本情報': 'basic-info',
+        'その他': 'others',
+        '商談マニュアル': 'sales-manual'
     }
     
-    # マッピングに存在する場合はそれを使用
+    # 完全一致でマッピングを確認
+    if text in slug_map:
+        return slug_map[text]
+    
+    # 部分一致でマッピングを確認
     for jp, en in slug_map.items():
         if jp in text:
             return en
     
-    # 番号プレフィックスを除去
-    text = re.sub(r'^\d+_', '', text)
-    
     # 日本語が含まれている場合は簡易的な変換
     if re.search(r'[ぁ-んァ-ヶー一-龠]', text):
-        # ファイル名から意味を推測して英語化
-        text = re.sub(r'[^a-zA-Z0-9\s-]', '', text)
-        text = text.strip() or 'page'
+        # デフォルトでpage-N形式
+        return 'page'
     
     # スラッグ化
     text = re.sub(r'[^\w\s-]', '', text.lower())
     text = re.sub(r'[-\s]+', '-', text)
-    return text.strip('-')
+    return text.strip('-') or 'page'
 
 def is_excluded_folder(folder_path):
     """フォルダが除外対象かどうかをチェック"""
@@ -116,7 +132,9 @@ def collect_markdown_files(content_dir):
         
         # カテゴリとタイトルの決定
         category = post.metadata.get('category') or get_category_info(md_file, content_dir)
-        title = post.metadata.get('title') or md_file.stem
+        # タイトルから番号プレフィックスを削除
+        raw_title = post.metadata.get('title') or md_file.stem
+        title = re.sub(r'^\d+[_\-]\s*', '', raw_title)  # 01_, 02- などを削除
         order = post.metadata.get('order') or extract_order_from_filename(md_file.name)
         
         # カテゴリごとにファイル情報を保存
@@ -168,16 +186,33 @@ def generate_navigation(files_by_category, current_file=None):
     """ナビゲーションHTMLを生成"""
     nav_items = []
     
-    # カテゴリをソート（番号プレフィックスがある場合は考慮）
+    # サイドバーヘッダーを追加
+    nav_items.append('<div class="sidebar-header">')
+    nav_items.append('    <a href="index.html" style="text-decoration: none;">')
+    nav_items.append('        <h1>Harukazeガイドライン</h1>')
+    nav_items.append('    </a>')
+    nav_items.append('    <p>ディレクター向け品質管理ガイド</p>')
+    nav_items.append('</div>')
+    nav_items.append('<div class="sidebar-nav">')
+    
+    # カテゴリの順序を定義（基本情報 → 商談マニュアル → その他）
+    category_order = {
+        '基本情報': 1,
+        '商談マニュアル': 2,
+        'その他': 3
+    }
+    
+    # カテゴリをソート
     sorted_categories = sorted(files_by_category.keys(), 
-                             key=lambda x: (extract_order_from_filename(x), x))
+                             key=lambda x: (category_order.get(x, 999), x))
     
     # ホームリンク
     nav_items.append('<a href="index.html" class="nav-item">ホーム</a>')
     nav_items.append('<div class="nav-divider"></div>')
     
     for category in sorted_categories:
-        nav_items.append(f'<div class="nav-category">{category}</div>')
+        nav_items.append('<div class="category">')
+        nav_items.append(f'    <div class="category-title">{category}</div>')
         
         for file_info in files_by_category[category]:
             # 既に生成されたファイル名を使用
@@ -187,8 +222,22 @@ def generate_navigation(files_by_category, current_file=None):
             active_class = " active" if current_file and file_info['path'] == current_file else ""
             
             nav_items.append(
-                f'<a href="{filename}" class="nav-item{active_class}">{file_info["title"]}</a>'
+                f'    <a href="{filename}" class="nav-item{active_class}">{file_info["title"]}</a>'
             )
+        
+        nav_items.append('</div>')
+    
+    nav_items.append('</div>')  # sidebar-nav を閉じる
+    
+    # サイドバーフッターに2つのボタンを追加
+    nav_items.append('<div class="sidebar-footer">')
+    nav_items.append('    <a href="feedback.html" class="footer-btn">')
+    nav_items.append('        📝 ガイドライン改善提案')
+    nav_items.append('    </a>')
+    nav_items.append('    <button class="footer-btn ai-btn" id="aiToggleBtn" onclick="toggleAIPanel()">')
+    nav_items.append('        💬 AIチャット')
+    nav_items.append('    </button>')
+    nav_items.append('</div>')
     
     return '\n'.join(nav_items)
 
