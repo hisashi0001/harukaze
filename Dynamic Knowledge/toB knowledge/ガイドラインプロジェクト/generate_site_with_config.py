@@ -66,9 +66,9 @@ def generate_site():
         
         # HTMLを生成
         page_html = template
-        page_html = page_html.replace('{{title}}', title)
-        page_html = page_html.replace('{{content}}', html_content)
-        page_html = page_html.replace('{{nav_items}}', '')  # 後で更新
+        page_html = page_html.replace('{{TITLE}}', title)
+        page_html = page_html.replace('{{CONTENT}}', html_content)
+        page_html = page_html.replace('{{SIDEBAR}}', '')  # 後で更新
         
         # ファイルを保存
         output_path = os.path.join(OUTPUT_FOLDER, output_filename)
@@ -85,7 +85,7 @@ def generate_site():
         })
     
     # 全ページのナビゲーションを更新
-    nav_html = generate_navigation(nav_items)
+    sidebar_html = generate_sidebar(nav_items)
     
     for filename in os.listdir(OUTPUT_FOLDER):
         if filename.endswith('.html'):
@@ -93,7 +93,7 @@ def generate_site():
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
             
-            content = content.replace('{{nav_items}}', nav_html)
+            content = content.replace('{{SIDEBAR}}', sidebar_html)
             
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(content)
@@ -101,9 +101,17 @@ def generate_site():
     print(f"\n✅ サイト生成が完了しました！")
     print(f"📁 出力先: {os.path.join(ROOT_FOLDER, OUTPUT_FOLDER)}")
 
-def generate_navigation(nav_items):
-    """ナビゲーションHTMLを生成"""
-    nav_html = []
+def generate_sidebar(nav_items):
+    """サイドバーHTMLを生成"""
+    sidebar_html = '''
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>Harukaze ガイドライン</h1>
+            <p>toB事業 品質管理マニュアル</p>
+        </div>
+        
+        <nav class="sidebar-nav">
+    '''
     
     # カテゴリごとにグループ化
     categories = {}
@@ -115,11 +123,20 @@ def generate_navigation(nav_items):
     
     # HTMLを生成
     for category, items in categories.items():
-        nav_html.append(f'<div class="category">{category}</div>')
+        sidebar_html += f'''
+            <div class="category">
+                <div class="category-title">{category}</div>
+        '''
         for item in items:
-            nav_html.append(f'<a href="{item["url"]}">{item["title"]}</a>')
+            sidebar_html += f'                <a href="{item["url"]}" class="nav-item">{item["title"]}</a>\n'
+        sidebar_html += '            </div>\n'
     
-    return '\n'.join(nav_html)
+    sidebar_html += '''
+        </nav>
+    </aside>
+    '''
+    
+    return sidebar_html
 
 if __name__ == "__main__":
     generate_site()
