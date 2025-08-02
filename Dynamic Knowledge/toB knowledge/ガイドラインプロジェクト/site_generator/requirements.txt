@@ -8,3 +8,6 @@ beautifulsoup4==4.12.2
 
 # 追加のMarkdown拡張機能
 pymdown-extensions==10.5
+
+# YAMLパーサー (フロントマター用)
+PyYAML==6.0.1

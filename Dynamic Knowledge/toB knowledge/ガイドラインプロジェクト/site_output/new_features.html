@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全体の業務プロセス | Harukazeガイドライン</title>
+    <title>新規コンテンツの追加方法 | Harukazeガイドライン</title>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -493,136 +493,75 @@
         
         <main class="main-content">
             <div class="content-header">
-                全体の業務プロセス
+                新規コンテンツの追加方法
             </div>
             
             <div class="content-body">
-                <h1 id="_1">全体の業務プロセス</h1>
-<h2 id="_2">動画で理解する（必須）</h2>
-<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/3b8eb36dcb16476a84b31f02d7dddbd2?sid=fb584477-afb6-4ba0-b702-08071b07401c" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+                <h1 id="_1">新規コンテンツの追加方法</h1>
+<h2 id="_2">概要</h2>
+<p>このガイドラインサイトに新しいコンテンツを追加する方法を説明します。
+新しい自動生成システムにより、Markdownファイルを追加するだけで自動的にサイトに反映されます。</p>
+<h2 id="_3">基本的な手順</h2>
+<h3 id="1-markdown">1. Markdownファイルを作成</h3>
+<p>適切なディレクトリにMarkdownファイルを作成します：
+- <code>基本情報/</code> - 必須のガイドライン情報
+- <code>その他/</code> - 追加のドキュメント
+- 新しいカテゴリフォルダも自由に作成可能</p>
+<h3 id="2">2. フロントマターを追加（オプション）</h3>
+<p>ファイルの先頭に以下のような情報を追加できます：</p>
+<pre class="codehilite"><code class="language-yaml">---
+title: ページのタイトル
+category: カテゴリ名
+order: 10
+date: 2025-08-02
+tags: [タグ1, タグ2]
+---
+</code></pre>
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; margin-top: 20px;"><iframe src="https://www.loom.com/embed/2a0bcb3e7bea4d3fafc5735521fcc618?sid=ac9b8adf-5319-4c64-9105-15ead7a70688" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<p>フロントマターを省略した場合：
+- <strong>title</strong>: ファイル名から自動生成
+- <strong>category</strong>: フォルダ名から自動判定
+- <strong>order</strong>: ファイル名の数字から自動抽出</p>
+<h3 id="3">3. サイトを再生成</h3>
+<pre class="codehilite"><code class="language-bash">cd site_generator
+python generate_auto.py
+</code></pre>
 
-<h2 id="_3">前提</h2>
-<ul>
-<li>全体の業務フローの大まかな流れをお伝えします</li>
-<li>具体的な資料やマニュアルは参照資料をご覧ください</li>
-</ul>
-<h2 id="31">3.1 案件獲得フェーズ</h2>
-<h3 id="_4">クライアントからの問い合わせ対応</h3>
-<ul>
-<li>問い合わせ確認（LINE、メール、電話など）</li>
-<li>メッセージテンプレートを活用した返信</li>
-<li>初回ヒアリングの日程調整</li>
-<li>デザイナーアサインの検討</li>
-</ul>
-<h2 id="32">3.2 ヒアリング、提案、見積もりフェーズ</h2>
-<h3 id="_5">要件ヒアリング</h3>
-<ul>
-<li>ヒアリングシートの準備（資料参照）</li>
-<li>ニーズの深掘り・課題の明確化</li>
-<li>予算感・納期の確認</li>
-<li>議事録の作成と共有</li>
-</ul>
-<h3 id="_6">提案書作成（案件による）</h3>
-<ul>
-<li>ヒアリング内容を元にした提案構成</li>
-<li>価値提案と差別化ポイントの明確化</li>
-<li>競合分析・市場調査の反映</li>
-<li>コンセプトの立案と可視化</li>
-</ul>
-<h3 id="_7">見積もり作成・提出</h3>
-<ul>
-<li>作業項目、工数、金額の算出</li>
-<li>見積書テンプレートの活用</li>
-<li>クライアントへの提出と質疑応答対応</li>
-</ul>
-<h2 id="33">3.3 受注、契約フェーズ</h2>
-<h3 id="_8">契約締結</h3>
-<ul>
-<li>見積もり内容の合意確認</li>
-<li>契約書の作成（電子契約も可）</li>
-<li>署名・捺印の依頼と管理</li>
-<li>契約書の保管</li>
-</ul>
-<h2 id="34">3.4 チーム結成フェーズ</h2>
-<h3 id="_9">体制構築とリソースアサイン</h3>
-<ul>
-<li>必要なスキルセットを持つデザイナーの選定</li>
-<li>タスクの洗い出しと担当者割り当て</li>
-<li>役割分担と責任範囲の明確化</li>
-</ul>
-<h3 id="_10">プロジェクトグループ作成</h3>
-<ul>
-<li>LINEグループの開設（クライアント用/チーム用）</li>
-<li>Googleドライブの専用フォルダ作成</li>
-<li>関係者の招待とメッセージ送信</li>
-</ul>
-<h3 id="_11">キックオフミーティング</h3>
-<ul>
-<li>日程調整とZoomリンクの発行</li>
-<li>アジェンダの準備</li>
-<li>プロジェクトゴールの再確認</li>
-<li>議事録の作成と共有</li>
-</ul>
-<h2 id="35">3.5 プロジェクト始動、制作フェーズ</h2>
-<h3 id="_12">デザイナーへのフィードバック伝達</h3>
-<ul>
-<li>コンセプト・要件定義の共有</li>
-<li>制作フロー6stepの確認</li>
-<li>詳細スケジュールの作成（ガントチャート）</li>
-</ul>
-<h3 id="_13">デザイン制作の管理</h3>
-<ul>
-<li>テキストメッセージ、定例ミーティングでの進捗確認</li>
-<li>デザインの方向性・クオリティチェック・FB</li>
-<li>課題・遅延への対策</li>
-</ul>
-<h3 id="_14">クライアントへの中間提案</h3>
-<ul>
-<li>ラフ案の共有（レイアウト方向性、記載情報の確認）</li>
-<li>初校デザインの提案（デザイン方向性、全体イメージ）</li>
-<li>フィードバックの正確な受け取りと記録</li>
-<li>デザイン制作計画の立案</li>
-</ul>
-<h2 id="36">3.6 納品フェーズ</h2>
-<h3 id="_15">最終チェック</h3>
-<ul>
-<li>納品時チェックシートに基づく確認</li>
-<li>デザイナーのセルフチェック依頼</li>
-<li>必要箇所の修正指示</li>
-<li>クライアントへの最終確認依頼</li>
-</ul>
-<h3 id="_16">納品データ作成・提出</h3>
-<ul>
-<li>納品データの確認と準備</li>
-<li>Googleドライブでの共有</li>
-<li>納品データの取り扱い説明</li>
-</ul>
-<h2 id="37">3.7 請求、支払いフェーズ</h2>
-<h3 id="_17">請求書発行</h3>
-<ul>
-<li>検収確認後の請求書発行依頼</li>
-<li>請求書URLの取得</li>
-<li>クライアントへの請求書送付</li>
-<li>支払い確認とフォロー</li>
-</ul>
-<h2 id="38">3.8 振り返りフェーズ</h2>
-<h3 id="_18">振り返りミーティング</h3>
-<ul>
-<li>関係者との日程調整</li>
-<li>振り返り用ドキュメントの準備</li>
-<li>良かった点・問題点・改善策の話し合い</li>
-<li>議事録の作成とシェア</li>
-</ul>
-<h3 id="_19">ナレッジ化と共有</h3>
-<ul>
-<li>振り返り結果のまとめ・要約</li>
-<li>チーム全体への共有（社内ポータル、定例会議等）</li>
-<li>次回プロジェクトへの活用ポイント整理</li>
-<li>ナレッジとしての蓄積</li>
-<li>追って具体的な情報は共有します</li>
-</ul>
+<h2 id="_4">ファイル名の規則</h2>
+<p>推奨される命名規則：
+- <code>01_はじめに.md</code> - 数字で順序を指定
+- <code>02_次のセクション.md</code> - 連番で並び順を制御
+- <code>重要な情報.md</code> - 数字なしの場合は最後に配置</p>
+<h2 id="_5">実例</h2>
+<h3 id="_6">最小構成（フロントマターなし）</h3>
+<pre class="codehilite"><code class="language-markdown"># シンプルなガイド
+
+これは最小構成の例です。
+ファイル名とフォルダから自動的に情報が設定されます。
+</code></pre>
+
+<h3 id="_7">フル構成（フロントマターあり）</h3>
+<pre class="codehilite"><code class="language-markdown">---
+title: 詳細な設定ガイド
+category: 上級者向け
+order: 1
+date: 2025-08-02
+tags: [詳細設定, カスタマイズ]
+---
+
+# 詳細な設定ガイド
+
+より細かい制御が必要な場合の例です。
+</code></pre>
+
+<h2 id="_8">まとめ</h2>
+<ol>
+<li>Markdownファイルを追加</li>
+<li>必要に応じてフロントマターを設定</li>
+<li><code>python generate_auto.py</code>を実行</li>
+<li>自動的にサイトに反映！</li>
+</ol>
+<p>シンプルで効率的な運用が可能になります。</p>
             </div>
         </main>
     </div>
