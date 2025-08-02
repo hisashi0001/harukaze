@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Obsidian
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Google Drive
+.tmp/
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# Log files
+*.log
