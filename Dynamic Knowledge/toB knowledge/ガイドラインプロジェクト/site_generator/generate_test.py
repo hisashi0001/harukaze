@@ -20,7 +20,7 @@ TEMPLATE_DIR = Path(__file__).parent / "_templates"
 OUTPUT_DIR = PROJECT_ROOT / "test_output"  # テスト用出力ディレクトリ
 
 # テンプレートファイル
-TEMPLATE_FILE = TEMPLATE_DIR / "page_light.html"
+TEMPLATE_FILE = TEMPLATE_DIR / "page_light_with_ai.html"
 
 # 除外するフォルダ名のパターン
 EXCLUDE_FOLDERS = {
@@ -189,11 +189,6 @@ def generate_navigation(files_by_category, current_file=None):
             nav_items.append(
                 f'<a href="{filename}" class="nav-item{active_class}">{file_info["title"]}</a>'
             )
-    
-    # テスト機能へのリンクを追加
-    nav_items.append('<div class="nav-divider"></div>')
-    nav_items.append('<a href="../99_テスト機能/feedback_system/form_template/feedback_page.html" class="nav-item special">📝 改善提案</a>')
-    nav_items.append('<a href="../99_テスト機能/AI_assistant/chat_interface/ai_chat.html" class="nav-item special">🤖 AIアシスタント</a>')
     
     return '\n'.join(nav_items)
 
