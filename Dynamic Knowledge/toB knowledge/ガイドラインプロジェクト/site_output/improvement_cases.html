@@ -66,6 +66,12 @@
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 4px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        
+        .sidebar-header a:hover h1 {
+            color: var(--accent);
         }
         
         /* モバイル用ハンバーガーメニュー */
@@ -670,8 +676,10 @@
     <div class="container">
         <div class="sidebar" id="sidebar">
 <div class="sidebar-header">
+<a href="index.html" style="text-decoration: none; color: inherit;">
 <h1>Harukazeガイドライン</h1>
-<p>toB事業 品質管理マニュアル</p>
+</a>
+<p>法人事業 品質管理マニュアル</p>
 </div>
 <nav class="sidebar-nav">
 <div class="category">

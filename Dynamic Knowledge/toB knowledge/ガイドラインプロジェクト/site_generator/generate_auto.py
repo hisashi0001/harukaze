@@ -229,8 +229,10 @@ class AutoSiteGenerator:
         
         # サイドバーHTML生成
         sidebar_html = '''<div class="sidebar-header">
+<a href="index.html" style="text-decoration: none; color: inherit;">
 <h1>Harukazeガイドライン</h1>
-<p>toB事業 品質管理マニュアル</p>
+</a>
+<p>法人事業 品質管理マニュアル</p>
 </div>
 <nav class="sidebar-nav">'''
         
