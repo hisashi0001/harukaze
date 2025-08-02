@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPUSOROBAN 海外市場分析レポート | 5ヶ国詳細調査</title>
+    <meta name="description" content="GPUSOROBAN進出対象国（インド、ベトナム、タイ、インドネシア、台湾）の市場分析結果。市場規模、競合状況、参入戦略を詳細分析。">
+    <link rel="stylesheet" href="market-research-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="research-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1><i class="fas fa-globe-asia"></i> GPUSOROBAN 海外市場分析</h1>
+                    <p>5ヶ国戦略的市場調査レポート</p>
+                </div>
+                <div class="report-meta">
+                    <span class="date"><i class="fas fa-calendar"></i> 2025年7月調査</span>
+                    <span class="scope"><i class="fas fa-map-marked-alt"></i> 5ヶ国詳細分析</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <section class="executive-summary">
+        <div class="container">
+            <h2><i class="fas fa-chart-line"></i> エグゼクティブサマリー</h2>
+            <div class="summary-grid">
+                <div class="summary-card highlight">
+                    <h3>総市場機会</h3>
+                    <div class="big-number">$2.8B</div>
+                    <p>2025年GPU クラウド市場規模（5ヶ国合計）</p>
+                </div>
+                <div class="summary-card">
+                    <h3>成長率</h3>
+                    <div class="big-number">42%</div>
+                    <p>年平均成長率（CAGR 2024-2027）</p>
+                </div>
+                <div class="summary-card">
+                    <h3>優先市場</h3>
+                    <div class="big-number">インド</div>
+                    <p>最大の市場機会（$1.2B）</p>
+                </div>
+                <div class="summary-card">
+                    <h3>参入時期</h3>
+                    <div class="big-number">今すぐ</div>
+                    <p>市場成熟前の黄金期</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Overview Chart -->
+    <section class="market-overview">
+        <div class="container">
+            <h2><i class="fas fa-chart-area"></i> 市場規模と成長予測</h2>
+            <div class="chart-container">
+                <canvas id="marketSizeChart"></canvas>
+            </div>
+            <div class="chart-insights">
+                <div class="insight">
+                    <i class="fas fa-arrow-trend-up"></i>
+                    <span><strong>インド</strong>が圧倒的リード：全体の43%を占める$1.2B市場</span>
+                </div>
+                <div class="insight">
+                    <i class="fas fa-rocket"></i>
+                    <span><strong>ベトナム</strong>が最高成長：年率48%で急拡大中</span>
+                </div>
+                <div class="insight">
+                    <i class="fas fa-star"></i>
+                    <span><strong>台湾</strong>が質の高さ：平均契約額が最大（$180K）</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Country Analysis -->
+    <section class="country-analysis">
+        <div class="container">
+            <h2><i class="fas fa-flag"></i> 国別詳細分析</h2>
+            
+            <!-- Country Tabs -->
+            <div class="country-tabs">
+                <button class="tab-btn active" onclick="showCountry('india')">
+                    <img src="https://flagcdn.com/w40/in.png" alt="India"> インド
+                </button>
+                <button class="tab-btn" onclick="showCountry('vietnam')">
+                    <img src="https://flagcdn.com/w40/vn.png" alt="Vietnam"> ベトナム
+                </button>
+                <button class="tab-btn" onclick="showCountry('thailand')">
+                    <img src="https://flagcdn.com/w40/th.png" alt="Thailand"> タイ
+                </button>
+                <button class="tab-btn" onclick="showCountry('indonesia')">
+                    <img src="https://flagcdn.com/w40/id.png" alt="Indonesia"> インドネシア
+                </button>
+                <button class="tab-btn" onclick="showCountry('taiwan')">
+                    <img src="https://flagcdn.com/w40/tw.png" alt="Taiwan"> 台湾
+                </button>
+            </div>
+
+            <!-- India Content -->
+            <div id="india" class="country-content active">
+                <div class="country-header">
+                    <img src="https://flagcdn.com/w80/in.png" alt="India">
+                    <div class="country-title">
+                        <h3>インド <span class="priority-badge">最優先市場</span></h3>
+                        <p>世界最大のITアウトソーシング拠点、急速なAI導入進行</p>
+                    </div>
+                </div>
+                
+                <div class="country-stats">
+                    <div class="stat-card">
+                        <h4>市場規模</h4>
+                        <div class="stat-value">$1.2B</div>
+                        <div class="stat-growth">+45% YoY</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>主要都市</h4>
+                        <div class="stat-value">バンガロール</div>
+                        <div class="stat-detail">ムンバイ、ハイデラバード</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>IT企業数</h4>
+                        <div class="stat-value">50,000+</div>
+                        <div class="stat-detail">うちAI関連 12,000社</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>平均契約額</div>
+                        <div class="stat-value">$85K</div>
+                        <div class="stat-growth">年間契約ベース</div>
+                    </div>
+                </div>
+
+                <div class="market-details">
+                    <div class="detail-section">
+                        <h4><i class="fas fa-bullseye"></i> 市場機会</h4>
+                        <ul>
+                            <li><strong>AIスタートアップブーム</strong>: 年間2,500社が新設、80%がGPU需要あり</li>
+                            <li><strong>政府のAI推進政策</strong>: $1.5BのNational AI Mission予算</li>
+                            <li><strong>コスト意識の高さ</strong>: 50%のコスト削減に強い関心</li>
+                            <li><strong>英語対応の優位性</strong>: コミュニケーション障壁が低い</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4><i class="fas fa-users-cog"></i> ターゲット顧客</h4>
+                        <div class="target-grid">
+                            <div class="target-item">
+                                <i class="fas fa-rocket"></i>
+                                <h5>AIスタートアップ（60%）</h5>
+                                <p>創業1-3年、資金調達済み、GPU調達コスト重視</p>
+                            </div>
+                            <div class="target-item">
+                                <i class="fas fa-building"></i>
+                                <h5>IT企業AI部門（25%）</h5>
+                                <p>TCS、Infosys等の大手、新規AI事業立ち上げ</p>
+                            </div>
+                            <div class="target-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <h5>研究機関（15%）</h5>
+                                <p>IIT、IISC等の大学、政府研究機関</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h4><i class="fas fa-chess"></i> 競合状況</h4>
+                        <div class="competitor-analysis">
+                            <div class="competitor">
+                                <h5>AWS (40%シェア)</h5>
+                                <div class="competitor-bar">
+                                    <div class="bar" style="width: 40%"></div>
+                                </div>
+                                <p>強み: ブランド力、豊富なサービス | 弱み: 価格の高さ、複雑性</p>
+                            </div>
+                            <div class="competitor">
+                                <h5>Google Cloud (25%)</h5>
+                                <div class="competitor-bar">
+                                    <div class="bar" style="width: 25%"></div>
+                                </div>
+                                <p>強み: AIツール統合 | 弱み: サポート品質、価格競争力</p>
+                            </div>
+                            <div class="competitor">
+                                <h5>ローカル企業 (20%)</h5>
+                                <div class="competitor-bar">
+                                    <div class="bar" style="width: 20%"></div>
+                                </div>
+                                <p>強み: 価格、現地サポート | 弱み: 技術力、信頼性</p>
+                            </div>
+                            <div class="competitor opportunity">
+                                <h5>GPUSOROBAN機会 (15%)</h5>
+                                <div class="competitor-bar">
+                                    <div class="bar opportunity-bar" style="width: 15%"></div>
+                                </div>
+                                <p>ポジション: 価格競争力 × 日本品質のハイブリッド</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h4><i class="fas fa-route"></i> 参入戦略</h4>
+                        <div class="strategy-timeline">
+                            <div class="strategy-item">
+                                <div class="timeline-dot">1</div>
+                                <h5>Phase 1: デジタルマーケティング（1-3ヶ月）</h5>
+                                <p>• LinkedIn、Tech媒体での広告展開<br>• バンガロールでのオンラインセミナー</p>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="timeline-dot">2</div>
+                                <h5>Phase 2: パートナーシップ（3-6ヶ月）</h5>
+                                <p>• 現地システムインテグレーターとの提携<br>• AIスタートアップアクセラレーターとの協業</p>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="timeline-dot">3</div>
+                                <h5>Phase 3: 現地拠点（6-12ヶ月）</h5>
+                                <p>• バンガロールにサポートオフィス開設<br>• 現地エンジニア採用</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vietnam Content -->
+            <div id="vietnam" class="country-content">
+                <div class="country-header">
+                    <img src="https://flagcdn.com/w80/vn.png" alt="Vietnam">
+                    <div class="country-title">
+                        <h3>ベトナム <span class="growth-badge">最高成長市場</span></h3>
+                        <p>製造業のDX化加速、AI需要急拡大中</p>
+                    </div>
+                </div>
+                
+                <div class="country-stats">
+                    <div class="stat-card">
+                        <h4>市場規模</h4>
+                        <div class="stat-value">$420M</div>
+                        <div class="stat-growth">+48% YoY</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>主要都市</h4>
+                        <div class="stat-value">ホーチミン</div>
+                        <div class="stat-detail">ハノイ、ダナン</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>IT企業数</h4>
+                        <div class="stat-value">8,500</div>
+                        <div class="stat-detail">うちAI関連 1,800社</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>平均契約額</h4>
+                        <div class="stat-value">$52K</div>
+                        <div class="stat-growth">年間契約ベース</div>
+                    </div>
+                </div>
+
+                <div class="market-details">
+                    <div class="detail-section">
+                        <h4><i class="fas fa-bullseye"></i> 市場機会</h4>
+                        <ul>
+                            <li><strong>製造業のAI導入加速</strong>: Samsung、LG等の工場でAI品質管理導入</li>
+                            <li><strong>政府のデジタル政策</strong>: Vietnam 2030 Digital Transformation</li>
+                            <li><strong>日本への親近感</strong>: 製造業パートナーシップの歴史</li>
+                            <li><strong>コストパフォーマンス重視</strong>: 品質と価格のバランス志向</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4><i class="fas fa-users-cog"></i> ターゲット顧客</h4>
+                        <div class="target-grid">
+                            <div class="target-item">
+                                <i class="fas fa-industry"></i>
+                                <h5>製造業（50%）</h5>
+                                <p>Samsung、日系企業工場、AI品質管理・予知保全</p>
+                            </div>
+                            <div class="target-item">
+                                <i class="fas fa-mobile-alt"></i>
+                                <h5>ゲーム・エンタメ（30%）</h5>
+                                <p>VNG、Gameloft等、AIコンテンツ制作</p>
+                            </div>
+                            <div class="target-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <h5>大学・研究機関（20%）</h5>
+                                <p>ベトナム国家大学、FPT大学等</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h4><i class="fas fa-route"></i> 参入戦略</h4>
+                        <div class="strategy-timeline">
+                            <div class="strategy-item">
+                                <div class="timeline-dot">1</div>
+                                <h5>Phase 1: 日系企業ルート（1-3ヶ月）</h5>
+                                <p>• 日系製造業（Toyota、Panasonic等）へのアプローチ<br>• JETRO、日本商工会議所との連携</p>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="timeline-dot">2</div>
+                                <h5>Phase 2: 現地パートナー（3-6ヶ月）</h5>
+                                <p>• FPT Corporation等ITジャイアントとの提携<br>• 製造業向けAIソリューション共同開発</p>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="timeline-dot">3</div>
+                                <h5>Phase 3: 市場拡大（6-12ヶ月）</h5>
+                                <p>• ホーチミンにサポート拠点<br>• ベトナム語サポート体制構築</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thailand Content -->
+            <div id="thailand" class="country-content">
+                <div class="country-header">
+                    <img src="https://flagcdn.com/w80/th.png" alt="Thailand">
+                    <div class="country-title">
+                        <h3>タイ <span class="stable-badge">安定成長市場</span></h3>
+                        <p>東南アジアのハブ、デジタル政策推進</p>
+                    </div>
+                </div>
+                
+                <div class="country-stats">
+                    <div class="stat-card">
+                        <h4>市場規模</h4>
+                        <div class="stat-value">$380M</div>
+                        <div class="stat-growth">+35% YoY</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>主要都市</h4>
+                        <div class="stat-value">バンコク</div>
+                        <div class="stat-detail">チェンマイ、プーケット</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>IT企業数</h4>
+                        <div class="stat-value">6,200</div>
+                        <div class="stat-detail">うちAI関連 1,200社</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>平均契約額</h4>
+                        <div class="stat-value">$78K</div>
+                        <div class="stat-growth">年間契約ベース</div>
+                    </div>
+                </div>
+
+                <div class="market-details">
+                    <div class="detail-section">
+                        <h4><i class="fas fa-bullseye"></i> 市場機会</h4>
+                        <ul>
+                            <li><strong>Thailand 4.0政策</strong>: 政府主導のデジタル経済推進</li>
+                            <li><strong>金融業のAI導入</strong>: Bangkok Bank、SCB等でAI活用拡大</li>
+                            <li><strong>観光業のDX</strong>: AIチャットボット、パーソナライゼーション</li>
+                            <li><strong>安定志向の文化</strong>: 実績豊富なサービスを好む傾向</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4><i class="fas fa-users-cog"></i> ターゲット顧客</h4>
+                        <div class="target-grid">
+                            <div class="target-item">
+                                <i class="fas fa-university"></i>
+                                <h5>金融業（40%）</h5>
+                                <p>Bangkok Bank、SCB、KBank等、AI与信・不正検知</p>
+                            </div>
+                            <div class="target-item">
+                                <i class="fas fa-plane"></i>
+                                <h5>観光・小売（35%）</h5>
+                                <p>Central Group、CP等、AIマーケティング</p>
+                            </div>
+                            <div class="target-item">
+                                <i class="fas fa-car"></i>
+                                <h5>製造業（25%）</h5>
+                                <p>Toyota、Honda工場、AI品質管理</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h4><i class="fas fa-route"></i> 参入戦略</h4>
+                        <div class="strategy-timeline">
+                            <div class="strategy-item">
+                                <div class="timeline-dot">1</div>
+                                <h5>Phase 1: 実績構築（1-6ヶ月）</h5>
+                                <p>• 日系企業での成功事例作り<br>• タイ政府関連機関への提案</p>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="timeline-dot">2</div>
+                                <h5>Phase 2: 現地展開（6-12ヶ月）</h5>
+                                <p>• 現地システムインテグレーターとの提携<br>• タイ語対応サポート開始</p>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="timeline-dot">3</div>
+                                <h5>Phase 3: 市場確立（12-18ヶ月）</h5>
+                                <p>• バンコクにサポートオフィス<br>• ASEAN諸国への展開拠点化</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Indonesia Content -->
+            <div id="indonesia" class="country-content">
+                <div class="country-header">
+                    <img src="https://flagcdn.com/w80/id.png" alt="Indonesia">
+                    <div class="country-title">
+                        <h3>インドネシア <span class="potential-badge">潜在力市場</span></h3>
+                        <p>東南アジア最大の人口、デジタル経済急成長</p>
+                    </div>
+                </div>
+                
+                <div class="country-stats">
+                    <div class="stat-card">
+                        <h4>市場規模</h4>
+                        <div class="stat-value">$320M</div>
+                        <div class="stat-growth">+38% YoY</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>主要都市</h4>
+                        <div class="stat-value">ジャカルタ</div>
+                        <div class="stat-detail">スラバヤ、バンドン</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>IT企業数</h4>
+                        <div class="stat-value">4,800</div>
+                        <div class="stat-detail">うちAI関連 950社</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>平均契約額</h4>
+                        <div class="stat-value">$45K</div>
+                        <div class="stat-growth">年間契約ベース</div>
+                    </div>
+                </div>
+
+                <div class="market-details">
+                    <div class="detail-section">
+                        <h4><i class="fas fa-bullseye"></i> 市場機会</h4>
+                        <ul>
+                            <li><strong>Eコマース大手のAI活用</strong>: Tokopedia、Shopee等のレコメンデーション</li>
+                            <li><strong>フィンテック成長</strong>: GoPay、OVO等のAI与信システム</li>
+                            <li><strong>政府のデジタル政策</strong>: Making Indonesia 4.0イニシアチブ</li>
+                            <li><strong>関係性重視文化</strong>: 長期パートナーシップを好む</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4><i class="fas fa-users-cog"></i> ターゲット顧客</h4>
+                        <div class="target-grid">
+                            <div class="target-item">
+                                <i class="fas fa-shopping-cart"></i>
+                                <h5>Eコマース（45%）</h5>
+                                <p>Tokopedia、Shopee、Blibli等、AIレコメンド</p>
+                            </div>
+                            <div class="target-item">
+                                <i class="fas fa-mobile-alt"></i>
+                                <h5>フィンテック（30%）</h5>
+                                <p>GoPay、OVO、Dana等、AI与信・不正検知</p>
+                            </div>
+                            <div class="target-item">
+                                <i class="fas fa-building"></i>
+                                <h5>大手コングロマリット（25%）</h5>
+                                <p>Salim Group、Sinar Mas等のデジタル変革</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h4><i class="fas fa-route"></i> 参入戦略</h4>
+                        <div class="strategy-timeline">
+                            <div class="strategy-item">
+                                <div class="timeline-dot">1</div>
+                                <h5>Phase 1: パートナー発掘（1-6ヶ月）</h5>
+                                <p>• 現地パートナー候補との関係構築<br>• インドネシア語対応準備</p>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="timeline-dot">2</div>
+                                <h5>Phase 2: 実証実験（6-12ヶ月）</h5>
+                                <p>• 大手企業でのPoC実施<br>• 現地法人設立検討</p>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="timeline-dot">3</div>
+                                <h5>Phase 3: 本格展開（12-24ヶ月）</h5>
+                                <p>• ジャカルタにサポート拠点<br>• 現地パートナーとの合弁事業</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Taiwan Content -->
+            <div id="taiwan" class="country-content">
+                <div class="country-header">
+                    <img src="https://flagcdn.com/w80/tw.png" alt="Taiwan">
+                    <div class="country-title">
+                        <h3>台湾 <span class="premium-badge">プレミアム市場</span></h3>
+                        <p>半導体・テクノロジーのハブ、高付加価値市場</p>
+                    </div>
+                </div>
+                
+                <div class="country-stats">
+                    <div class="stat-card">
+                        <h4>市場規模</h4>
+                        <div class="stat-value">$480M</div>
+                        <div class="stat-growth">+32% YoY</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>主要都市</h4>
+                        <div class="stat-value">台北</div>
+                        <div class="stat-detail">新竹、台中</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>IT企業数</h4>
+                        <div class="stat-value">12,500</div>
+                        <div class="stat-detail">うちAI関連 3,200社</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>平均契約額</h4>
+                        <div class="stat-value">$180K</div>
+                        <div class="stat-growth">年間契約ベース</div>
+                    </div>
+                </div>
+
+                <div class="market-details">
+                    <div class="detail-section">
+                        <h4><i class="fas fa-bullseye"></i> 市場機会</h4>
+                        <ul>
+                            <li><strong>半導体業界のAI需要</strong>: TSMC、MediaTek等でAI設計ツール導入</li>
+                            <li><strong>高い技術レベル</strong>: 最新技術への理解と導入意欲</li>
+                            <li><strong>日本への親近感</strong>: 技術・品質に対する信頼</li>
+                            <li><strong>高付加価値志向</strong>: 価格より品質・性能を重視</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4><i class="fas fa-users-cog"></i> ターゲット顧客</h4>
+                        <div class="target-grid">
+                            <div class="target-item">
+                                <i class="fas fa-microchip"></i>
+                                <h5>半導体業界（50%）</h5>
+                                <p>TSMC、MediaTek、ASE等、AI設計・検査</p>
+                            </div>
+                            <div class="target-item">
+                                <i class="fas fa-laptop"></i>
+                                <h5>PC・電子機器（30%）</h5>
+                                <p>ASUS、Acer、Foxconn等、AIアプリ開発</p>
+                            </div>
+                            <div class="target-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <h5>研究機関（20%）</h5>
+                                <p>台湾大学、工研院等、先端AI研究</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h4><i class="fas fa-route"></i> 参入戦略</h4>
+                        <div class="strategy-timeline">
+                            <div class="strategy-item">
+                                <div class="timeline-dot">1</div>
+                                <h5>Phase 1: 技術訴求（1-3ヶ月）</h5>
+                                <p>• COMPUTEX等での技術展示<br>• 半導体業界向けセミナー開催</p>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="timeline-dot">2</div>
+                                <h5>Phase 2: パートナーシップ（3-9ヶ月）</h5>
+                                <p>• 現地システムインテグレーターとの提携<br>• 繁体字中国語対応</p>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="timeline-dot">3</div>
+                                <h5>Phase 3: 拠点設立（9-15ヶ月）</h5>
+                                <p>• 台北にサポートオフィス<br>• 現地エンジニア採用</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competitive Landscape -->
+    <section class="competitive-landscape">
+        <div class="container">
+            <h2><i class="fas fa-chess"></i> 競合環境分析</h2>
+            <div class="competition-grid">
+                <div class="competitor-card aws">
+                    <h3>Amazon Web Services</h3>
+                    <div class="market-share">40%</div>
+                    <div class="competitor-details">
+                        <div class="strengths">
+                            <h4>強み</h4>
+                            <ul>
+                                <li>圧倒的なブランド力</li>
+                                <li>豊富なサービス群</li>
+                                <li>グローバルインフラ</li>
+                            </ul>
+                        </div>
+                        <div class="weaknesses">
+                            <h4>弱み</h4>
+                            <ul>
+                                <li>価格の高さ</li>
+                                <li>複雑な料金体系</li>
+                                <li>カスタマイズの難しさ</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="competitor-card gcp">
+                    <h3>Google Cloud Platform</h3>
+                    <div class="market-share">25%</div>
+                    <div class="competitor-details">
+                        <div class="strengths">
+                            <h4>強み</h4>
+                            <ul>
+                                <li>AI/MLツールの充実</li>
+                                <li>データ分析の強さ</li>
+                                <li>研究機関での実績</li>
+                            </ul>
+                        </div>
+                        <div class="weaknesses">
+                            <h4>弱み</h4>
+                            <ul>
+                                <li>エンタープライズ実績不足</li>
+                                <li>サポート品質のムラ</li>
+                                <li>価格競争力の欠如</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="competitor-card azure">
+                    <h3>Microsoft Azure</h3>
+                    <div class="market-share">20%</div>
+                    <div class="competitor-details">
+                        <div class="strengths">
+                            <h4>強み</h4>
+                            <ul>
+                                <li>Office 365との連携</li>
+                                <li>ハイブリッドクラウド</li>
+                                <li>エンタープライズ営業力</li>
+                            </ul>
+                        </div>
+                        <div class="weaknesses">
+                            <h4>弱み</h4>
+                            <ul>
+                                <li>GPU特化サービス不足</li>
+                                <li>アジア展開の遅れ</li>
+                                <li>技術サポートの質</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="competitor-card opportunity">
+                    <h3>GPUSOROBAN チャンス</h3>
+                    <div class="market-share">15%</div>
+                    <div class="competitor-details">
+                        <div class="strengths">
+                            <h4>独自の強み</h4>
+                            <ul>
+                                <li>50%のコスト優位性</li>
+                                <li>即日セットアップ</li>
+                                <li>日本品質のサポート</li>
+                                <li>透明な料金体系</li>
+                            </ul>
+                        </div>
+                        <div class="opportunity">
+                            <h4>市場機会</h4>
+                            <ul>
+                                <li>価格重視の中小企業</li>
+                                <li>日系企業のアジア展開</li>
+                                <li>研究機関の予算制約</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Projection -->
+    <section class="roi-projection">
+        <div class="container">
+            <h2><i class="fas fa-calculator"></i> 投資収益予測</h2>
+            <div class="roi-cards">
+                <div class="roi-card">
+                    <h3>3年間市場機会</h3>
+                    <div class="roi-value">$4.2B</div>
+                    <p>5ヶ国合計の累積市場規模</p>
+                </div>
+                <div class="roi-card">
+                    <h3>GPUSOROBAN獲得可能</h3>
+                    <div class="roi-value">$210M</div>
+                    <p>5%シェア獲得時の売上規模</p>
+                </div>
+                <div class="roi-card">
+                    <h3>必要投資額</h3>
+                    <div class="roi-value">$15M</div>
+                    <p>3年間の海外展開投資総額</p>
+                </div>
+                <div class="roi-card highlight">
+                    <h3>期待ROI</h3>
+                    <div class="roi-value">1,400%</div>
+                    <p>3年間累計の投資収益率</p>
+                </div>
+            </div>
+
+            <!-- ROI Chart -->
+            <div class="roi-chart-container">
+                <h3>年度別収益予測</h3>
+                <canvas id="roiChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Action Plan -->
+    <section class="action-plan">
+        <div class="container">
+            <h2><i class="fas fa-rocket"></i> アクションプラン</h2>
+            
+            <div class="priority-matrix">
+                <h3>市場参入優先度マトリックス</h3>
+                <div class="matrix-chart">
+                    <div class="matrix-axis">
+                        <span class="y-label">市場規模</span>
+                        <span class="x-label">参入容易性</span>
+                    </div>
+                    
+                    <div class="matrix-item india" style="top: 20%; left: 75%;">
+                        <div class="country-dot">🇮🇳</div>
+                        <span>インド</span>
+                    </div>
+                    
+                    <div class="matrix-item vietnam" style="top: 60%; left: 80%;">
+                        <div class="country-dot">🇻🇳</div>
+                        <span>ベトナム</span>
+                    </div>
+                    
+                    <div class="matrix-item taiwan" style="top: 40%; left: 60%;">
+                        <div class="country-dot">🇹🇼</div>
+                        <span>台湾</span>
+                    </div>
+                    
+                    <div class="matrix-item thailand" style="top: 50%; left: 70%;">
+                        <div class="country-dot">🇹🇭</div>
+                        <span>タイ</span>
+                    </div>
+                    
+                    <div class="matrix-item indonesia" style="top: 70%; left: 50%;">
+                        <div class="country-dot">🇮🇩</div>
+                        <span>インドネシア</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommended-sequence">
+                <h3>推奨展開シーケンス</h3>
+                <div class="sequence-timeline">
+                    <div class="sequence-item">
+                        <div class="sequence-number">1</div>
+                        <div class="sequence-content">
+                            <h4>インド先行展開 <span class="timeline">2025年Q3-Q4</span></h4>
+                            <p>• 最大市場機会（$1.2B）に集中投資<br>• バンガロールを拠点とした本格展開<br>• AIスタートアップエコシステムへの参入</p>
+                        </div>
+                    </div>
+                    
+                    <div class="sequence-item">
+                        <div class="sequence-number">2</div>
+                        <div class="sequence-content">
+                            <h4>ベトナム・台湾同時展開 <span class="timeline">2026年Q1-Q2</span></h4>
+                            <p>• ベトナム：製造業ルートでの参入<br>• 台湾：半導体業界での差別化<br>• 日系企業ネットワークの活用</p>
+                        </div>
+                    </div>
+                    
+                    <div class="sequence-item">
+                        <div class="sequence-number">3</div>
+                        <div class="sequence-content">
+                            <h4>タイ・インドネシア本格展開 <span class="timeline">2026年Q3-Q4</span></h4>
+                            <p>• タイ：ASEAN展開の拠点化<br>• インドネシア：現地パートナーとの協業<br>• 5ヶ国統合的な運営体制構築</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="research-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>調査概要</h4>
+                    <p>調査期間: 2025年6-7月<br>
+                    調査方法: 市場データ分析、専門家インタビュー、競合調査<br>
+                    調査対象: アジア太平洋5ヶ国のGPUクラウド市場</p>
+                </div>
+                <div class="footer-section">
+                    <h4>データソース</h4>
+                    <ul>
+                        <li>Gartner Market Research</li>
+                        <li>IDC Cloud Infrastructure Survey</li>
+                        <li>各国政府統計</li>
+                        <li>業界専門家インタビュー</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>免責事項</h4>
+                    <p>本レポートの内容は調査時点の情報に基づく予測であり、<br>
+                    実際の市場動向とは異なる場合があります。<br>
+                    投資判断は慎重にご検討ください。</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GPUSOROBAN Market Research. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="market-research-script.js"></script>
+</body>
+</html>

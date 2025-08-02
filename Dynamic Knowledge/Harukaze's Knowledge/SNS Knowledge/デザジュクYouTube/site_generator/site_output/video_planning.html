@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 動画企画書 | Harukazeガイドライン</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --accent: #0066cc;
+            --accent-hover: #0052a3;
+            --border: #dee2e6;
+            --success: #28a745;
+            --warning: #ffc107;
+            --error: #dc3545;
+            --sidebar-bg: #f5f7f9;
+            --sidebar-hover: #e8ecf0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* サイドバー */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-primary);
+        }
+
+        .sidebar-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .sidebar-header p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 0;
+        }
+
+        .category {
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 8px 24px 4px 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 24px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-item:hover {
+            background: var(--sidebar-hover);
+            border-left-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .nav-item.active {
+            background: var(--bg-primary);
+            border-left-color: var(--accent);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* メインコンテンツ */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content-header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 40px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .content-body {
+            flex: 1;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* コンテンツスタイル */
+        .content-body h1 {
+            color: var(--text-primary);
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
+        }
+
+        .content-body h2 {
+            color: var(--text-primary);
+            font-size: 28px;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            display: flex;
+            align-items: center;
+            scroll-margin-top: 80px; /* ヘッダー分のオフセット */
+        }
+
+        .content-body h2::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--accent);
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+
+        .content-body h3 {
+            color: var(--text-primary);
+            font-size: 20px;
+            font-weight: 600;
+            margin: 32px 0 16px 0;
+            scroll-margin-top: 80px;
+        }
+
+        .content-body p {
+            margin-bottom: 16px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .content-body ul, .content-body ol {
+            margin: 16px 0;
+            padding-left: 32px;
+        }
+
+        .content-body li {
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .content-body strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        /* 目次のリンク */
+        .content-body a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .content-body a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* コードブロック */
+        .content-body code {
+            background: var(--bg-tertiary);
+            color: var(--error);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'SF Mono', Monaco, monospace;
+            font-size: 14px;
+        }
+
+        .content-body pre {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            max-width: 100%;
+        }
+
+        .content-body pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        /* テーブル */
+        .content-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .content-body th {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 12px 16px;
+            font-weight: 600;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .content-body td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .content-body tr:last-child td {
+            border-bottom: none;
+        }
+
+        .content-body tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* 引用 */
+        .content-body blockquote {
+            border-left: 4px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        /* アラートボックス */
+        .alert {
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #0d47a1;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+
+        /* 動画埋め込み */
+        .video-embed {
+            margin: 24px 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+        }
+
+        .video-embed iframe {
+            width: 100%;
+            max-width: 720px;
+            height: 405px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .loom-embed {
+            margin: 16px 0;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: inline-block;
+        }
+
+        .loom-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .loom-link:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* 目次 */
+        .toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc ul ul {
+            padding-left: 20px;
+            margin-top: 4px;
+        }
+
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            display: block;
+            padding: 4px 0;
+        }
+
+        .toc a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* スクロールバー */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .content-body {
+                padding: 20px;
+            }
+
+            .video-embed iframe {
+                height: auto;
+                aspect-ratio: 16/9;
+            }
+        }
+
+        /* プリント対応 */
+        @media print {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .content-header {
+                position: relative;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+<div class="sidebar-header">
+<h1>デザジュクYouTube</h1>
+<p>制作・運用ドキュメント</p>
+</div>
+<nav class="sidebar-nav">
+<div class="category">
+<div class="category-title">基本情報</div>
+<a href="index.html" class="nav-item">📺 プロジェクト概要</a>
+</div>
+<div class="category">
+<div class="category-title">企画・制作</div>
+<a href="video_planning.html" class="nav-item">🎬 動画企画書</a>
+<a href="content_ideas.html" class="nav-item">💡 投稿アイデア集</a>
+</div>
+<div class="category">
+<div class="category-title">運営・管理</div>
+<a href="operation_guide.html" class="nav-item">⚙️ 運用体制</a>
+</div>
+<div class="category">
+<div class="category-title">台本・構成</div>
+<a href="script_v1.html" class="nav-item">📜 PC作業効率化 - 台本 v1</a>
+<a href="script_v1.html" class="nav-item">📜 PC作業効率化 - 台本 v2</a>
+<a href="slide_structure.html" class="nav-item">🎯 PC作業効率化 - スライド構成</a>
+</div>
+</nav>
+</div>
+        
+        <main class="main-content">
+            <div class="content-header">
+                🎬 動画企画書
+            </div>
+            
+            <div class="content-body">
+                <h1 id="youtube-1-5">デザジュクYouTube 動画企画書（第1弾 5本）</h1>
+<h2 id="1-2025ai">企画1: 2025年最新版AIでスライド資料を作る方法</h2>
+<h3 id="_1">基本情報</h3>
+<ul>
+<li><strong>動画タイトル（仮）</strong>: 【2025年最新】AIでプロ級のスライド資料を10分で作る方法</li>
+<li><strong>動画の長さ</strong>: 15-20分</li>
+<li><strong>ターゲット</strong>: ビジネスパーソン、学生、プレゼン資料作成に苦手意識がある人</li>
+</ul>
+<h3 id="_2">企画概要</h3>
+<p>AIツールを使って効率的にスライド資料を作成する方法を実演形式で解説。従来の方法と比較して10倍速で作成できることを実証する。</p>
+<h3 id="_3">構成案</h3>
+<ol>
+<li><strong>導入（2分）</strong></li>
+<li>従来のスライド作成の課題（時間がかかる、デザインセンスが必要等）</li>
+<li>
+<p>AIを使うとどう変わるか（Before/After）</p>
+</li>
+<li>
+<p><strong>使用ツールの紹介（3分）</strong></p>
+</li>
+<li>候補：Claude、ChatGPT、Gamma、Tome等から最適なものを選定</li>
+<li>
+<p>各ツールの特徴と使い分け</p>
+</li>
+<li>
+<p><strong>実演パート（10分）</strong></p>
+</li>
+<li>実際のビジネスシーンを想定した資料作成</li>
+<li>プロンプトの書き方のコツ</li>
+<li>
+<p>デザイン調整のポイント</p>
+</li>
+<li>
+<p><strong>応用編（3分）</strong></p>
+</li>
+<li>用途別の活用法（営業資料、社内報告、勉強会等）</li>
+<li>
+<p>よくある失敗と対策</p>
+</li>
+<li>
+<p><strong>まとめ（2分）</strong></p>
+</li>
+<li>重要ポイントの振り返り</li>
+<li>次のアクション</li>
+</ol>
+<h3 id="_4">必要な準備</h3>
+<ul>
+<li>各AIツールのアカウント準備</li>
+<li>サンプル資料のテーマ決定</li>
+<li>Before/After用の比較資料</li>
+</ul>
+<hr />
+<h2 id="2-pc10">企画2: PC作業効率化テクニック10選</h2>
+<h3 id="_5">基本情報</h3>
+<ul>
+<li><strong>動画タイトル（仮）</strong>: 【生産性2倍】今すぐできるPC作業効率化テクニック10選</li>
+<li><strong>動画の長さ</strong>: 15-20分</li>
+<li><strong>ターゲット</strong>: 全てのPCユーザー（特にオフィスワーカー）</li>
+</ul>
+<h3 id="_6">企画概要</h3>
+<p>デザイナーに限らず、誰でも使えるPC作業効率化テクニックを紹介。特に効果の高い10個を厳選して実演。</p>
+<h3 id="_7">構成案</h3>
+<ol>
+<li><strong>導入（2分）</strong></li>
+<li>なぜ効率化が重要か</li>
+<li>
+<p>本動画で得られる効果</p>
+</li>
+<li>
+<p><strong>効率化テクニック10選（各1.5分×10=15分）</strong></p>
+</li>
+<li>Googleドライブの隠れた便利機能</li>
+<li>音声入力ツール（Aqua等）の活用</li>
+<li>ショートカットキーの極意</li>
+<li>クリップボード履歴の活用</li>
+<li>複数デスクトップの使い分け</li>
+<li>ブラウザの拡張機能活用</li>
+<li>テキスト展開ツール</li>
+<li>ファイル整理の自動化</li>
+<li>検索の高速化テクニック</li>
+<li>
+<p>AI活用（要約、翻訳等）</p>
+</li>
+<li>
+<p><strong>実践のコツ（2分）</strong></p>
+</li>
+<li>習慣化の方法</li>
+<li>
+<p>組み合わせると効果的な技</p>
+</li>
+<li>
+<p><strong>まとめ（1分）</strong></p>
+</li>
+<li>チェックリスト提供</li>
+<li>次のステップ</li>
+</ol>
+<h3 id="_8">必要な準備</h3>
+<ul>
+<li>各ツールのセットアップ</li>
+<li>デモ用の作業環境準備</li>
+<li>効果測定のデータ収集</li>
+</ul>
+<hr />
+<h2 id="3">企画3: デザイナー引き出しを無限に増やす情報収集術</h2>
+<h3 id="_9">基本情報</h3>
+<ul>
+<li><strong>動画タイトル（仮）</strong>: 【デザイナー必見】アイデアが枯れない情報収集の仕組み作り</li>
+<li><strong>動画の長さ</strong>: 15-20分</li>
+<li><strong>ターゲット</strong>: デザイナー、クリエイター、企画職</li>
+</ul>
+<h3 id="_10">企画概要</h3>
+<p>デザインのインスピレーションを効率的に収集・整理・活用する方法を体系的に解説。</p>
+<h3 id="_11">構成案</h3>
+<ol>
+<li><strong>導入（2分）</strong></li>
+<li>なぜ情報収集が重要か</li>
+<li>
+<p>よくある失敗パターン</p>
+</li>
+<li>
+<p><strong>情報収集の仕組み化（5分）</strong></p>
+</li>
+<li>収集すべき情報の種類</li>
+<li>効率的な収集ルーティン</li>
+<li>
+<p>時間配分の目安</p>
+</li>
+<li>
+<p><strong>おすすめツール・サイト（5分）</strong></p>
+</li>
+<li>Pinterest、Behance、Dribbble活用法</li>
+<li>国内外のデザインギャラリー</li>
+<li>トレンド情報源</li>
+<li>
+<p>RSS・ニュースレター活用</p>
+</li>
+<li>
+<p><strong>整理・管理方法（4分）</strong></p>
+</li>
+<li>タグ付けシステム</li>
+<li>フォルダ構成</li>
+<li>
+<p>検索しやすい整理術</p>
+</li>
+<li>
+<p><strong>アウトプットへの変換（3分）</strong></p>
+</li>
+<li>インプットをオリジナルに昇華する方法</li>
+<li>
+<p>実例での解説</p>
+</li>
+<li>
+<p><strong>まとめ（1分）</strong></p>
+</li>
+<li>実践チェックリスト</li>
+<li>継続のコツ</li>
+</ol>
+<h3 id="_12">必要な準備</h3>
+<ul>
+<li>各ツールのアカウント</li>
+<li>サンプルコレクション</li>
+<li>実例用のデザイン素材</li>
+</ul>
+<hr />
+<h2 id="4-ng10">企画4: NGデザイン事例10選</h2>
+<h3 id="_13">基本情報</h3>
+<ul>
+<li><strong>動画タイトル（仮）</strong>: 【やりがち】プロが教えるNGデザイン10選と改善方法</li>
+<li><strong>動画の長さ</strong>: 15-20分</li>
+<li><strong>ターゲット</strong>: デザイン初心者、独学デザイナー、ノンデザイナー</li>
+</ul>
+<h3 id="_14">企画概要</h3>
+<p>よくあるデザインの失敗パターンを実例で紹介し、理論的な説明と具体的な改善方法を提示。</p>
+<h3 id="_15">構成案</h3>
+<ol>
+<li><strong>導入（2分）</strong></li>
+<li>なぜNGパターンを知ることが重要か</li>
+<li>
+<p>プロとアマの違い</p>
+</li>
+<li>
+<p><strong>NGデザイン10選（各1.5分×10=15分）</strong></p>
+</li>
+<li>文字の可読性を無視したデザイン</li>
+<li>余白不足で窮屈なレイアウト</li>
+<li>色の使いすぎ</li>
+<li>フォントの統一感欠如</li>
+<li>画像とテキストのバランス崩壊</li>
+<li>情報の優先順位が不明確</li>
+<li>トンマナの不統一</li>
+<li>デバイス対応を考慮していない</li>
+<li>アクセシビリティ無視</li>
+<li>
+<p>流行を追いすぎた短命デザイン</p>
+</li>
+<li>
+<p><strong>改善のプロセス（2分）</strong></p>
+</li>
+<li>チェックリストの活用</li>
+<li>
+<p>フィードバックの受け方</p>
+</li>
+<li>
+<p><strong>まとめ（1分）</strong></p>
+</li>
+<li>復習ポイント</li>
+<li>練習方法</li>
+</ol>
+<h3 id="_16">必要な準備</h3>
+<ul>
+<li>NG例のサンプル作成</li>
+<li>改善版の作成</li>
+<li>理論説明用の図解</li>
+</ul>
+<hr />
+<h2 id="5">企画5: デザインにおける余白の哲学</h2>
+<h3 id="_17">基本情報</h3>
+<ul>
+<li><strong>動画タイトル（仮）</strong>: 【即実践】余白を制する者がデザインを制する - プロの余白術</li>
+<li><strong>動画の長さ</strong>: 15-20分</li>
+<li><strong>ターゲット</strong>: デザイン初心者、ビジネス資料を作る人、SNS投稿をする人</li>
+</ul>
+<h3 id="_18">企画概要</h3>
+<p>余白の重要性を理解し、素人でもすぐに使える具体的なルールと実践方法を解説。</p>
+<h3 id="_19">構成案</h3>
+<ol>
+<li><strong>導入（3分）</strong></li>
+<li>余白とは何か</li>
+<li>なぜ余白が重要なのか（心理学的効果）</li>
+<li>
+<p>プロと素人の違い</p>
+</li>
+<li>
+<p><strong>余白の基本ルール（5分）</strong></p>
+</li>
+<li>黄金比とグリッドシステム</li>
+<li>用途別の余白量の目安</li>
+<li>
+<p>視線誘導と余白の関係</p>
+</li>
+<li>
+<p><strong>実践編（8分）</strong></p>
+</li>
+<li>ビジネス資料での余白活用</li>
+<li>SNS投稿での余白テクニック</li>
+<li>Webサイトでの余白設計</li>
+<li>
+<p>印刷物での余白の考え方</p>
+</li>
+<li>
+<p><strong>よくある間違いと対策（3分）</strong></p>
+</li>
+<li>余白恐怖症の克服</li>
+<li>余白の取りすぎ問題</li>
+<li>
+<p>デバイス別の調整</p>
+</li>
+<li>
+<p><strong>まとめ（1分）</strong></p>
+</li>
+<li>明日から使える3つのルール</li>
+<li>練習方法</li>
+</ol>
+<h3 id="_20">必要な準備</h3>
+<ul>
+<li>Before/Afterサンプル多数</li>
+<li>実例収集（良い例・悪い例）</li>
+<li>実演用のデザインファイル</li>
+</ul>
+<hr />
+<h2 id="_21">運用上の注意点</h2>
+<h3 id="_22">企画の優先順位</h3>
+<ol>
+<li>まずは企画2（PC作業効率化）で幅広い層にリーチ</li>
+<li>次に企画1（AI活用）でトレンドを押さえる</li>
+<li>その後、デザイン系の3本を順次公開</li>
+</ol>
+<h3 id="_23">制作時の共通ポイント</h3>
+<ul>
+<li>スライドは視覚的に分かりやすく</li>
+<li>実演部分を多めに</li>
+<li>理論は最小限に、実践重視</li>
+<li>視聴者がすぐに試せる内容に</li>
+</ul>
+<h3 id="_24">成功指標</h3>
+<ul>
+<li>視聴維持率40%以上</li>
+<li>コメントでの実践報告</li>
+<li>関連動画への誘導率</li>
+</ul>
+<h3 id="_25">改善サイクル</h3>
+<ul>
+<li>公開後1週間でデータ分析</li>
+<li>コメントから次の企画のヒントを収集</li>
+<li>サムネイル・タイトルのABテスト</li>
+</ul>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // アクティブなページをハイライト
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                if (item.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                }
+            });
+
+            // スムーススクロール for アンカーリンク
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // YouTube動画の自動リサイズ
+            function resizeVideos() {
+                const videoEmbeds = document.querySelectorAll('.video-embed iframe');
+                videoEmbeds.forEach(iframe => {
+                    const container = iframe.parentElement;
+                    const containerWidth = container.offsetWidth - 40;
+                    if (containerWidth < 720) {
+                        iframe.style.width = containerWidth + 'px';
+                        iframe.style.height = (containerWidth * 9/16) + 'px';
+                    }
+                });
+            }
+
+            resizeVideos();
+            window.addEventListener('resize', resizeVideos);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ディレクター向けメッセージ 文字起こし | Harukazeガイドライン</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* サイドバー */
+        .sidebar {
+            width: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+            position: fixed;
+            height: 100vh;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 0.5rem;
+        }
+
+        .nav {
+            list-style: none;
+        }
+
+        .nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            display: block;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .folder-item {
+            margin: 1rem 0;
+        }
+
+        .folder-title {
+            font-weight: 600;
+            color: #fff;
+            display: block;
+            padding: 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .sub-nav {
+            list-style: none;
+            margin-left: 1rem;
+            border-left: 2px solid rgba(255,255,255,0.2);
+            padding-left: 1rem;
+        }
+
+        .level-1 {
+            margin-left: 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* メインコンテンツ */
+        .main-content {
+            flex: 1;
+            margin-left: 300px;
+            padding: 2rem 3rem;
+            background: #fff;
+            min-height: 100vh;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ヘッダー */
+        .header {
+            background: #fff;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 本文スタイル */
+        .content h1 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin: 2rem 0 1rem 0;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .content h2 {
+            color: #34495e;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem 0;
+            border-left: 4px solid #667eea;
+            padding-left: 1rem;
+        }
+
+        .content h3 {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .content p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .content ul, .content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        .content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .content code {
+            background: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+
+        .content pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            line-height: 1.4;
+        }
+
+        .content pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        .content blockquote {
+            border-left: 4px solid #667eea;
+            background: #f8f9fa;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .content th, .content td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .content th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        .content tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* バッジスタイル */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 20px;
+            margin: 0.2rem;
+        }
+
+        .badge-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .badge-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        /* アラートボックス */
+        .alert {
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #0d47a1;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+
+        .alert-success {
+            background: #e8f5e8;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+        }
+
+        /* フッター */
+        .footer {
+            margin-top: 3rem;
+            padding: 2rem 0;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        /* スクロールバー */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+<h2>📚 ガイドライン</h2>
+<ul class="nav">
+<li><a href="readme.html" class="nav-link">🏠 トップページ</a></li>
+<li class="folder-item level-0">
+<span class="folder-title">📁 01 プロジェクト管理</span>
+<ul class="sub-nav">
+<li><a href="project_progress.html" class="nav-link level-1">📊 プロジェクト進捗</a></li>
+<li><a href="requirements.html" class="nav-link level-1">📝 要件定義</a></li>
+</ul>
+</li>
+<li class="folder-item level-0">
+<span class="folder-title">📁 02 開発中ドキュメント</span>
+<ul class="sub-nav">
+<li class="folder-item level-1">
+<span class="folder-title">📁 ドラフト版</span>
+<ul class="sub-nav">
+<li><a href="communication_guideline_draft.html" class="nav-link level-2">✏️ Communication Guideline Draft</a></li>
+<li><a href="ガイドライン超たたき.html" class="nav-link level-2">📋 ガイドライン超たたき</a></li>
+<li><a href="ストックサンガイドライン.html" class="nav-link level-2">📋 ストックサンガイドライン</a></li>
+</ul>
+</li>
+<li class="folder-item level-1">
+<span class="folder-title">📁 骨子・構成案</span>
+<ul class="sub-nav">
+<li><a href="ガイドライン骨子_no1.html" class="nav-link level-2">🏗️ ガイドライン骨子 No1</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="folder-item level-0">
+<span class="folder-title">📁 03 現行版ガイドライン</span>
+<ul class="sub-nav">
+<li class="folder-item level-1">
+<span class="folder-title">📁 Ai生成版</span>
+<ul class="sub-nav">
+<li><a href="claude生成_v20.html" class="nav-link level-2">🔄 Claude生成 V2.0</a></li>
+<li><a href="gemini生成_v11.html" class="nav-link level-2">🔄 Gemini生成 V1.1</a></li>
+</ul>
+</li>
+<li class="folder-item level-1">
+<span class="folder-title">📁 コミュニケーションガイドライン</span>
+<ul class="sub-nav">
+<li><a href="v10_communication_guideline.html" class="nav-link level-2">🔄 V1.0 Communication Guideline</a></li>
+<li><a href="v20_communication_guideline.html" class="nav-link level-2">🔄 V2.0 Communication Guideline</a></li>
+<li><a href="v30_communication_guideline.html" class="nav-link level-2">🔄 V3.0 Communication Guideline</a></li>
+<li><a href="v31_notion_friendly.html" class="nav-link level-2">🔄 V3.1 Notion Friendly</a></li>
+</ul>
+</li>
+<li class="folder-item level-1">
+<span class="folder-title">📁 実践事例集</span>
+<ul class="sub-nav">
+<li><a href="harukaze実プロジェクト問題対応例集.html" class="nav-link level-2">📋 Harukaze実プロジェクト問題＆対応例集</a></li>
+<li><a href="harukaze実プロジェクト問題対応例集_notion_friendly.html" class="nav-link level-2">📋 Harukaze実プロジェクト問題＆対応例集 Notion Friendly</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="folder-item level-0">
+<span class="folder-title">📁 04 参考資料</span>
+<ul class="sub-nav">
+<li class="folder-item level-1">
+<span class="folder-title">📁 分析データ</span>
+<ul class="sub-nav">
+<li><a href="lineログエラー改善点収集.html" class="nav-link level-2">📋 Lineログ→エラー改善点収集</a></li>
+</ul>
+</li>
+<li class="folder-item level-1">
+<span class="folder-title">📁 文字起こし資料</span>
+<ul class="sub-nav">
+<li><a href="ガイドライン動画_文字起こし.html" class="nav-link level-2">📋 ガイドライン動画 文字起こし</a></li>
+<li><a href="タスク管理_文字起こし.html" class="nav-link level-2">📋 タスク管理 文字起こし</a></li>
+<li><a href="ディレクター向けメッセージ_文字起こし.html" class="nav-link level-2">📋 ディレクター向けメッセージ 文字起こし</a></li>
+<li><a href="共通認識_文字起こし.html" class="nav-link level-2">📋 共通認識 文字起こし</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="readme.html" class="nav-link level-0">🏠 Readme</a></li>
+</ul>
+</div>
+        
+        <main class="main-content">
+            <div class="header">
+                <h1>ディレクター向けメッセージ 文字起こし</h1>
+                <p style="color: #6c757d; font-size: 1.1rem;">Harukazeチーム ガイドライン</p>
+            </div>
+            
+            <div class="content">
+                <p>0:00 はいどうも皆さんこんにちはこんにちはということでいつもお世話になっておりますこの動画はですねこれから長期的に一緒に押しろと押していきたいというディレクターの方に向けたい動画を撮っておりますので必ず最後がね見ていただければ幸いです今後仕事をしてくれでこういうふうな共有をしておきたいなということをまあバーと話そうかなというふうに思っています思いはこのディレクターグループですねディルフターグループこれをどういうふうに活用していくのかどういうふうに活用していただけると今おショートお願いしますみなさんが多分まあ今後スムーズにコミュニケーションできたりとか連携できるかなっていうところの教えさせて頂ければ是非はいいですまず背景から離すと今ってえー、先日ね、ハルカズカンパネスでやらせていただいて赤い浮いた方もいるわりやるために参加していただいた方もいると思いますけどまぁ、われわれ、今ハルカズとして自宅がっと拡大していきたいというところですえー、目的としてはですね、やっぱビジョンの体験っていうところでより大きな、ほんとに誰も知らぬ企業だったいとか、あんきょん、バンバン撮ってそれを読んでいきたいとえー、そのための自分作りをしている状況ですえー、それに最して
+1:00 やっぱこれまでってユータさんとか僕とかをかなりず倒さないとやっぱり案件を進めことができなかった中で、えー、ディレクターの方が例えば予算配分から人事配置から内緒はフロント対応を苦労するテーマでしていくっていうことができたとしたらそれですごくお拡大するえー、ポテンシャル可能性を決めてるよねで例えば、ものもののね、アサインとかえー、デザインにソースであったりとか確保する環境はあるわけでそれはまあいい感じでやっていきたいというふうなところですで、それを前提にもつうに、結構試験的にまあまあここにやりとしていただいてると思いますちょっと全体にはこういうのにあげるくなかったんですけどここにあのー、ディレクターの方また見ていただいてる方あのー最近ね、電話とかたくさんさせていただいてると思いますけれどえー
+1:41 まあここにやりとりをするのもそうなんですけれど例えばどこどこの案件でこんな, ehm,ミスがあったとかどこどこの案件でやってたこの視作がめちゃくちゃ良かったクラエントの満足度めちゃくちゃ上がったであったりとかっていう事件の仕上であったりとかをまず一つこのグループでやっていきたいなというふうに思ってます。なので, ehm,ぜひねそれはずいじゃおっていっていただいて逆に, ehm,こんなやってよかったりとかっていうのがあったら積極的に仕上がしてほしいなというふうに思っています。で例えば直近ちょっとマニュアルみたいなものもあるんです。ディースさせていただいても遥かぜガイドラインみたいなものですねちょっとそれに基づいてショートを進めていくところのでければなっていうふうに思っていますがそれもじゃあどうやったらもっと良くなるのかみたいなところとかちょっとももかいとかえーあとは全体の品質を上げるために皆さんのデザインを収集してそれ1かつでフィールバックするかいまぁグルコンと近しいかもしれないですけどグルコンの
+2:28 あの、デザジックのサービス提供じゃなくて、一緒に仕事をしていくパートナーとして、あの、フォンタくぬきにどうやったら品質を最大に上げられるかっていうフィードバックを、直ぐでガス時間取ってやるっていうのをやらと思っています。で、えー、そことしていくに最してですねえーまあまずは先にしてこの動画になるんですけれどえーこのグループにいらっしゃる皆さん言うても多くないですまあいかない直接取り切させていただいてみなさんなのでそんな多くないやったで必ずえー、リアクション何かしたら反応してほしいなというふうに思っていますこのグループってえー、コミュニティみたいな場所でもないし我々が何かを発信する場所でもなくてまあ皆さんと日々お仕事の中でえー
+3:02 直接やり取りをさせていただいているその延長線上の一個だと思ってますでそれで, ehm,より円隔にするために情報を教えさせていただいたりとかまぁまぁそういうことですねそういうことをやるグループにできればなっていうふうに思っていてなので何かしたらこう確認事項とかねまあたぶん投げることあると思うさディレフタの皆さんこれやってくださいいいとかこれやっていただけるというかもしれませんみたいな投げることあると思うんですけどまぁちょっとそういうのがもれてたりするとまぁそれがまた例えばクランチさんに目はかけちゃうとかっていうことにつながりかねないので必ず確認をするようにしてでリアクションまでするようにしていただければとまぁそれ約束してほしいことですであとはまぁ今の時期えー多分ぶっちゃけここのディレフタグループに入る人数って多分まぁ今後1年2年3年というところでえー何十倍まぁ
+3:43 え、確かに確保はこれについなってくんじゃないかなと本気で思っていますっていう中での超初期の初期段階の皆さんだと思ってんですねま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、ま、で、事故実現でできる人を伏せるんだろうっていうところに基づいて, ehm,通信のサービスしかいこの通信も今、ガッと立ち合うやっていうことをしている中で, ehm,例えば最初の頃に向いては例えばね、ディレクター経験、豊富な方はばっかりじゃないのは正直の上なんですよ。で、ディレクターどういうふにやっていくか、単索講序どういうふうにやっていくか、っていうふうなフィードバックをさせていただきたいであったりとかまあ、マネジメントを伝えられですけど、デザイナーのアサイン配置どういうふうにやっていくか、っていうふうフィードバックをさせていただきたいもあると思います。ぶっちゃけ、最初は、割
+4:30 だから当たり前ですなぜかっていうと能力が足りないから時間がかかる時間がかかる中でえー勝ちでいけようベーなんでね価格ってえー時間の長く使ったからといって高い方がね貰えるわけではないので最初が一番悪にあるんですよえーこれどんどん時間が短縮されてったいとか効率よくできるようになってって効率的よくなるのに余裕は上がるのに提供できる価値は上がるから, ehm,我も良くなっていくということですね。時期は各段に上がって、集間性的に上がっていくということですね。なんでその未来に向けて, ehm,一緒にやっていきたいと。逆にその代わりに、まぁ業務宅の関係性で、ここまでかっつりフィードバックするってことは、まぁ基本、まぁないんですよね、ないわけですよ。で、それが何でできるかっていうと、まぁそもそも入口の段階で、まぁ多くの皆さんがデザジュー性だったりする中で、まぁデザジュクに向かっていただいてるっていうのもありますし、まぁ
+5:18 そ、それだけでねあれ、そもそもサービ的をないにこれは含まれてないのであれであるんですがまぁそういう背景がありますとなんでちょっとそこの認識をちょっと改めてえー、カンフォネンスでザクリームをお伝したことでもあるんですけれど改めてそれを含まれてデリタコーフになりたいというふうに言ってくださって今実際に進んでる皆さんこのグループになしたる皆さんとえーこの認識を呼吸しておきたいとこういうところですなんで引き続きまぁ物物ラリとかたくさん消しなっていうふうに思いますし電話とかね、ガンガン消しなっていうふうに思いますしまぁ僕でもいいですしはいマサさんでもいいので、あのー、たくさんの一応しなというふうに思われますで、ものものの、まぁ、テレカみたいなものも最初に関してはちょっと近づかかかえ、えー、かえたしようかなというふうに思ってています。まぁ、結局このところ、えー、何がセンターピンかっていうと、もちろん隠れしていくってこともそうなんですけれど、まぁ、かかわってくださっている誰かかそうするような構造だと、そもそも自属しないので、どうやったら皆さんにより関係できるかっていうふうなところ、えー、えー、第1選にしながらやっていこうと思っております。なんで引き続き、よろしくお願いしますというところです。ぜひね、この動画を見たら、ちょっとかなずあの、ディクションの方
+6:16 はい。はい。</p>
+            </div>
+            
+            <div class="footer">
+                <p>© 2025 Harukaze Team. このガイドラインは継続的に更新されます。</p>
+                <p>最終更新: <script>document.write(new Date().toLocaleDateString('ja-JP'));</script></p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // アクティブなリンクをハイライト
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath.split('/').pop()) {
+                    link.style.background = 'rgba(255,255,255,0.3)';
+                    link.style.color = '#fff';
+                }
+            });
+        });
+
+        // スムーススクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

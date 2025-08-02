@@ -1,0 +1,58 @@
+{
+  "site_title": "デザジュクYouTube",
+  "site_subtitle": "制作・運用ドキュメント",
+  "source_folder": "/Users/ogatahisashi/Library/CloudStorage/GoogleDrive-harukazeteam01@gmail.com/My Drive/HarukazeDatabase/Dynamic Knowledge/Harukaze's Knowledge/SNS Knowledge/デザジュクYouTube",
+  "output_folder": "site_output",
+  "template_file": "_templates/page_light.html",
+  
+  "include_files": [
+    "プロジェクト概要_壁打ち.md",
+    "動画企画書_5本分.md",
+    "投稿アイデア.md",
+    "運用体制案.md",
+    "制作進行中/01_PC作業効率化/台本.md",
+    "制作進行中/01_PC作業効率化/台本_v2.md",
+    "制作進行中/01_PC作業効率化/スライド構成.md"
+  ],
+  
+  "files": {
+    "プロジェクト概要_壁打ち.md": {
+      "title": "📺 プロジェクト概要",
+      "category": "基本情報"
+    },
+    "動画企画書_5本分.md": {
+      "title": "🎬 動画企画書",
+      "category": "企画・制作"
+    },
+    "投稿アイデア.md": {
+      "title": "💡 投稿アイデア集",
+      "category": "企画・制作"
+    },
+    "運用体制案.md": {
+      "title": "⚙️ 運用体制",
+      "category": "運営・管理"
+    },
+    "台本.md": {
+      "title": "📜 PC作業効率化 - 台本 v1",
+      "category": "台本・構成"
+    },
+    "台本_v2.md": {
+      "title": "📜 PC作業効率化 - 台本 v2",
+      "category": "台本・構成"
+    },
+    "スライド構成.md": {
+      "title": "🎯 PC作業効率化 - スライド構成",
+      "category": "台本・構成"
+    }
+  },
+  
+  "filename_replacements": {
+    "プロジェクト概要_壁打ち": "index",
+    "動画企画書_5本分": "video_planning",
+    "投稿アイデア": "content_ideas",
+    "運用体制案": "operation_guide",
+    "台本": "script_v1",
+    "台本_v2": "script_v2",
+    "スライド構成": "slide_structure"
+  }
+}

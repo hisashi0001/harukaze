@@ -1,0 +1,206 @@
+{
+  "main": {
+    "id": "aa1f485da688ba29",
+    "type": "split",
+    "children": [
+      {
+        "id": "cd6cdcedd334a884",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4d3fa6d3cb817095",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "新規タブ"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "5c77229c88abb232",
+    "type": "split",
+    "children": [
+      {
+        "id": "28b9be45c7f65cc2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4e971d3e3c64cee1",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "ファイルエクスプローラ"
+            }
+          },
+          {
+            "id": "932a6a1265889560",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "検索"
+            }
+          },
+          {
+            "id": "4d47d6bdc8e6ccab",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "ブックマーク"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "874d8346099a4213",
+    "type": "split",
+    "children": [
+      {
+        "id": "50542b8106434cc1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9f112eca5f84e20f",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "これはテストファイルです。.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "これはテストファイルです。へのバックリンク"
+            }
+          },
+          {
+            "id": "9c362e0b85e608bb",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "これはテストファイルです。.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "これはテストファイルです。からのアウトゴーイングリンク"
+            }
+          },
+          {
+            "id": "d8428e253bdc73f4",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "タグ"
+            }
+          },
+          {
+            "id": "af8f5ee6e8cc73b5",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "これはテストファイルです。.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "これはテストファイルです。のアウトライン"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:クイックスイッチャーを開く": false,
+      "graph:グラフビューを開く": false,
+      "canvas:新規キャンバスを作成": false,
+      "daily-notes:今日のデイリーノートを開く": false,
+      "templates:テンプレートを挿入": false,
+      "command-palette:コマンドパレットを開く": false
+    }
+  },
+  "active": "4e971d3e3c64cee1",
+  "lastOpenFiles": [
+    "2025-07-30.md",
+    "無題のファイル.canvas",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/market-research-script.js.tmp.37961.1753202469799",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/現状のLPの懸念点まとめ.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/market-research-style.css.tmp.37961.1753202445727",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/画像変更ガイド.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/style.css",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/script.js",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/script (1).js",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/proposal.html",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/proposal-style.css",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/proposal (1).html",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/market-research.html",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/market-research-style.css",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/README.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/Improved-LP/README (1).md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/ハイレゾ_Webクリップ/GPUSOROBAN_メインページまとめ.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/ハイレゾ_Webクリップ/GPUSOROBAN_総合まとめ.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/ハイレゾ_Webクリップ/GPUSOROBAN_無償評価・お問い合わせ.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/海外市場分析/インドネシアGPUクラウド市場分析.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/ハイレゾ_Webクリップ/GPUSOROBAN_FAQ.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/ハイレゾ_Webクリップ/GPUSOROBAN(自社商品.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/海外市場分析/海外市場総合分析.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/海外市場分析/台湾GPUクラウド市場分析.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/海外市場分析/タイGPUクラウド市場分析.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/海外市場分析/ベトナムGPUクラウド市場分析.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/海外市場分析/インドGPUクラウド市場分析.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/ハイレゾ_サイト分析/国内向けLP分析.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/ハイレゾ_サイト分析/ハイレゾ公式サイト分析.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/ハイレゾ_サイト分析/SOROBANサイト詳細分析.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/概要/プロジェクト概要.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/概要/CLAUDE.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/完全改善版LP/README.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/完全改善版LP/画像変更ガイド.md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/完全改善版LP/README (1).md",
+    "Dynamic Knowledge/toB knowledge/GPUSOROBAN-Project/参考資料/先方とのMTG文字起こし.md"
+  ]
+}

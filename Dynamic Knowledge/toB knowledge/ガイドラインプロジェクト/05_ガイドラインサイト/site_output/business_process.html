@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 全体の業務プロセス | Harukazeガイドライン</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --accent: #0066cc;
+            --accent-hover: #0052a3;
+            --border: #dee2e6;
+            --success: #28a745;
+            --warning: #ffc107;
+            --error: #dc3545;
+            --sidebar-bg: #f5f7f9;
+            --sidebar-hover: #e8ecf0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* サイドバー */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-primary);
+        }
+
+        .sidebar-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .sidebar-header p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 0;
+        }
+
+        .category {
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 8px 24px 4px 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 24px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-item:hover {
+            background: var(--sidebar-hover);
+            border-left-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .nav-item.active {
+            background: var(--bg-primary);
+            border-left-color: var(--accent);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* メインコンテンツ */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content-header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 40px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .content-body {
+            flex: 1;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* コンテンツスタイル */
+        .content-body h1 {
+            color: var(--text-primary);
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
+        }
+
+        .content-body h2 {
+            color: var(--text-primary);
+            font-size: 28px;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            display: flex;
+            align-items: center;
+            scroll-margin-top: 80px; /* ヘッダー分のオフセット */
+        }
+
+        .content-body h2::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--accent);
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+
+        .content-body h3 {
+            color: var(--text-primary);
+            font-size: 20px;
+            font-weight: 600;
+            margin: 32px 0 16px 0;
+            scroll-margin-top: 80px;
+        }
+
+        .content-body p {
+            margin-bottom: 16px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .content-body ul, .content-body ol {
+            margin: 16px 0;
+            padding-left: 32px;
+        }
+
+        .content-body li {
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .content-body strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        /* 目次のリンク */
+        .content-body a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .content-body a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* コードブロック */
+        .content-body code {
+            background: var(--bg-tertiary);
+            color: var(--error);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'SF Mono', Monaco, monospace;
+            font-size: 14px;
+        }
+
+        .content-body pre {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            max-width: 100%;
+        }
+
+        .content-body pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        /* テーブル */
+        .content-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .content-body th {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 12px 16px;
+            font-weight: 600;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .content-body td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .content-body tr:last-child td {
+            border-bottom: none;
+        }
+
+        .content-body tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* 引用 */
+        .content-body blockquote {
+            border-left: 4px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        /* アラートボックス */
+        .alert {
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #0d47a1;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+
+        /* 動画埋め込み */
+        .video-embed {
+            margin: 24px 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+        }
+
+        .video-embed iframe {
+            width: 100%;
+            max-width: 720px;
+            height: 405px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .loom-embed {
+            margin: 16px 0;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: inline-block;
+        }
+
+        .loom-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .loom-link:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* 目次 */
+        .toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc ul ul {
+            padding-left: 20px;
+            margin-top: 4px;
+        }
+
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            display: block;
+            padding: 4px 0;
+        }
+
+        .toc a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* スクロールバー */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .content-body {
+                padding: 20px;
+            }
+
+            .video-embed iframe {
+                height: auto;
+                aspect-ratio: 16/9;
+            }
+        }
+
+        /* プリント対応 */
+        @media print {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .content-header {
+                position: relative;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+<div class="sidebar-header">
+<h1>Harukaze toBガイドライン</h1>
+<p>必須項目マニュアル</p>
+</div>
+<nav class="sidebar-nav">
+<div class="category">
+<div class="category-title">基本情報</div>
+<a href="introduction.html" class="nav-item">🌟 はじめに</a>
+</div>
+<div class="category">
+<div class="category-title">必須項目</div>
+<a href="director_mindset.html" class="nav-item">🎯 ディレクターの心得</a>
+<a href="business_process.html" class="nav-item">🔄 全体の業務プロセス</a>
+<a href="communication_guide.html" class="nav-item">💬 コミュニケーションガイド</a>
+<a href="troubleshooting.html" class="nav-item">🔧 代表的なトラブルシューティング</a>
+</div>
+</nav>
+</div>
+        
+        <main class="main-content">
+            <div class="content-header">
+                🔄 全体の業務プロセス
+            </div>
+            
+            <div class="content-body">
+                <h1 id="_1">全体の業務プロセス</h1>
+<h2 id="_2">前提</h2>
+<ul>
+<li>全体の業務フローの大まかな流れをお伝えします</li>
+<li>具体的な資料やマニュアルは参照資料をご覧ください</li>
+</ul>
+<h2 id="31">3.1 案件獲得フェーズ</h2>
+<h3 id="_3">クライアントからの問い合わせ対応</h3>
+<ul>
+<li>問い合わせ確認（LINE、メール、電話など）</li>
+<li>メッセージテンプレートを活用した返信</li>
+<li>初回ヒアリングの日程調整</li>
+<li>デザイナーアサインの検討</li>
+</ul>
+<h2 id="32">3.2 ヒアリング、提案、見積もりフェーズ</h2>
+<h3 id="_4">要件ヒアリング</h3>
+<ul>
+<li>ヒアリングシートの準備（資料参照）</li>
+<li>ニーズの深掘り・課題の明確化</li>
+<li>予算感・納期の確認</li>
+<li>議事録の作成と共有</li>
+</ul>
+<h3 id="_5">提案書作成（案件による）</h3>
+<ul>
+<li>ヒアリング内容を元にした提案構成</li>
+<li>価値提案と差別化ポイントの明確化</li>
+<li>競合分析・市場調査の反映</li>
+<li>コンセプトの立案と可視化</li>
+</ul>
+<h3 id="_6">見積もり作成・提出</h3>
+<ul>
+<li>作業項目、工数、金額の算出</li>
+<li>見積書テンプレートの活用</li>
+<li>クライアントへの提出と質疑応答対応</li>
+</ul>
+<h2 id="33">3.3 受注、契約フェーズ</h2>
+<h3 id="_7">契約締結</h3>
+<ul>
+<li>見積もり内容の合意確認</li>
+<li>契約書の作成（電子契約も可）</li>
+<li>署名・捺印の依頼と管理</li>
+<li>契約書の保管</li>
+</ul>
+<h2 id="34">3.4 チーム結成フェーズ</h2>
+<h3 id="_8">体制構築とリソースアサイン</h3>
+<ul>
+<li>必要なスキルセットを持つデザイナーの選定</li>
+<li>タスクの洗い出しと担当者割り当て</li>
+<li>役割分担と責任範囲の明確化</li>
+</ul>
+<h3 id="_9">プロジェクトグループ作成</h3>
+<ul>
+<li>LINEグループの開設（クライアント用/チーム用）</li>
+<li>Googleドライブの専用フォルダ作成</li>
+<li>関係者の招待とメッセージ送信</li>
+</ul>
+<h3 id="_10">キックオフミーティング</h3>
+<ul>
+<li>日程調整とZoomリンクの発行</li>
+<li>アジェンダの準備</li>
+<li>プロジェクトゴールの再確認</li>
+<li>議事録の作成と共有</li>
+</ul>
+<h2 id="35">3.5 プロジェクト始動、制作フェーズ</h2>
+<h3 id="_11">デザイナーへのフィードバック伝達</h3>
+<ul>
+<li>コンセプト・要件定義の共有</li>
+<li>制作フロー6stepの確認</li>
+<li>詳細スケジュールの作成（ガントチャート）</li>
+</ul>
+<h3 id="_12">デザイン制作の管理</h3>
+<ul>
+<li>テキストメッセージ、定例ミーティングでの進捗確認</li>
+<li>デザインの方向性・クオリティチェック・FB</li>
+<li>課題・遅延への対策</li>
+</ul>
+<h3 id="_13">クライアントへの中間提案</h3>
+<ul>
+<li>ラフ案の共有（レイアウト方向性、記載情報の確認）</li>
+<li>初校デザインの提案（デザイン方向性、全体イメージ）</li>
+<li>フィードバックの正確な受け取りと記録</li>
+<li>デザイン制作計画の立案</li>
+</ul>
+<h2 id="36">3.6 納品フェーズ</h2>
+<h3 id="_14">最終チェック</h3>
+<ul>
+<li>納品時チェックシートに基づく確認</li>
+<li>デザイナーのセルフチェック依頼</li>
+<li>必要箇所の修正指示</li>
+<li>クライアントへの最終確認依頼</li>
+</ul>
+<h3 id="_15">納品データ作成・提出</h3>
+<ul>
+<li>納品データの確認と準備</li>
+<li>Googleドライブでの共有</li>
+<li>納品データの取り扱い説明</li>
+</ul>
+<h2 id="37">3.7 請求、支払いフェーズ</h2>
+<h3 id="_16">請求書発行</h3>
+<ul>
+<li>検収確認後の請求書発行依頼</li>
+<li>請求書URLの取得</li>
+<li>クライアントへの請求書送付</li>
+<li>支払い確認とフォロー</li>
+</ul>
+<h2 id="38">3.8 振り返りフェーズ</h2>
+<h3 id="_17">振り返りミーティング</h3>
+<ul>
+<li>関係者との日程調整</li>
+<li>振り返り用ドキュメントの準備</li>
+<li>良かった点・問題点・改善策の話し合い</li>
+<li>議事録の作成とシェア</li>
+</ul>
+<h3 id="_18">ナレッジ化と共有</h3>
+<ul>
+<li>振り返り結果のまとめ・要約</li>
+<li>チーム全体への共有（社内ポータル、定例会議等）</li>
+<li>次回プロジェクトへの活用ポイント整理</li>
+<li>ナレッジとしての蓄積</li>
+<li>追って具体的な情報は共有します</li>
+</ul>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // アクティブなページをハイライト
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                if (item.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                }
+            });
+
+            // スムーススクロール for アンカーリンク
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // YouTube動画の自動リサイズ
+            function resizeVideos() {
+                const videoEmbeds = document.querySelectorAll('.video-embed iframe');
+                videoEmbeds.forEach(iframe => {
+                    const container = iframe.parentElement;
+                    const containerWidth = container.offsetWidth - 40;
+                    if (containerWidth < 720) {
+                        iframe.style.width = containerWidth + 'px';
+                        iframe.style.height = (containerWidth * 9/16) + 'px';
+                    }
+                });
+            }
+
+            resizeVideos();
+            window.addEventListener('resize', resizeVideos);
+        });
+    </script>
+</body>
+</html>

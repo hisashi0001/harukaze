@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📜 PC作業効率化 - 台本 v2 | Harukazeガイドライン</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --accent: #0066cc;
+            --accent-hover: #0052a3;
+            --border: #dee2e6;
+            --success: #28a745;
+            --warning: #ffc107;
+            --error: #dc3545;
+            --sidebar-bg: #f5f7f9;
+            --sidebar-hover: #e8ecf0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* サイドバー */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-primary);
+        }
+
+        .sidebar-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .sidebar-header p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 0;
+        }
+
+        .category {
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 8px 24px 4px 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 24px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-item:hover {
+            background: var(--sidebar-hover);
+            border-left-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .nav-item.active {
+            background: var(--bg-primary);
+            border-left-color: var(--accent);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* メインコンテンツ */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content-header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 40px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .content-body {
+            flex: 1;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* コンテンツスタイル */
+        .content-body h1 {
+            color: var(--text-primary);
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
+        }
+
+        .content-body h2 {
+            color: var(--text-primary);
+            font-size: 28px;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            display: flex;
+            align-items: center;
+            scroll-margin-top: 80px; /* ヘッダー分のオフセット */
+        }
+
+        .content-body h2::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--accent);
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+
+        .content-body h3 {
+            color: var(--text-primary);
+            font-size: 20px;
+            font-weight: 600;
+            margin: 32px 0 16px 0;
+            scroll-margin-top: 80px;
+        }
+
+        .content-body p {
+            margin-bottom: 16px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .content-body ul, .content-body ol {
+            margin: 16px 0;
+            padding-left: 32px;
+        }
+
+        .content-body li {
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .content-body strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        /* 目次のリンク */
+        .content-body a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .content-body a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* コードブロック */
+        .content-body code {
+            background: var(--bg-tertiary);
+            color: var(--error);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'SF Mono', Monaco, monospace;
+            font-size: 14px;
+        }
+
+        .content-body pre {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            max-width: 100%;
+        }
+
+        .content-body pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        /* テーブル */
+        .content-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .content-body th {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 12px 16px;
+            font-weight: 600;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .content-body td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .content-body tr:last-child td {
+            border-bottom: none;
+        }
+
+        .content-body tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* 引用 */
+        .content-body blockquote {
+            border-left: 4px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        /* アラートボックス */
+        .alert {
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #0d47a1;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+
+        /* 動画埋め込み */
+        .video-embed {
+            margin: 24px 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+        }
+
+        .video-embed iframe {
+            width: 100%;
+            max-width: 720px;
+            height: 405px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .loom-embed {
+            margin: 16px 0;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: inline-block;
+        }
+
+        .loom-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .loom-link:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* 目次 */
+        .toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc ul ul {
+            padding-left: 20px;
+            margin-top: 4px;
+        }
+
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            display: block;
+            padding: 4px 0;
+        }
+
+        .toc a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* スクロールバー */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .content-body {
+                padding: 20px;
+            }
+
+            .video-embed iframe {
+                height: auto;
+                aspect-ratio: 16/9;
+            }
+        }
+
+        /* プリント対応 */
+        @media print {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .content-header {
+                position: relative;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+<div class="sidebar-header">
+<h1>デザジュクYouTube</h1>
+<p>制作・運用ドキュメント</p>
+</div>
+<nav class="sidebar-nav">
+<div class="category">
+<div class="category-title">基本情報</div>
+<a href="index.html" class="nav-item">📺 プロジェクト概要</a>
+</div>
+<div class="category">
+<div class="category-title">企画・制作</div>
+<a href="video_planning.html" class="nav-item">🎬 動画企画書</a>
+<a href="content_ideas.html" class="nav-item">💡 投稿アイデア集</a>
+</div>
+<div class="category">
+<div class="category-title">運営・管理</div>
+<a href="operation_guide.html" class="nav-item">⚙️ 運用体制</a>
+</div>
+<div class="category">
+<div class="category-title">台本・構成</div>
+<a href="script_v1.html" class="nav-item">📜 PC作業効率化 - 台本 v1</a>
+<a href="script_v1.html" class="nav-item">📜 PC作業効率化 - 台本 v2</a>
+<a href="slide_structure.html" class="nav-item">🎯 PC作業効率化 - スライド構成</a>
+</div>
+</nav>
+</div>
+        
+        <main class="main-content">
+            <div class="content-header">
+                📜 PC作業効率化 - 台本 v2
+            </div>
+            
+            <div class="content-body">
+                <h1 id="2mac10">【生産性2倍】今すぐできるMac作業効率化テクニック10選</h1>
+<h2 id="_1">動画情報</h2>
+<ul>
+<li><strong>タイトル</strong>: 【生産性2倍】今すぐできるMac作業効率化テクニック10選</li>
+<li><strong>尺</strong>: 18分</li>
+<li><strong>スライド枚数</strong>: 約35枚</li>
+<li><strong>台本作成日</strong>: 2025-01-20</li>
+<li><strong>演者</strong>: ヒサシ</li>
+</ul>
+<hr />
+<h2 id="30">オープニング（30秒）</h2>
+<h3 id="1">スライド1: タイトル画面</h3>
+<p><strong>ナレーション:</strong>
+こんにちは、ヒサシです。今日は「生産性が2倍になるMac作業効率化テクニック10選」について解説していきます。</p>
+<h3 id="2">スライド2: 今日の内容</h3>
+<p><strong>ナレーション:</strong>
+今日の動画では、Macユーザーなら誰でも今すぐ使える効率化テクニックを10個、実演を交えながらお伝えします。最後まで見ると、毎日の作業時間を半分に短縮できるようになります。</p>
+<hr />
+<h2 id="2_1">導入（2分）</h2>
+<h3 id="3">スライド3: こんな悩みありませんか？</h3>
+<p><strong>ナレーション:</strong>
+「毎日残業ばかりで時間が足りない」「同じ作業の繰り返しで疲れる」「Macを使いこなせていない気がする」こんな悩みを持っていませんか？</p>
+<h3 id="4">スライド4: 実は、ちょっとした設定で劇的に変わる</h3>
+<p><strong>ナレーション:</strong>
+実は、今日お伝えするテクニックを使うだけで、作業効率は劇的に向上します。私自身、これらのテクニックを使って、以前は8時間かかっていた作業が4時間で終わるようになりました。</p>
+<h3 id="5">スライド5: 今日学べること</h3>
+<p><strong>ナレーション:</strong>
+今日は、デザイナーだけでなく、すべてのMacユーザーが使える実践的なテクニックを厳選してお伝えします。</p>
+<hr />
+<h2 id="14">メインコンテンツ（14分）</h2>
+<h3 id="1-mac15">テクニック1: Macの効率化設定（1.5分）</h3>
+<h4 id="6-mac">スライド6: Macの隠された力</h4>
+<p><strong>ナレーション:</strong>
+まず1つ目は、Macの基本設定です。みんなデフォルトのまま使っていませんか？実は、設定を変えるだけで作業速度が3倍になります。</p>
+<h4 id="7-3">スライド7: 必須設定3選</h4>
+<p><strong>ナレーション:</strong>
+特にこの3つは必須です。（実演）Dockの自動非表示、システム環境設定のキーボードナビゲーションをオン、そしてトラックパッドのタップ設定。これだけで操作が劇的に快適になります。</p>
+<h3 id="2-google15">テクニック2: Googleドライブファイルストリームで容量無制限（1.5分）</h3>
+<h4 id="8">スライド8: ファイルストリームの革命</h4>
+<p><strong>ナレーション:</strong>
+2つ目は、Googleドライブファイルストリームです。Macのストレージがいっぱいで困っていませんか？これを使うと、クラウドのファイルがローカルにあるように使えます。</p>
+<h4 id="9">スライド9: 設定と活用方法</h4>
+<p><strong>ナレーション:</strong>
+（実演）インストール後、「ストリーミング」モードに設定すると、必要なファイルだけローカルに保存されます。256GBのMacでも1TBのデータが使えるようになります。</p>
+<h3 id="3-clipy15">テクニック3: Clipyでコピー履歴を無限管理（1.5分）</h3>
+<h4 id="10-clipy">スライド10: Clipyの絶大な力</h4>
+<p><strong>ナレーション:</strong>
+3つ目は、Clipyという無料アプリです。Mac標準のクリップボードは1個しか記憶できませんが、Clipyなら過去のコピーを全部記憶できます。</p>
+<h4 id="11">スライド11: 実演：コピー履歴から瞬時選択</h4>
+<p><strong>ナレーション:</strong>
+（実演）Command+Shift+Vで履歴が表示され、過去にコピーしたメールアドレス、パスワード、よく使う文章などが一覧で見えます。これでコピペ作業が10倍速くなります。</p>
+<h3 id="4-15">テクニック4: キーボード辞書で瞬時入力（1.5分）</h3>
+<h4 id="12">スライド12: 辞書機能の革命</h4>
+<p><strong>ナレーション:</strong>
+4つ目は、Macのキーボード辞書機能です。よく使うメールアドレス、住所、電話番号を毎回打つのは時間の無駄です。</p>
+<h4 id="13">スライド13: 実演：「メール」でアドレス自動入力</h4>
+<p><strong>ナレーション:</strong>
+（実演）システム環境設定のキーボードのユーザ辞書で、「メール」と入力すると自動でメールアドレスが入力されるように設定できます。「住所」、「電話」なども同様です。</p>
+<h3 id="5-mac15">テクニック5: 意外と知らないMacショートカット（1.5分）</h3>
+<h4 id="14_1">スライド14: プロが使うショートカット</h4>
+<p><strong>ナレーション:</strong>
+5つ目は、意外と知られていないMacのショートカットです。これらを知っているだけで、作業効率が5倍になります。</p>
+<h4 id="15">スライド15: 実演：魔法のショートカット</h4>
+<p><strong>ナレーション:</strong>
+（実演）Command+Space（Spotlight検索）、Command+Tab（アプリ切り替え）、Command+`（同一アプリ内ウィンドウ切り替え）、Command+W（タブを閉じる）、Command+Shift+T（閉じたタブを復活）。これらだけで別人です。</p>
+<h3 id="6-15">テクニック6: ブラウザ拡張機能で生産性爆上がり（1.5分）</h3>
+<h4 id="16">スライド16: ブラウザを最強ツールに</h4>
+<p><strong>ナレーション:</strong>
+6つ目は、ブラウザ拡張機能です。特にこの2つは人生が変わります。</p>
+<h4 id="17-video-speed-controllerglasp">スライド17: Video Speed ControllerとGlasp</h4>
+<p><strong>ナレーション:</strong>
+1つ目はVideo Speed Controller。（実演）YouTubeやあらゆる動画の速度を自由に変えられます。2つ目はGlasp。YouTube動画の文字起こしを一発コピーして、AIで要約できます。インプット効率が10倍になります。</p>
+<h3 id="7-15">テクニック7: 複数デスクトップで作業空間を分離（1.5分）</h3>
+<h4 id="18">スライド18: 集中力が劇的に向上</h4>
+<p><strong>ナレーション:</strong>
+7つ目は、Macの複数デスクトップ機能です。Mission Controlで簡単に設定できます。作業ごとにデスクトップを分けることで、集中力が劇的に向上します。</p>
+<h4 id="19">スライド19: 実演：デスクトップの使い分け</h4>
+<p><strong>ナレーション:</strong>
+（実演）1番をメイン作業用、2番をコミュニケーション用、3番をブラウジング用に分けます。Control+矢印キーで瞬時に切り替えられ、マルチタスクがスムーズになります。</p>
+<h3 id="8-alfredmac15">テクニック8: AlfredでMacを魔法のように（1.5分）</h3>
+<h4 id="20-alfred">スライド20: Alfredの魔法</h4>
+<p><strong>ナレーション:</strong>
+8つ目は、Alfredという無料アプリです。Spotlightの上位互換で、これを使うとMacが別のマシンになります。</p>
+<h4 id="21">スライド21: 実演：何でも瞬時検索</h4>
+<p><strong>ナレーション:</strong>
+（実演）Option+Spaceで起動し、アプリ名、ファイル名、計算、単位変換、天気予報など、何でも瞬時で検索・実行できます。Workflow機能で自動化も可能です。</p>
+<h3 id="9-15">テクニック9: スクリーンショットとファイル管理の高速化（1.5分）</h3>
+<h4 id="22">スライド22: スクリーンショットの高速技</h4>
+<p><strong>ナレーション:</strong>
+9つ目は、スクリーンショットとファイル管理の高速化です。Macのスクリーンショット機能、使いこなせていませんか？</p>
+<h4 id="23">スライド23: 実演：魔法のショートカット</h4>
+<p><strong>ナレーション:</strong>
+（実演）Command+Shift+3（全画面）、Command+Shift+4（範囲指定）、Command+Shift+5（録画機能）。さらにCommand+Shift+4でSpaceを押すとウィンドウ単位でキャプチャできます。ファイル名も自動で整理されます。</p>
+<h3 id="10-aimac15">テクニック10: AI活用でMac作業を革命（1.5分）</h3>
+<h4 id="24-2025aimac">スライド24: 2025年はAIとMacの組み合わせ</h4>
+<p><strong>ナレーション:</strong>
+最後10つ目は、AI活用です。MacとAIを組み合わせることで、作業効率が20倍になります。</p>
+<h4 id="25-macai">スライド25: 実演：MacでAIをフル活用</h4>
+<p><strong>ナレーション:</strong>
+（実演）RaycastでAIコマンド、ChatGPTのMacアプリ、Claudeで文書作成、Whisperで音声文字起こし。さらにAutomatorとAIを組み合わせると、繰り返し作業が完全自動化できます。</p>
+<hr />
+<h2 id="2_2">実践のコツ（2分）</h2>
+<h3 id="26">スライド26: 一度に全部やろうとしない</h3>
+<p><strong>ナレーション:</strong>
+さて、今日10個のテクニックをお伝えしましたが、一度に全部やろうとしないでください。</p>
+<h3 id="27-2">スライド27: 週に2つずつマスターする</h3>
+<p><strong>ナレーション:</strong>
+おすすめは、週に2つずつマスターすることです。5週間後には、すべてのテクニックが身について、作業効率が劇的に向上しているはずです。</p>
+<h3 id="28">スライド28: 組み合わせると効果倍増</h3>
+<p><strong>ナレーション:</strong>
+また、これらのテクニックは組み合わせると効果が倍増します。例えば、Alfred＋AI、複数デスクトップ＋ショートカットキーといった感じです。</p>
+<hr />
+<h2 id="1_1">まとめ（1分）</h2>
+<h3 id="29">スライド29: 今日のポイント振り返り</h3>
+<p><strong>ナレーション:</strong>
+今日のポイントをまとめると、
+1. Mac標準機能を正しく設定する
+2. 無料ツールで機能を拡張する
+3. AIを活用して作業を自動化する
+この3つです。</p>
+<h3 id="30_1">スライド30: 明日からすぐできること</h3>
+<p><strong>ナレーション:</strong>
+明日からすぐに実践できることは、Macの基本設定を変更して、Clipyをインストールすることです。</p>
+<h3 id="31">スライド31: 継続のコツ</h3>
+<p><strong>ナレーション:</strong>
+最初は慣れないかもしれませんが、2週間続けると必ず習慣になります。そして1ヶ月後には、昔の自分の作業スピードが信じられなくなりますよ。</p>
+<hr />
+<h2 id="30_2">エンディング（30秒）</h2>
+<h3 id="32">スライド32: チャンネル登録促進</h3>
+<p><strong>ナレーション:</strong>
+この動画が役に立ったと思ったら、ぜひチャンネル登録とグッドボタンをお願いします。</p>
+<h3 id="33">スライド33: 次回予告</h3>
+<p><strong>ナレーション:</strong>
+次回は「AIでプロ級のスライド資料を10分で作る方法」について解説予定です。</p>
+<h3 id="34">スライド34: 終了画面</h3>
+<p><strong>ナレーション:</strong>
+それでは、明日から効率的なMac作業を始めて、人生の時間を取り戻してくださいね。また次の動画でお会いしましょう！</p>
+<hr />
+<h2 id="_2">制作メモ</h2>
+<ul>
+<li><strong>実演部分</strong>: 各テクニックで実際のMac画面を録画</li>
+<li><strong>強調ポイント</strong>: 数字（10倍、3倍、20倍等）を視覚的に強調</li>
+<li><strong>撮影時の注意</strong>: 実演部分は別途画面録画、音声は後からアフレコも可</li>
+<li><strong>編集時の注意</strong>: テンポよく、各テクニック1.5分きっかりで構成</li>
+<li><strong>Mac特有の操作</strong>: Command キーの表記を統一、画面録画時はキー表示ON</li>
+</ul>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // アクティブなページをハイライト
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                if (item.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
+                }
+            });
+
+            // スムーススクロール for アンカーリンク
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // YouTube動画の自動リサイズ
+            function resizeVideos() {
+                const videoEmbeds = document.querySelectorAll('.video-embed iframe');
+                videoEmbeds.forEach(iframe => {
+                    const container = iframe.parentElement;
+                    const containerWidth = container.offsetWidth - 40;
+                    if (containerWidth < 720) {
+                        iframe.style.width = containerWidth + 'px';
+                        iframe.style.height = (containerWidth * 9/16) + 'px';
+                    }
+                });
+            }
+
+            resizeVideos();
+            window.addEventListener('resize', resizeVideos);
+        });
+    </script>
+</body>
+</html>
