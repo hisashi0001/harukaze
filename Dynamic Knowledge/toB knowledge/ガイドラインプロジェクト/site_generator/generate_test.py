@@ -151,9 +151,12 @@ def generate_html(md_content, title, template_content, nav_html, category):
         content_html
     )
     
-    # テンプレートに値を埋め込む
+    # テンプレートに値を埋め込む（大文字のプレースホルダーに対応）
     html = template_content
-    html = html.replace('{{title}}', title)
+    html = html.replace('{{TITLE}}', title)
+    html = html.replace('{{CONTENT}}', content_html)
+    html = html.replace('{{SIDEBAR}}', nav_html)
+    html = html.replace('{{title}}', title)  # 小文字版も念のため
     html = html.replace('{{content}}', content_html)
     html = html.replace('{{navigation}}', nav_html)
     html = html.replace('{{category}}', category)
@@ -169,30 +172,30 @@ def generate_navigation(files_by_category, current_file=None):
     sorted_categories = sorted(files_by_category.keys(), 
                              key=lambda x: (extract_order_from_filename(x), x))
     
+    # ホームリンク
+    nav_items.append('<a href="index.html" class="nav-item">ホーム</a>')
+    nav_items.append('<div class="nav-divider"></div>')
+    
     for category in sorted_categories:
         nav_items.append(f'<div class="nav-category">{category}</div>')
         
         for file_info in files_by_category[category]:
-            slug = create_slug(file_info['title'])
-            filename = f"{slug}.html"
+            # 既に生成されたファイル名を使用
+            filename = file_info.get('filename', f"{create_slug(file_info['title'])}.html")
             
             # アクティブなリンクをハイライト
-            active_class = ""
-            if current_file and file_info['path'] == current_file:
-                active_class = ' class="active"'
+            active_class = " active" if current_file and file_info['path'] == current_file else ""
             
             nav_items.append(
-                f'<a href="{filename}"{active_class}>{file_info["title"]}</a>'
+                f'<a href="{filename}" class="nav-item{active_class}">{file_info["title"]}</a>'
             )
     
-    # ホームリンクとテスト機能へのリンクを追加
-    nav_html = '<a href="index.html">ホーム</a>\n'
-    nav_html += '<div class="nav-divider"></div>\n'
-    nav_html += '\n'.join(nav_items)
-    nav_html += '\n<div class="nav-divider"></div>\n'
-    nav_html += '<a href="../99_テスト機能/feedback_system/form_template/feedback_page.html" style="background-color: #ff6b6b; color: white;">📝 改善提案</a>'
+    # テスト機能へのリンクを追加
+    nav_items.append('<div class="nav-divider"></div>')
+    nav_items.append('<a href="../99_テスト機能/feedback_system/form_template/feedback_page.html" class="nav-item special">📝 改善提案</a>')
+    nav_items.append('<a href="../99_テスト機能/AI_assistant/chat_interface/ai_chat.html" class="nav-item special">🤖 AIアシスタント</a>')
     
-    return nav_html
+    return '\n'.join(nav_items)
 
 def copy_static_files():
     """静的ファイルをコピー"""
@@ -258,6 +261,7 @@ def main():
             
             filename = f"{slug}.html"
             generated_files[slug] = filename
+            file_info['filename'] = filename  # ファイル名を保存
             
             # ナビゲーションを生成
             nav_html = generate_navigation(files_by_category, md_file)
@@ -316,8 +320,8 @@ def generate_index_page(files_by_category, template_content):
         content += f"\n### {category}\n\n"
         
         for file_info in files_by_category[category]:
-            slug = create_slug(file_info['title'])
-            filename = f"{slug}.html"
+            # 既に生成されたファイル名を使用
+            filename = file_info.get('filename', f"{create_slug(file_info['title'])}.html")
             content += f"- [{file_info['title']}]({filename})\n"
     
     content += """
