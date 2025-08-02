@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💬 コミュニケーションガイド | Harukazeガイドライン</title>
     <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --accent: #0066cc;
+            --accent-hover: #0052a3;
+            --border: #dee2e6;
+            --success: #28a745;
+            --warning: #ffc107;
+            --error: #dc3545;
+            --sidebar-bg: #f5f7f9;
+            --sidebar-hover: #e8ecf0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,282 +28,454 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Hiragino Sans", "Yu Gothic", Arial, sans-serif;
-            line-height: 1.8;
-            color: #333;
-            background: #fff;
+            font-family: 'Segoe UI', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
             display: flex;
-            flex-direction: column;
             min-height: 100vh;
-        }
-
-        /* ヘッダー */
-        .header {
-            background: #333;
-            color: #fff;
-            padding: 20px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .header h1 {
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .header p {
-            font-size: 14px;
-            opacity: 0.8;
-            margin-top: 4px;
-        }
-
-        /* メインコンテナ */
-        .main-container {
-            display: flex;
-            flex: 1;
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
         }
 
         /* サイドバー */
         .sidebar {
-            width: 260px;
-            padding: 30px 20px;
-            background: #f8f9fa;
-            border-right: 1px solid #e0e0e0;
-            position: sticky;
-            top: 0;
-            height: calc(100vh - 80px);
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
             overflow-y: auto;
         }
 
-        .sidebar-category {
-            margin-bottom: 30px;
+        .sidebar-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-primary);
         }
 
-        .sidebar-category h2 {
-            font-size: 13px;
+        .sidebar-header h1 {
+            font-size: 20px;
             font-weight: 700;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #ddd;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .sidebar-header p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
         }
 
         .sidebar-nav {
-            list-style: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 0;
         }
 
-        .sidebar-nav li {
-            margin-bottom: 8px;
+        .category {
+            margin-bottom: 20px;
         }
 
-        .sidebar-nav a {
+        .category-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 8px 24px 4px 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item {
             display: block;
-            padding: 8px 12px;
-            color: #333;
+            padding: 10px 24px;
+            color: var(--text-primary);
             text-decoration: none;
-            font-size: 15px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .sidebar-nav a:hover {
-            background: #e9ecef;
-            color: #0066cc;
+        .nav-item:hover {
+            background: var(--sidebar-hover);
+            border-left-color: var(--accent);
+            color: var(--accent);
         }
 
-        .sidebar-nav a.active {
-            background: #0066cc;
-            color: #fff;
-            font-weight: 500;
+        .nav-item.active {
+            background: var(--bg-primary);
+            border-left-color: var(--accent);
+            color: var(--accent);
+            font-weight: 600;
         }
 
         /* メインコンテンツ */
         .main-content {
             flex: 1;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content-header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 40px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .content-body {
+            flex: 1;
             padding: 40px;
-            max-width: 800px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         /* コンテンツスタイル */
-        .main-content h1 {
-            font-size: 32px;
-            margin-bottom: 30px;
+        .content-body h1 {
+            color: var(--text-primary);
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--border);
             padding-bottom: 16px;
-            border-bottom: 2px solid #e0e0e0;
         }
 
-        .main-content h2 {
-            font-size: 24px;
-            margin: 40px 0 20px;
-            padding-top: 20px;
-        }
-
-        .main-content h3 {
-            font-size: 18px;
-            margin: 30px 0 15px;
+        .content-body h2 {
+            color: var(--text-primary);
+            font-size: 28px;
             font-weight: 600;
+            margin: 40px 0 20px 0;
+            display: flex;
+            align-items: center;
+            scroll-margin-top: 80px; /* ヘッダー分のオフセット */
         }
 
-        .main-content p {
-            margin-bottom: 20px;
+        .content-body h2::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--accent);
+            margin-right: 12px;
+            border-radius: 2px;
         }
 
-        .main-content ul, .main-content ol {
-            margin: 0 0 20px 0;
-            padding-left: 30px;
+        .content-body h3 {
+            color: var(--text-primary);
+            font-size: 20px;
+            font-weight: 600;
+            margin: 32px 0 16px 0;
+            scroll-margin-top: 80px;
         }
 
-        .main-content li {
+        .content-body p {
+            margin-bottom: 16px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .content-body ul, .content-body ol {
+            margin: 16px 0;
+            padding-left: 32px;
+        }
+
+        .content-body li {
             margin-bottom: 8px;
+            color: var(--text-primary);
+            line-height: 1.8;
         }
 
-        /* リンク */
-        .main-content a {
-            color: #0066cc;
+        .content-body strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        /* 目次のリンク */
+        .content-body a {
+            color: var(--accent);
             text-decoration: none;
+            transition: color 0.2s ease;
         }
 
-        .main-content a:hover {
+        .content-body a:hover {
+            color: var(--accent-hover);
             text-decoration: underline;
         }
 
-        /* コード */
-        .main-content code {
-            background: #f5f5f5;
+        /* コードブロック */
+        .content-body code {
+            background: var(--bg-tertiary);
+            color: var(--error);
             padding: 2px 6px;
-            border-radius: 3px;
-            font-family: "SF Mono", Monaco, "Inconsolata", "Fira Code", monospace;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'SF Mono', Monaco, monospace;
             font-size: 14px;
         }
 
-        .main-content pre {
-            background: #f5f5f5;
-            padding: 16px;
-            border-radius: 6px;
+        .content-body pre {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
             overflow-x: auto;
             margin: 20px 0;
+            border: 1px solid var(--border);
+            max-width: 100%;
         }
 
-        .main-content pre code {
+        .content-body pre code {
             background: none;
             padding: 0;
-        }
-
-        /* 引用 */
-        .main-content blockquote {
-            border-left: 4px solid #e0e0e0;
-            padding-left: 16px;
-            margin: 20px 0;
-            color: #666;
-        }
-
-        /* 強調 */
-        .main-content strong {
-            font-weight: 600;
-        }
-
-        /* 動画埋め込み */
-        .main-content div[style*="position: relative"] {
-            margin: 30px 0;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            color: var(--text-primary);
         }
 
         /* テーブル */
-        .main-content table {
+        .content-body table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        .main-content th, .main-content td {
-            text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .main-content th {
+        .content-body th {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 12px 16px;
             font-weight: 600;
-            background: #f8f8f8;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .content-body td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .content-body tr:last-child td {
+            border-bottom: none;
+        }
+
+        .content-body tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* 引用 */
+        .content-body blockquote {
+            border-left: 4px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        /* アラートボックス */
+        .alert {
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #0d47a1;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+
+        /* 動画埋め込み */
+        .video-embed {
+            margin: 24px 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+        }
+
+        .video-embed iframe {
+            width: 100%;
+            max-width: 720px;
+            height: 405px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .loom-embed {
+            margin: 16px 0;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: inline-block;
+        }
+
+        .loom-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .loom-link:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* 目次 */
+        .toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc ul ul {
+            padding-left: 20px;
+            margin-top: 4px;
+        }
+
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            display: block;
+            padding: 4px 0;
+        }
+
+        .toc a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* スクロールバー */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
         }
 
         /* レスポンシブ */
         @media (max-width: 768px) {
-            .main-container {
-                flex-direction: column;
-            }
-
             .sidebar {
                 width: 100%;
                 height: auto;
                 position: relative;
-                border-right: none;
-                border-bottom: 1px solid #e0e0e0;
-                padding: 20px;
             }
 
             .main-content {
+                margin-left: 0;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .content-body {
                 padding: 20px;
             }
 
-            .header h1 {
-                font-size: 20px;
+            .video-embed iframe {
+                height: auto;
+                aspect-ratio: 16/9;
+            }
+        }
+
+        /* プリント対応 */
+        @media print {
+            .sidebar {
+                display: none;
             }
 
-            .main-content h1 {
-                font-size: 24px;
+            .main-content {
+                margin-left: 0;
             }
 
-            .main-content h2 {
-                font-size: 20px;
-            }
-
-            .main-content h3 {
-                font-size: 16px;
+            .content-header {
+                position: relative;
             }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <h1>Harukazeガイドライン</h1>
-            <p>toB事業 品質管理マニュアル</p>
-        </div>
-    </header>
-
-    <div class="main-container">
-        <aside class="sidebar">
-            <div class="sidebar-category">
-    <h2>基本情報</h2>
-    <ul class="sidebar-nav">
-        <li><a href="introduction.html">はじめに</a></li>
-    </ul>
+    <div class="container">
+        <div class="sidebar">
+<div class="sidebar-header">
+<h1>Harukazeガイドライン</h1>
+<p>toB事業 品質管理マニュアル</p>
 </div>
-<div class="sidebar-category">
-    <h2>必須項目</h2>
-    <ul class="sidebar-nav">
-        <li><a href="director_mindset.html">ディレクターの心得</a></li>
-        <li><a href="business_process.html">全体の業務プロセス</a></li>
-        <li><a href="communication_guide.html">コミュニケーションガイド</a></li>
-        <li><a href="troubleshooting.html">代表的なトラブルシューティング</a></li>
-    </ul>
+<nav class="sidebar-nav">
+<div class="category">
+<div class="category-title">基本情報</div>
+<a href="index.html" class="nav-item">📘 はじめに</a>
 </div>
-        </aside>
-
+<div class="category">
+<div class="category-title">必須項目</div>
+<a href="director_mindset.html" class="nav-item">🎯 ディレクターの心得</a>
+<a href="business_process.html" class="nav-item">🔄 全体の業務プロセス</a>
+<a href="communication_guide.html" class="nav-item">💬 コミュニケーションガイド</a>
+<a href="troubleshooting.html" class="nav-item">🔧 代表的なトラブルシューティング</a>
+</div>
+</nav>
+</div>
+        
         <main class="main-content">
-            <h1 id="_1">コミュニケーションガイド</h1>
+            <div class="content-header">
+                💬 コミュニケーションガイド
+            </div>
+            
+            <div class="content-body">
+                <h1 id="_1">コミュニケーションガイド</h1>
 <h2 id="41">4.1 対クライアントコミュニケーション</h2>
 <h3 id="_2">基本のスタンスとマインドセット</h3>
 <ul>
@@ -379,6 +567,7 @@
 </li>
 <li>これらを満たしてあげる</li>
 </ul>
+            </div>
         </main>
     </div>
 
@@ -386,13 +575,45 @@
         // アクティブなページをハイライト
         document.addEventListener('DOMContentLoaded', function() {
             const currentPage = window.location.pathname.split('/').pop();
-            const navLinks = document.querySelectorAll('.sidebar-nav a');
+            const navItems = document.querySelectorAll('.nav-item');
             
-            navLinks.forEach(link => {
-                if (link.getAttribute('href') === currentPage) {
-                    link.classList.add('active');
+            navItems.forEach(item => {
+                if (item.getAttribute('href') === currentPage) {
+                    item.classList.add('active');
                 }
             });
+
+            // スムーススクロール for アンカーリンク
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // YouTube動画の自動リサイズ
+            function resizeVideos() {
+                const videoEmbeds = document.querySelectorAll('.video-embed iframe');
+                videoEmbeds.forEach(iframe => {
+                    const container = iframe.parentElement;
+                    const containerWidth = container.offsetWidth - 40;
+                    if (containerWidth < 720) {
+                        iframe.style.width = containerWidth + 'px';
+                        iframe.style.height = (containerWidth * 9/16) + 'px';
+                    }
+                });
+            }
+
+            resizeVideos();
+            window.addEventListener('resize', resizeVideos);
         });
     </script>
 </body>
