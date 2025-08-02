@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harukaze toBガイドライン | 必須項目マニュアル</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .header { 
+            text-align: center; 
+            color: white; 
+            margin-bottom: 40px; 
+        }
+        .header h1 { 
+            font-size: 2.5em; 
+            margin-bottom: 10px; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p { 
+            font-size: 1.2em; 
+            opacity: 0.9; 
+        }
+        .section { 
+            background: white; 
+            margin: 30px 0; 
+            border-radius: 15px; 
+            padding: 30px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .section h2 { 
+            color: #333; 
+            border-bottom: 3px solid #667eea; 
+            padding-bottom: 10px; 
+            margin-bottom: 25px; 
+        }
+        .file-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 20px; 
+        }
+        .file-card { 
+            background: #f8f9fa; 
+            border: 2px solid #e9ecef; 
+            border-radius: 10px; 
+            padding: 20px; 
+            transition: all 0.3s ease; 
+            text-decoration: none; 
+            color: inherit;
+        }
+        .file-card:hover { 
+            background: #e7f3ff; 
+            border-color: #0066cc; 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 15px rgba(0,102,204,0.2);
+        }
+        .file-card h3 { 
+            color: #0066cc; 
+            margin-bottom: 10px; 
+            font-size: 1.1em;
+        }
+        .file-card p { 
+            color: #6c757d; 
+            font-size: 0.9em; 
+            line-height: 1.5;
+        }
+        .essential { border-left: 5px solid #28a745; }
+        .dynamic { border-left: 5px solid #ffc107; }
+        .badge { 
+            display: inline-block; 
+            padding: 4px 8px; 
+            font-size: 0.8em; 
+            border-radius: 15px; 
+            color: white; 
+            margin-bottom: 10px;
+        }
+        .badge.essential { background: #28a745; }
+        .badge.dynamic { background: #ffc107; color: #333; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌟 Harukaze toBガイドライン</h1>
+        <p>必須項目マニュアル | ディレクターの品質管理</p>
+    </div>
+    
+    <div class="section">
+        <h2>📚 重要項目（必須）</h2>
+        <p>これらの項目は必ず理解し、実践してください。知っている前提で業務を進めます。</p>
+        <div class="file-grid">
+            <a href="重要項目/introduction.html" class="file-card essential">
+                <div class="badge essential">必須</div>
+                <h3>🌟 はじめに</h3>
+                <p>Harukazeの理念、toB事業の目的、マニュアル活用方法</p>
+            </a>
+            <a href="重要項目/director_mindset.html" class="file-card essential">
+                <div class="badge essential">必須</div>
+                <h3>🎯 ディレクターの心得</h3>
+                <p>役割、責任範囲、行動指針、5バリューの実践</p>
+            </a>
+            <a href="重要項目/business_process.html" class="file-card essential">
+                <div class="badge essential">必須</div>
+                <h3>🔄 全体の業務プロセス</h3>
+                <p>案件獲得から振り返りまでの8フェーズ</p>
+            </a>
+            <a href="重要項目/communication_guide.html" class="file-card essential">
+                <div class="badge essential">必須</div>
+                <h3>💬 コミュニケーションガイド</h3>
+                <p>対クライアント・対チーム コミュニケーションの技術</p>
+            </a>
+            <a href="重要項目/troubleshooting.html" class="file-card essential">
+                <div class="badge essential">必須</div>
+                <h3>🔧 代表的なトラブルシューティング</h3>
+                <p>納期遅延、品質問題、要件変更への対応方法</p>
+            </a>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>🔄 流動項目（随時更新）</h2>
+        <p>実際の業務で蓄積された知見やベストプラクティスを随時追加していきます。</p>
+        <div class="file-grid">
+            <a href="流動項目/クライアント対応事例集.html" class="file-card dynamic">
+                <div class="badge dynamic">流動</div>
+                <h3>📞 クライアント対応事例集</h3>
+                <p>実際のクライアント対応事例とその解決方法</p>
+            </a>
+            <a href="流動項目/新人向けチェックリスト.html" class="file-card dynamic">
+                <div class="badge dynamic">流動</div>
+                <h3>✅ 新人向けチェックリスト</h3>
+                <p>各フェーズで確認すべき項目のチェックリスト</p>
+            </a>
+            <a href="流動項目/ツール活用ガイド.html" class="file-card dynamic">
+                <div class="badge dynamic">流動</div>
+                <h3>🔧 ツール活用ガイド</h3>
+                <p>各種ツールの効果的な活用方法とベストプラクティス</p>
+            </a>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>🎯 その他のプロジェクト</h2>
+        <div class="file-grid">
+            <a href="youtube-docs/" class="file-card" style="border-left: 5px solid #ff6b6b;">
+                <div class="badge" style="background: #ff6b6b;">関連</div>
+                <h3>📺 YouTube プロジェクト</h3>
+                <p>デザジュクYouTube関連のドキュメント</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
