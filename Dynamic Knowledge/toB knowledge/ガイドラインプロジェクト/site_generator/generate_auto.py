@@ -165,7 +165,10 @@ class AutoSiteGenerator:
             'よくある質問（FAQ）': 'faq',
             'プロジェクト管理のコツ': 'project_management_tips',
             'loomリンク集': 'loom_links',
-            '文字起こし': 'transcript'
+            '文字起こし': 'transcript',
+            'AIアシスタント': 'ai-assistant',
+            'Aiアシスタント': 'ai-assistant',
+            'ガイドライン改善提案': 'feedback'
         }
         
         # 変換テーブルで一致するものがあれば使用
@@ -267,6 +270,14 @@ class AutoSiteGenerator:
                 sidebar_html += '\n</div>'
         
         sidebar_html += '\n</nav>'
+        
+        # サイドバーフッターを追加
+        sidebar_html += '''
+<div class="sidebar-footer">
+    <a href="ai-assistant.html" class="footer-link">AIアシスタント</a>
+    <a href="feedback.html" class="footer-link">ガイドライン改善提案</a>
+</div>'''
+        
         return sidebar_html
     
     def generate_search_index(self):

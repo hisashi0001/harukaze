@@ -215,6 +215,10 @@ def generate_navigation(files_by_category, current_file=None):
         nav_items.append(f'    <div class="category-title">{category}</div>')
         
         for file_info in files_by_category[category]:
+            # ガイドライン改善提案はナビゲーションから除外
+            if file_info['title'] == 'ガイドライン改善提案':
+                continue
+                
             # 既に生成されたファイル名を使用
             filename = file_info.get('filename', f"{create_slug(file_info['title'])}.html")
             
@@ -231,9 +235,9 @@ def generate_navigation(files_by_category, current_file=None):
     
     # サイドバーフッターにリンクを追加
     nav_items.append('<div class="sidebar-footer">')
-    nav_items.append('    <a href="feedback.html" class="footer-link">改善提案</a>')
-    nav_items.append('    <div class="footer-divider"></div>')
     nav_items.append('    <button class="footer-link" id="aiToggleBtn" onclick="toggleAIPanel()">AIチャット</button>')
+    nav_items.append('    <div class="footer-divider"></div>')
+    nav_items.append('    <a href="feedback.html" class="footer-link">ガイドライン改善提案</a>')
     nav_items.append('</div>')
     
     return '\n'.join(nav_items)
@@ -370,7 +374,7 @@ def generate_index_page(files_by_category, template_content):
 
 ガイドラインをより良くするため、ぜひご意見をお聞かせください。
 
-→ [改善提案フォームはこちら](../99_テスト機能/feedback_system/form_template/feedback_page.html)
+→ [改善提案フォームはこちら](feedback.html)
 """
     
     # ナビゲーションを生成
