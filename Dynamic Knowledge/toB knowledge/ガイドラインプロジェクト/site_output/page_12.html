@@ -1341,10 +1341,10 @@ CPMを1000円とすると、月間20万円の追加収益の可能性があり�
             addAIMessage('考えています...', 'ai', 'loading');
             
             try {
-                // Vercel APIエンドポイント（本番環境では実際のURLに変更）
+                // Vercel APIエンドポイント
                 const apiUrl = window.location.hostname === 'localhost' 
                     ? 'http://localhost:3000/api/chat' 
-                    : 'https://harukaze-guideline-api.vercel.app/api/chat';
+                    : 'https://guideline-ai-chat.vercel.app/api/chat';
                 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
