@@ -897,8 +897,8 @@
         <!-- AIチャットパネル -->
         <div class="ai-panel" id="aiPanel">
             <div class="ai-panel-header">
-                <h3>AIアシスタント</h3>
-                <button class="ai-close-btn" onclick="toggleAIPanel()">×</button>
+                <h3>AIチャット</h3>
+                <button class="ai-close-btn" onclick="toggleAiPanel()">×</button>
             </div>
             <div class="ai-messages" id="aiMessages">
                 <div class="ai-message">
@@ -955,7 +955,7 @@
         });
 
         // AIチャットパネルの表示/非表示
-        function toggleAIPanel() {
+        function toggleAiPanel() {
             const aiPanel = document.getElementById('aiPanel');
             const mainContent = document.getElementById('mainContent');
             const isActive = aiPanel.classList.contains('active');

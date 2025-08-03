@@ -166,6 +166,7 @@ class AutoSiteGenerator:
             'プロジェクト管理のコツ': 'project_management_tips',
             'loomリンク集': 'loom_links',
             '文字起こし': 'transcript',
+            'AIチャット': 'ai-assistant',
             'AIアシスタント': 'ai-assistant',
             'Aiアシスタント': 'ai-assistant',
             'ガイドライン改善提案': 'feedback'
@@ -274,7 +275,7 @@ class AutoSiteGenerator:
         # サイドバーフッターを追加
         sidebar_html += '''
 <div class="sidebar-footer">
-    <a href="ai-assistant.html" class="footer-link">AIアシスタント</a>
+    <a href="ai-assistant.html" class="footer-link">AIチャット</a>
     <a href="feedback.html" class="footer-link">ガイドライン改善提案</a>
 </div>'''
         
@@ -359,8 +360,8 @@ class AutoSiteGenerator:
             shutil.rmtree(self.output_dir)
         self.output_dir.mkdir(exist_ok=True)
         
-        # テンプレートを読み込み
-        template_path = self.template_dir / "page_light.html"
+        # テンプレートを読み込み（AIチャット機能付きテンプレートを使用）
+        template_path = self.template_dir / "page_light_with_ai.html"
         with open(template_path, 'r', encoding='utf-8') as f:
             template = f.read()
         
