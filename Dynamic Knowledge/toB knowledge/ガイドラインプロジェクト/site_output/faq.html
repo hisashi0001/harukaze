@@ -1265,7 +1265,7 @@ Google Driveの自動同期設定をしておけば、保存し忘れのリス�
                 // Vercel APIエンドポイント
                 const apiUrl = window.location.hostname === 'localhost' 
                     ? 'http://localhost:3000/api/chat' 
-                    : 'https://guideline-ai-chat.vercel.app/api/chat';
+                    : 'https://guideline-ai-chat.vercel.app/api/chat-simple';
                 
                 const response = await fetch(apiUrl, {
                     method: 'POST',

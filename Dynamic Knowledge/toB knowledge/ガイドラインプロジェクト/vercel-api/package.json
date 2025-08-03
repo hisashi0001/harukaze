@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Harukaze Guideline AI Chat API",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "prepare-data": "node scripts/prepare-data.js",
     "dev": "vercel dev",
