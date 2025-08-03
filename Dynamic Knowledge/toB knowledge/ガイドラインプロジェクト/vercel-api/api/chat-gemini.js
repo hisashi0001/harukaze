@@ -1,5 +1,4 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const guidelines = require('./guidelines-data.js');
 
 module.exports = async function handler(req, res) {
   // CORSヘッダーを設定
@@ -17,6 +16,15 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    // ガイドラインデータを安全に読み込む
+    let guidelines = [];
+    try {
+      guidelines = require('./guidelines-data.js');
+    } catch (loadError) {
+      console.error('Failed to load guidelines data:', loadError);
+      // ガイドラインが読み込めなくても続行
+    }
+    
     const { message } = req.body;
     
     if (!message) {
@@ -25,7 +33,7 @@ module.exports = async function handler(req, res) {
 
     // Gemini APIクライアントを初期化
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
     // ユーザーの質問に関連するガイドラインを検索
     const relevantGuidelines = findRelevantGuidelines(message, guidelines);
