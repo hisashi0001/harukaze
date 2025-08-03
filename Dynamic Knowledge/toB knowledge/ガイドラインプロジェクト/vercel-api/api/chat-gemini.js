@@ -38,23 +38,27 @@ module.exports = async function handler(req, res) {
     // ユーザーの質問に関連するガイドラインを検索
     const relevantGuidelines = findRelevantGuidelines(message, guidelines);
     
+    // 関連が薄くても全体的な情報を含める
+    if (relevantGuidelines.length < 5 && guidelines.length > 0) {
+      // ランダムに追加のガイドラインを含める
+      const additionalGuidelines = guidelines
+        .filter(g => !relevantGuidelines.includes(g))
+        .slice(0, 5 - relevantGuidelines.length);
+      relevantGuidelines.push(...additionalGuidelines);
+    }
+    
     // コンテキストを構築
     const context = buildContext(relevantGuidelines);
     
     // プロンプトを構築
-    const prompt = `あなたはHarukazeガイドラインのAIアシスタントです。
-以下のガイドライン情報を基に、ユーザーの質問に的確に答えてください。
-回答は具体的で実践的なアドバイスを心がけ、関連するページがあれば必ず紹介してください。
+    const prompt = `あなたはHarukazeガイドラインのAIアシスタントです。HarukazeはtoB事業としてデザイン制作を行っているクリエイティブチームです。
 
-利用可能なガイドライン情報:
+以下のガイドライン情報を参考に、ユーザーの質問に答えてください：
 ${context}
 
-回答形式:
-1. 質問に対する直接的な回答
-2. 具体的な実践方法やポイント
-3. 「詳しくは〇〇ページをご覧ください」という形で関連ページを紹介
+ユーザーの質問: ${message}
 
-ユーザーの質問: ${message}`;
+回答は2-3文程度で簡潔に。ガイドラインからの情報を優先し、ない場合は一般的な知識で答えてください。`;
 
     // Gemini APIを呼び出し
     const result = await model.generateContent(prompt);
@@ -113,10 +117,20 @@ function findRelevantGuidelines(query, guidelines) {
       });
     }
     
-    // コンテンツに含まれる場合
+    // コンテンツに含まれる場合（より重要度を上げる）
     if (guideline.content) {
-      const contentMatches = (guideline.content.toLowerCase().match(new RegExp(queryLower, 'g')) || []).length;
-      score += contentMatches * 0.5;
+      const contentLower = guideline.content.toLowerCase();
+      // 完全一致は高スコア
+      if (contentLower.includes(queryLower)) {
+        score += 8;
+      }
+      // 部分一致も評価
+      const queryWords = queryLower.split(/\s+/);
+      queryWords.forEach(word => {
+        if (word.length > 2 && contentLower.includes(word)) {
+          score += 2;
+        }
+      });
     }
     
     // カテゴリマッチング
@@ -132,7 +146,7 @@ function findRelevantGuidelines(query, guidelines) {
   // スコアの高い順にソート
   scores.sort((a, b) => b.score - a.score);
   
-  return scores.slice(0, 5).map(s => s.guideline);
+  return scores.slice(0, 10).map(s => s.guideline);
 }
 
 // コンテキストを構築
@@ -141,23 +155,26 @@ function buildContext(guidelines) {
     return 'ガイドラインに関連する情報が見つかりませんでした。';
   }
 
+  // より多くのコンテンツ情報を含める
   return guidelines.map(g => {
-    const excerpt = (g.summary || '').substring(0, 200) + '...';
+    // contentとsummaryの両方を使用し、より多くの情報を提供
+    const content = g.content || g.summary || '';
+    const excerpt = content.substring(0, 500) + (content.length > 500 ? '...' : '');
     return `
 【${g.title}】（${g.category || '未分類'}）
 ${excerpt}
-URL: ${g.url || 'N/A'}
 `;
-  }).join('\n---\n');
+  }).join('\n\n');
 }
 
 // 簡易的な回答生成（フォールバック用）
 function generateSimpleResponse(query) {
   const responses = {
-    '納期': '納期に関するご質問ですね。納期が遅れそうな場合は、まず早めにクライアントに連絡することが重要です。具体的な対応方法については「代表的なトラブルシューティング」ページをご覧ください。',
-    'フィードバック': 'フィードバックについてのご質問ですね。効果的なフィードバックは具体的で建設的であることが大切です。詳しくは「コミュニケーションガイド」ページをご覧ください。',
-    'デザイナー': 'デザイナーとの協働についてのご質問ですね。デザイナーとの円滑なコミュニケーションは、プロジェクト成功の鍵です。「ディレクターの心得」ページに詳しい情報があります。',
-    '品質': '品質管理についてのご質問ですね。品質チェックは段階的に行うことが重要です。「全体の業務プロセス」ページをご覧ください。'
+    '納期': '納期が遅れそうな場合は、早めにクライアントに連絡し、代替案を提示することが大切です。',
+    'フィードバック': '効果的なフィードバックは具体的で建設的に行い、改善点を明確に伝えることが重要です。',
+    'デザイナー': 'デザイナーの強みを理解し、適材適所のアサインと成長機会の提供が大切です。',
+    '品質': '品質チェックはラフ段階、完成段階、納品前の3段階で行うことが重要です。',
+    '商談': '商談では相手のニーズを深く理解し、Win-Winの関係を構築することが大切です。'
   };
   
   for (const [key, response] of Object.entries(responses)) {
@@ -166,5 +183,5 @@ function generateSimpleResponse(query) {
     }
   }
   
-  return `ご質問ありがとうございます。「${query}」についてガイドラインを確認しています。該当する情報が見つからない場合は、検索機能をご利用いただくか、より具体的な質問をお願いします。`;
+  return `${query}についてお答えします。一般的には、相手の立場を理解し、明確なコミュニケーションを心がけることが重要です。`;
 }
