@@ -229,14 +229,11 @@ def generate_navigation(files_by_category, current_file=None):
     
     nav_items.append('</div>')  # sidebar-nav を閉じる
     
-    # サイドバーフッターに2つのボタンを追加
+    # サイドバーフッターにリンクを追加
     nav_items.append('<div class="sidebar-footer">')
-    nav_items.append('    <a href="feedback.html" class="footer-btn">')
-    nav_items.append('        📝 ガイドライン改善提案')
-    nav_items.append('    </a>')
-    nav_items.append('    <button class="footer-btn ai-btn" id="aiToggleBtn" onclick="toggleAIPanel()">')
-    nav_items.append('        💬 AIチャット')
-    nav_items.append('    </button>')
+    nav_items.append('    <a href="feedback.html" class="footer-link">改善提案</a>')
+    nav_items.append('    <div class="footer-divider"></div>')
+    nav_items.append('    <button class="footer-link" id="aiToggleBtn" onclick="toggleAIPanel()">AIチャット</button>')
     nav_items.append('</div>')
     
     return '\n'.join(nav_items)

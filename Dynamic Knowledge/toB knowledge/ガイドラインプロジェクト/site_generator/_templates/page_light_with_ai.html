@@ -182,49 +182,36 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 16px;
             background: var(--sidebar-bg);
             border-top: 1px solid var(--border);
             display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        /* フッターボタン共通スタイル */
-        .footer-btn {
-            width: 100%;
-            padding: 10px 16px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s;
+            padding: 12px 0;
+            gap: 16px;
+        }
+
+        /* フッターリンクスタイル */
+        .footer-link {
+            color: var(--text-secondary);
             text-decoration: none;
-            text-align: center;
+            font-size: 13px;
+            transition: color 0.2s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: inherit;
         }
 
-        .footer-btn:hover {
-            background: var(--sidebar-hover);
-            border-color: var(--accent);
+        .footer-link:hover {
             color: var(--accent);
         }
 
-        .footer-btn.ai-btn {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-        }
-
-        .footer-btn.ai-btn:hover {
-            background: var(--sidebar-hover);
-            border-color: var(--accent);
-            color: var(--accent);
+        .footer-divider {
+            width: 1px;
+            height: 16px;
+            background: var(--border);
         }
 
         .sidebar-header {
@@ -287,7 +274,7 @@
         .sidebar-nav {
             flex: 1;
             overflow-y: auto;
-            padding: 16px 0 120px 0; /* フッター分のパディングを増やす（2つのボタン分） */
+            padding: 16px 0 60px 0; /* フッター分のパディングを調整 */
         }
 
         .category {
@@ -804,12 +791,11 @@
 
             .sidebar-footer {
                 position: static;
-                padding: 12px;
+                padding: 10px 0;
             }
 
-            .footer-btn {
-                font-size: 13px;
-                padding: 8px 12px;
+            .footer-link {
+                font-size: 12px;
             }
         }
 
