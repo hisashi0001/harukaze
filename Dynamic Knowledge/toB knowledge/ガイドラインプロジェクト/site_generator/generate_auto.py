@@ -77,6 +77,7 @@ class AutoSiteGenerator:
             if frontmatter:
                 page_info['title'] = frontmatter.get('title', self.clean_filename(md_file.stem))
                 page_info['category'] = frontmatter.get('category', self.guess_category(relative_path))
+                page_info['subcategory'] = frontmatter.get('subcategory', self.guess_subcategory(relative_path))
                 page_info['order'] = frontmatter.get('order', self.extract_order(md_file.name))
                 page_info['date'] = frontmatter.get('date', None)
                 page_info['tags'] = frontmatter.get('tags', [])
@@ -84,6 +85,7 @@ class AutoSiteGenerator:
                 # フロントマターがない場合は自動推測
                 page_info['title'] = self.clean_filename(md_file.stem)
                 page_info['category'] = self.guess_category(relative_path)
+                page_info['subcategory'] = self.guess_subcategory(relative_path)
                 page_info['order'] = self.extract_order(md_file.name)
                 page_info['date'] = None
                 page_info['tags'] = []
@@ -91,6 +93,7 @@ class AutoSiteGenerator:
             # デバッグ：プロジェクト管理のコツのカテゴリを確認
             if "プロジェクト管理" in md_file.name:
                 print(f"  - Assigned category: {page_info['category']}")
+                print(f"  - Assigned subcategory: {page_info.get('subcategory', 'None')}")
             
             # 出力ファイル名を生成
             page_info['output_name'] = self.safe_filename(md_file.stem, md_file.name) + '.html'
@@ -100,9 +103,10 @@ class AutoSiteGenerator:
         # 重複するファイル名を解決
         self._resolve_duplicate_filenames()
         
-        # ソート（カテゴリ → order → ファイル名）
+        # ソート（カテゴリ → サブカテゴリ → order → ファイル名）
         self.pages.sort(key=lambda x: (
             x['category'],
+            x.get('subcategory', ''),
             x['order'],
             x['filename']
         ))
@@ -128,6 +132,17 @@ class AutoSiteGenerator:
                 return category
         # ルートディレクトリのファイルは「基本情報」に分類
         return "基本情報"
+    
+    def guess_subcategory(self, relative_path):
+        """ディレクトリ構造からサブカテゴリを推測"""
+        parts = relative_path.parts
+        if len(parts) > 2:
+            # 2階層目がサブカテゴリ
+            subcategory = parts[1]
+            # 番号プレフィックスを除去
+            subcategory = re.sub(r'^\d+[_-]', '', subcategory)
+            return subcategory
+        return None
     
     def extract_order(self, filename):
         """ファイル名から順序を抽出（例: 01_xxx.md → 1）"""
@@ -169,7 +184,9 @@ class AutoSiteGenerator:
             'AIチャット': 'ai-assistant',
             'AIアシスタント': 'ai-assistant',
             'Aiアシスタント': 'ai-assistant',
-            'ガイドライン改善提案': 'feedback'
+            'ガイドライン改善提案': 'feedback',
+            'ガイドライン追加・改善': 'feedback',
+            'コンテンツ追加・修正ガイド': 'content-guide'
         }
         
         # 変換テーブルで一致するものがあれば使用

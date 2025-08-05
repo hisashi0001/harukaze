@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
-    <title>AIアシスタント | Harukazeガイドライン</title>
+    <title>{{TITLE}} | Harukazeガイドライン</title>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -781,6 +781,104 @@
             background: var(--text-secondary);
         }
 
+        /* 更新リクエストセクション */
+        .update-request-section {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 2px solid var(--border);
+        }
+
+        .update-request-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .update-request-box h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .update-request-box p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .update-request-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .update-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .add-btn {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-color: #4caf50;
+        }
+
+        .add-btn:hover {
+            background: #4caf50;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .fix-btn {
+            background: #fff3e0;
+            color: #e65100;
+            border-color: #ff9800;
+        }
+
+        .fix-btn:hover {
+            background: #ff9800;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+        }
+
+        .question-btn {
+            background: #e3f2fd;
+            color: #0d47a1;
+            border-color: #2196f3;
+        }
+
+        .question-btn:hover {
+            background: #2196f3;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        .update-note {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .update-note a {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
         /* レスポンシブ */
         @media (max-width: 968px) {
             .ai-panel {
@@ -891,53 +989,14 @@
     
     <div class="container">
         <div class="sidebar" id="sidebar">
-<div class="sidebar-header">
-    <a href="index.html" style="text-decoration: none;">
-        <h1>Harukazeガイドライン</h1>
-    </a>
-    <p>ディレクター向け品質管理ガイド</p>
-</div>
-<div class="sidebar-nav">
-<a href="index.html" class="nav-item">ホーム</a>
-<div class="nav-divider"></div>
-<div class="category">
-    <div class="category-title">基本情報</div>
-    <a href="introduction.html" class="nav-item">はじめに</a>
-    <a href="director-mindset.html" class="nav-item">ディレクターの心得</a>
-    <a href="work-process.html" class="nav-item">全体の業務プロセス</a>
-    <a href="communication.html" class="nav-item">コミュニケーションガイド</a>
-    <a href="troubleshooting.html" class="nav-item">代表的なトラブルシューティング</a>
-</div>
-<div class="category">
-    <div class="category-title">商談マニュアル</div>
-    <a href="sales-overview.html" class="nav-item">法人商談の全体像</a>
-    <a href="sales-mindset.html" class="nav-item">法人商談の心得</a>
-    <a href="trust-building.html" class="nav-item">信頼関係の構築テクニック</a>
-    <a href="hearing-master.html" class="nav-item">ヒアリングマスター講座</a>
-    <a href="proposal-techniques.html" class="nav-item">提案力を高める実践テクニック</a>
-    <a href="closing-success.html" class="nav-item">クロージング成功の秘訣</a>
-    <a href="product-strategies.html" class="nav-item">商材別の攻略法</a>
-    <a href="difficulty-handling.html" class="nav-item">難易度別の対処法</a>
-</div>
-<div class="category">
-    <div class="category-title">その他</div>
-    <a href="ai-assistant.html" class="nav-item active">AIアシスタント</a>
-    <a href="faq.html" class="nav-item">よくある質問（FAQ）</a>
-    <a href="improvement-cases.html" class="nav-item">実践改善事例集</a>
-</div>
-</div>
-<div class="sidebar-footer">
-    <button class="footer-link" id="aiToggleBtn" onclick="toggleAIPanel()">AIチャット</button>
-    <div class="footer-divider"></div>
-    <a href="feedback.html" class="footer-link">ガイドライン改善提案</a>
-</div>
+{{SIDEBAR}}
         </div>
         
         <!-- AIチャットパネル -->
         <div class="ai-panel" id="aiPanel">
             <div class="ai-panel-header">
-                <h3>AIアシスタント</h3>
-                <button class="ai-close-btn" onclick="toggleAIPanel()">×</button>
+                <h3>AIチャット</h3>
+                <button class="ai-close-btn" onclick="toggleAiPanel()">×</button>
             </div>
             <div class="ai-messages" id="aiMessages">
                 <div class="ai-message">
@@ -956,7 +1015,7 @@
         
         <main class="main-content" id="mainContent">
             <div class="content-header">
-                <span>AIアシスタント</span>
+                <span>{{TITLE}}</span>
                 <div class="search-container">
                     <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
                     <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -967,40 +1026,26 @@
             </div>
             
             <div class="content-body">
-                <h1 id="ai">AIアシスタント（テスト版）</h1>
-<h2 id="_1">🤖 ガイドラインについて質問してみましょう</h2>
-<p>AIアシスタントは、Harukazeガイドラインに関する質問に即座にお答えします。</p>
-<h3 id="_2">利用方法</h3>
-<p>画面右下の <strong>AIチャット</strong> ボタンをクリックすると、AIチャットパネルが開きます。</p>
-<ol>
-<li>質問を入力して送信</li>
-<li>AIからの回答を確認</li>
-<li>必要に応じて追加の質問</li>
-</ol>
-<h3 id="_3">こんな時に便利</h3>
-<ul>
-<li><strong>急いでいる時</strong>: すぐに答えが欲しい質問がある</li>
-<li><strong>探す時間がない時</strong>: どのページを見ればいいか分からない</li>
-<li><strong>確認したい時</strong>: 自分の理解が正しいか確認したい</li>
-</ul>
-<h3 id="_4">よくある質問例</h3>
-<ul>
-<li>「納期が遅れそうな時はどうすればいい？」</li>
-<li>「デザイナーへの効果的なフィードバック方法は？」</li>
-<li>「品質チェックで見るべきポイントは？」</li>
-<li>「クライアントの無理な要求への対処法は？」</li>
-</ul>
-<h3 id="_5">注意事項</h3>
-<p>⚠️ <strong>テスト版のため、以下の点にご注意ください：</strong>
-- 回答は基本的な内容に限定されています
-- 複雑な質問には対応できない場合があります
-- 正確な情報は必ずガイドライン本文をご確認ください</p>
-<h3 id="_6">フィードバック</h3>
-<p>AIアシスタントの改善のため、ぜひご意見をお聞かせください：
-- 役に立った回答
-- 改善が必要な回答
-- 追加してほしい機能</p>
-<p>→ <a href="feedback.html">改善提案フォーム</a>からお送りください</p>
+                {{CONTENT}}
+                <!-- 更新リクエストセクション -->
+                <div class="update-request-section">
+                    <div class="update-request-box">
+                        <h3>💡 このページについて</h3>
+                        <p>内容の追加・修正・質問がある場合は、GitHubでリクエストをお送りください：</p>
+                        <div class="update-request-buttons">
+                            <a href="https://github.com/Hisashi0001/harukaze/issues/new?template=content-addition.md&title=[追加] {{TITLE}}ページ" class="update-btn add-btn" target="_blank">
+                                📝 内容を追加
+                            </a>
+                            <a href="https://github.com/Hisashi0001/harukaze/issues/new?template=content-fix.md&title=[修正] {{TITLE}}ページ" class="update-btn fix-btn" target="_blank">
+                                ✏️ 内容を修正
+                            </a>
+                            <a href="https://github.com/Hisashi0001/harukaze/issues/new?template=question.md&title=[質問] {{TITLE}}ページ" class="update-btn question-btn" target="_blank">
+                                ❓ 質問する
+                            </a>
+                        </div>
+                        <p class="update-note">※GitHubアカウントが必要です。アカウントをお持ちでない場合は、<a href="feedback.html">改善提案フォーム</a>もご利用いただけます。</p>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -1027,7 +1072,7 @@
         });
 
         // AIチャットパネルの表示/非表示
-        function toggleAIPanel() {
+        function toggleAiPanel() {
             const aiPanel = document.getElementById('aiPanel');
             const mainContent = document.getElementById('mainContent');
             const isActive = aiPanel.classList.contains('active');
@@ -1127,7 +1172,7 @@
         }
 
         // AIメッセージ送信
-        function sendAIMessage() {
+        async function sendAIMessage() {
             const input = document.getElementById('aiInput');
             const message = input.value.trim();
             
@@ -1139,21 +1184,80 @@
             // 入力欄をクリア
             input.value = '';
             
-            // AI応答をシミュレート
-            setTimeout(() => {
+            // ローディング表示
+            addAIMessage('考えています...', 'ai', 'loading');
+            
+            try {
+                // Vercel APIエンドポイント
+                const apiUrl = window.location.hostname === 'localhost' 
+                    ? 'http://localhost:3000/api/chat' 
+                    : 'https://guideline-ai-chat.vercel.app/api/chat-gemini';
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message }),
+                });
+                
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+                
+                const data = await response.json();
+                
+                // ローディングメッセージを削除
+                const messagesDiv = document.getElementById('aiMessages');
+                const loadingMsg = messagesDiv.querySelector('.ai-message.ai:last-child');
+                if (loadingMsg && loadingMsg.textContent.includes('考えています...')) {
+                    loadingMsg.remove();
+                }
+                
+                // AI応答を追加
+                let responseText = data.response;
+                
+                // 関連ページがある場合は追加
+                if (data.relatedPages && data.relatedPages.length > 0) {
+                    responseText += '\n\n**関連ページ:**\n';
+                    data.relatedPages.forEach(page => {
+                        responseText += `- [${page.title}](${page.url}) (${page.category})\n`;
+                    });
+                }
+                
+                addAIMessage(responseText, 'ai');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                
+                // ローディングメッセージを削除
+                const messagesDiv = document.getElementById('aiMessages');
+                const loadingMsg = messagesDiv.querySelector('.ai-message.ai:last-child');
+                if (loadingMsg && loadingMsg.textContent.includes('考えています...')) {
+                    loadingMsg.remove();
+                }
+                
+                // フォールバック: 従来のローカル応答を使用
                 const response = findBestResponse(message);
-                addAIMessage(response, 'ai');
-            }, 800);
+                addAIMessage(response + '\n\n*（注: 現在オフラインモードで動作しています）*', 'ai');
+            }
         }
 
-        function addAIMessage(text, sender) {
+        function addAIMessage(text, sender, className = '') {
             const messagesDiv = document.getElementById('aiMessages');
             const messageDiv = document.createElement('div');
-            messageDiv.className = `ai-message ${sender}`;
+            messageDiv.className = `ai-message ${sender} ${className}`;
             
             const contentDiv = document.createElement('div');
             contentDiv.className = 'ai-message-content';
-            contentDiv.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Markdownリンクを実際のリンクに変換
+            let html = text
+                .replace(/\n/g, '<br>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            
+            contentDiv.innerHTML = html;
             
             messageDiv.appendChild(contentDiv);
             messagesDiv.appendChild(messageDiv);

@@ -55,7 +55,9 @@ def create_slug(text):
         'AIアシスタント': 'ai-assistant',
         'よくある質問': 'faq',
         'ガイドライン改善提案': 'feedback',
+        'ガイドライン追加・改善': 'feedback',
         '実践改善事例集': 'improvement-cases',
+        'コンテンツ追加・修正ガイド': 'content-guide',
         # カテゴリ名
         '基本情報': 'basic-info',
         'その他': 'others',
@@ -98,6 +100,19 @@ def get_category_info(file_path, base_dir):
         return category_clean
     return "その他"
 
+def get_subcategory_info(file_path, base_dir):
+    """ファイルパスからサブカテゴリ情報を取得"""
+    relative_path = file_path.relative_to(base_dir)
+    parts = list(relative_path.parts[:-1])  # ファイル名を除く
+    
+    if len(parts) > 1:
+        # 2階層目がサブカテゴリ
+        subcategory = parts[1]
+        # 番号プレフィックスを除去
+        subcategory_clean = re.sub(r'^\d+[_\-]', '', subcategory)
+        return subcategory_clean
+    return None
+
 def extract_order_from_filename(filename):
     """ファイル名から順序番号を抽出"""
     match = re.match(r'^(\d+)[_\s]', filename)
@@ -132,6 +147,7 @@ def collect_markdown_files(content_dir):
         
         # カテゴリとタイトルの決定
         category = post.metadata.get('category') or get_category_info(md_file, content_dir)
+        subcategory = post.metadata.get('subcategory') or get_subcategory_info(md_file, content_dir)
         # タイトルから番号プレフィックスを削除
         raw_title = post.metadata.get('title') or md_file.stem
         title = re.sub(r'^\d+[_\-]\s*', '', raw_title)  # 01_, 02- などを削除
@@ -146,7 +162,8 @@ def collect_markdown_files(content_dir):
             'title': title,
             'order': order,
             'content': post.content,
-            'metadata': post.metadata
+            'metadata': post.metadata,
+            'subcategory': subcategory
         })
     
     # 各カテゴリ内でソート
@@ -183,7 +200,7 @@ def generate_html(md_content, title, template_content, nav_html, category):
     return html
 
 def generate_navigation(files_by_category, current_file=None):
-    """ナビゲーションHTMLを生成"""
+    """ナビゲーションHTMLを生成（階層構造対応）"""
     nav_items = []
     
     # サイドバーヘッダーを追加
@@ -213,23 +230,52 @@ def generate_navigation(files_by_category, current_file=None):
     for category in sorted_categories:
         nav_items.append('<div class="category">')
         nav_items.append(f'    <div class="category-title">{category}</div>')
+        nav_items.append('    <div class="category-content">')
+        
+        # サブカテゴリごとにファイルを整理
+        subcategories = {}
+        direct_files = []
         
         for file_info in files_by_category[category]:
-            # ガイドライン改善提案はナビゲーションから除外
-            if file_info['title'] == 'ガイドライン改善提案':
+            # ガイドライン追加/改善はナビゲーションから除外
+            if file_info['title'] in ['ガイドライン改善提案', 'ガイドライン追加・改善']:
                 continue
-                
-            # 既に生成されたファイル名を使用
+            
+            # サブカテゴリを判定（タイトルやパスから）
+            subcategory = file_info.get('subcategory', None)
+            if subcategory:
+                if subcategory not in subcategories:
+                    subcategories[subcategory] = []
+                subcategories[subcategory].append(file_info)
+            else:
+                direct_files.append(file_info)
+        
+        # 直接カテゴリに属するファイルを表示
+        for file_info in direct_files:
             filename = file_info.get('filename', f"{create_slug(file_info['title'])}.html")
-            
-            # アクティブなリンクをハイライト
             active_class = " active" if current_file and file_info['path'] == current_file else ""
-            
             nav_items.append(
-                f'    <a href="{filename}" class="nav-item{active_class}">{file_info["title"]}</a>'
+                f'        <a href="{filename}" class="nav-item{active_class}">{file_info["title"]}</a>'
             )
         
-        nav_items.append('</div>')
+        # サブカテゴリとその中のファイルを表示
+        for subcategory, files in sorted(subcategories.items()):
+            nav_items.append('        <div class="subcategory">')
+            nav_items.append(f'            <div class="subcategory-title">{subcategory}</div>')
+            nav_items.append('            <div class="subcategory-content">')
+            
+            for file_info in files:
+                filename = file_info.get('filename', f"{create_slug(file_info['title'])}.html")
+                active_class = " active" if current_file and file_info['path'] == current_file else ""
+                nav_items.append(
+                    f'                <a href="{filename}" class="nav-item{active_class}">{file_info["title"]}</a>'
+                )
+            
+            nav_items.append('            </div>')  # subcategory-content
+            nav_items.append('        </div>')  # subcategory
+        
+        nav_items.append('    </div>')  # category-content
+        nav_items.append('</div>')  # category
     
     nav_items.append('</div>')  # sidebar-nav を閉じる
     
@@ -237,7 +283,7 @@ def generate_navigation(files_by_category, current_file=None):
     nav_items.append('<div class="sidebar-footer">')
     nav_items.append('    <button class="footer-link" id="aiToggleBtn" onclick="toggleAiPanel()">AIチャット</button>')
     nav_items.append('    <div class="footer-divider"></div>')
-    nav_items.append('    <a href="feedback.html" class="footer-link">ガイドライン改善提案</a>')
+    nav_items.append('    <a href="feedback.html" class="footer-link">ガイドライン追加/改善</a>')
     nav_items.append('</div>')
     
     return '\n'.join(nav_items)

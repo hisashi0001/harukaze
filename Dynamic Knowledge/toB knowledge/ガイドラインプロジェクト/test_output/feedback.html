@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
-    <title>ガイドライン改善提案 | Harukazeガイドライン</title>
+    <title>ガイドライン追加・改善 | Harukazeガイドライン</title>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -283,7 +283,7 @@
         }
 
         .category {
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
 
         .category-title {
@@ -292,13 +292,104 @@
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            padding: 8px 24px 4px 24px;
+            padding: 8px 16px;
+            margin-bottom: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+        
+        .category-title:hover {
+            color: var(--text-primary);
+            background: var(--sidebar-hover);
+        }
+        
+        .category-title .toggle-icon {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            /* デフォルト: 右向き三角形（閉じた状態） */
+            border-width: 5px 0 5px 8px;
+            border-color: transparent transparent transparent var(--text-secondary);
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+            margin-right: 8px;
+        }
+        
+        /* 開いた状態は下向き三角形にするため90度回転 */
+        .category:not(.collapsed) .toggle-icon {
+            transform: rotate(90deg);
+        }
+        
+        .category-title:hover .toggle-icon {
+            border-left-color: var(--text-primary);
+        }
+        
+        .category-content {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .category.collapsed .category-content {
+            max-height: 0;
+        }
+        
+        /* サブカテゴリ */
+        .subcategory {
+            margin-left: 24px;
             margin-bottom: 4px;
+        }
+        
+        .subcategory-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding: 6px 16px 6px 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+        
+        .subcategory-title:hover {
+            color: var(--text-primary);
+            background: var(--sidebar-hover);
+        }
+        
+        .subcategory-title .toggle-icon {
+            width: 12px;
+            height: 12px;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .subcategory.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        
+        .subcategory-content {
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .subcategory.collapsed .subcategory-content {
+            max-height: 0;
+        }
+        
+        .subcategory .nav-item {
+            font-size: 13px;
+            padding: 8px 24px 8px 32px;
         }
 
         .nav-item {
             display: block;
-            padding: 10px 24px;
+            padding: 8px 24px 8px 32px;
             color: var(--text-primary);
             text-decoration: none;
             font-size: 14px;
@@ -781,6 +872,32 @@
             background: var(--text-secondary);
         }
 
+        /* 更新リクエストミニマル版 */
+        .update-request-minimal {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .update-request-minimal p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .update-request-minimal a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted var(--accent);
+        }
+
+        .update-request-minimal a:hover {
+            color: var(--accent-hover);
+            border-bottom-style: solid;
+        }
+
         /* レスポンシブ */
         @media (max-width: 968px) {
             .ai-panel {
@@ -902,42 +1019,48 @@
 <div class="nav-divider"></div>
 <div class="category">
     <div class="category-title">基本情報</div>
-    <a href="introduction.html" class="nav-item">はじめに</a>
-    <a href="director-mindset.html" class="nav-item">ディレクターの心得</a>
-    <a href="work-process.html" class="nav-item">全体の業務プロセス</a>
-    <a href="communication.html" class="nav-item">コミュニケーションガイド</a>
-    <a href="troubleshooting.html" class="nav-item">代表的なトラブルシューティング</a>
+    <div class="category-content">
+        <a href="introduction.html" class="nav-item">はじめに</a>
+        <a href="director-mindset.html" class="nav-item">ディレクターの心得</a>
+        <a href="work-process.html" class="nav-item">全体の業務プロセス</a>
+        <a href="communication.html" class="nav-item">コミュニケーションガイド</a>
+        <a href="troubleshooting.html" class="nav-item">代表的なトラブルシューティング</a>
+    </div>
 </div>
 <div class="category">
     <div class="category-title">商談マニュアル</div>
-    <a href="sales-overview.html" class="nav-item">法人商談の全体像</a>
-    <a href="sales-mindset.html" class="nav-item">法人商談の心得</a>
-    <a href="trust-building.html" class="nav-item">信頼関係の構築テクニック</a>
-    <a href="hearing-master.html" class="nav-item">ヒアリングマスター講座</a>
-    <a href="proposal-techniques.html" class="nav-item">提案力を高める実践テクニック</a>
-    <a href="closing-success.html" class="nav-item">クロージング成功の秘訣</a>
-    <a href="product-strategies.html" class="nav-item">商材別の攻略法</a>
-    <a href="difficulty-handling.html" class="nav-item">難易度別の対処法</a>
+    <div class="category-content">
+        <a href="sales-overview.html" class="nav-item">法人商談の全体像</a>
+        <a href="sales-mindset.html" class="nav-item">法人商談の心得</a>
+        <a href="trust-building.html" class="nav-item">信頼関係の構築テクニック</a>
+        <a href="hearing-master.html" class="nav-item">ヒアリングマスター講座</a>
+        <a href="proposal-techniques.html" class="nav-item">提案力を高める実践テクニック</a>
+        <a href="closing-success.html" class="nav-item">クロージング成功の秘訣</a>
+        <a href="product-strategies.html" class="nav-item">商材別の攻略法</a>
+        <a href="difficulty-handling.html" class="nav-item">難易度別の対処法</a>
+    </div>
 </div>
 <div class="category">
     <div class="category-title">その他</div>
-    <a href="ai-assistant.html" class="nav-item">AIアシスタント</a>
-    <a href="faq.html" class="nav-item">よくある質問（FAQ）</a>
-    <a href="improvement-cases.html" class="nav-item">実践改善事例集</a>
+    <div class="category-content">
+        <a href="page.html" class="nav-item">AIチャット</a>
+        <a href="faq.html" class="nav-item">よくある質問（FAQ）</a>
+        <a href="improvement-cases.html" class="nav-item">実践改善事例集</a>
+    </div>
 </div>
 </div>
 <div class="sidebar-footer">
-    <button class="footer-link" id="aiToggleBtn" onclick="toggleAIPanel()">AIチャット</button>
+    <button class="footer-link" id="aiToggleBtn" onclick="toggleAiPanel()">AIチャット</button>
     <div class="footer-divider"></div>
-    <a href="feedback.html" class="footer-link">ガイドライン改善提案</a>
+    <a href="feedback.html" class="footer-link">ガイドライン追加/改善</a>
 </div>
         </div>
         
         <!-- AIチャットパネル -->
         <div class="ai-panel" id="aiPanel">
             <div class="ai-panel-header">
-                <h3>AIアシスタント</h3>
-                <button class="ai-close-btn" onclick="toggleAIPanel()">×</button>
+                <h3>AIチャット</h3>
+                <button class="ai-close-btn" onclick="toggleAiPanel()">×</button>
             </div>
             <div class="ai-messages" id="aiMessages">
                 <div class="ai-message">
@@ -956,7 +1079,7 @@
         
         <main class="main-content" id="mainContent">
             <div class="content-header">
-                <span>ガイドライン改善提案</span>
+                <span>ガイドライン追加・改善</span>
                 <div class="search-container">
                     <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
                     <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -967,41 +1090,114 @@
             </div>
             
             <div class="content-body">
-                <h1 id="_1">ガイドライン改善提案</h1>
-<h2 id="_2">より良いガイドラインを一緒に作りましょう！</h2>
-<p>日々の業務で感じた改善点や、「こうだったらもっと使いやすいのに」というアイデアをお聞かせください。
-皆さまからのフィードバックが、Harukazeのガイドラインをより実践的で使いやすいものに進化させます。</p>
-<h2 id="_3">📝 改善提案フォーム</h2>
-<p>下記のGoogleフォームから、改善提案をお送りください。</p>
-<div style="background: #f8f9fa; padding: 30px; border-radius: 8px; margin: 20px 0;">
-    <iframe src="https://docs.google.com/forms/d/19xonF8Oj6cpZpJzDLoVD7fKJ-HHPGz2VipwQv3umk9M/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+                <h1 id="_1">ガイドライン追加/改善</h1>
+<h2 id="_2">みんなで育てるガイドライン</h2>
+<p>「こんなケースもガイドラインに載せたい！」「最近見つけた良い方法をチームに共有したい！」</p>
+<p>そんな想いを持ったことはありませんか？このガイドラインは皆さんの知見を集めて、日々進化していくことを前提に作られています。</p>
+<h2 id="github-issue">追加/改善はGitHub Issueで</h2>
+<p>ガイドラインへの改善提案は、透明性と効率性を重視してGitHub Issueで管理しています。</p>
+<h3 id="3">以下の3つから選んでください：</h3>
+<div style="display: flex; gap: 16px; margin: 30px 0; flex-wrap: wrap; justify-content: center;">
+  <a href="https://github.com/Hisashi0001/harukaze/issues/new?template=content-addition.md" style="flex: 1; min-width: 200px; padding: 20px 16px; background: #ffffff; border: 1px solid #d0d7de; text-decoration: none; text-align: center; color: #0066cc; border-radius: 8px; transition: all 0.15s; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.12); display: block; position: relative; overflow: hidden;">
+    <div style="font-weight: 600; font-size: 16px;">コンテンツ追加</div>
+    <div style="font-size: 13px; margin-top: 6px; color: #57606a;">新しい知見やテクニックを追加</div>
+  </a>
+
+  <a href="https://github.com/Hisashi0001/harukaze/issues/new?template=content-fix.md" style="flex: 1; min-width: 200px; padding: 20px 16px; background: #ffffff; border: 1px solid #d0d7de; text-decoration: none; text-align: center; color: #0066cc; border-radius: 8px; transition: all 0.15s; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.12); display: block; position: relative; overflow: hidden;">
+    <div style="font-weight: 600; font-size: 16px;">内容修正</div>
+    <div style="font-size: 13px; margin-top: 6px; color: #57606a;">既存の内容を改善・修正</div>
+  </a>
+
+  <a href="https://github.com/Hisashi0001/harukaze/issues/new?template=question.md" style="flex: 1; min-width: 200px; padding: 20px 16px; background: #ffffff; border: 1px solid #d0d7de; text-decoration: none; text-align: center; color: #0066cc; border-radius: 8px; transition: all 0.15s; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.12); display: block; position: relative; overflow: hidden;">
+    <div style="font-weight: 600; font-size: 16px;">質問・相談</div>
+    <div style="font-size: 13px; margin-top: 6px; color: #57606a;">不明点や相談事項</div>
+  </a>
 </div>
 
-<h2 id="_4">💡 より良い提案のためのヒント</h2>
-<p>✅ <strong>具体的な状況を教えてください</strong>
-- 「〜の時に困った」「〜があれば良かった」など、実際の場面を共有してください</p>
-<p>✅ <strong>改善案もセットで</strong>
-- 問題点だけでなく、可能であれば解決策のアイデアも添えてください</p>
-<p>✅ <strong>小さな改善も大歓迎</strong>
-- 誤字脱字の指摘から、大きな構成変更まで、どんな提案も歓迎します</p>
-<p>✅ <strong>優先度を教えてください</strong>
-- 「すぐに必要」「あったら便利」など、緊急度の目安があると助かります</p>
-<h2 id="_5">📊 提案の活用について</h2>
-<p>いただいた提案は以下のように活用されます：</p>
+<style>
+  /* ホバー効果をCSSで定義（インラインでは難しいため） */
+  a[href*="github.com/Hisashi0001/harukaze/issues"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.12) !important;
+    border-color: #0066cc !important;
+  }
+
+  a[href*="github.com/Hisashi0001/harukaze/issues"]:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.12) !important;
+  }
+</style>
+
+<h2 id="_3">提案の流れ</h2>
 <ol>
-<li><strong>月次レビュー</strong>: 毎月の運営会議で全ての提案を確認</li>
-<li><strong>優先順位付け</strong>: 影響度と実現可能性を考慮して対応順を決定</li>
-<li><strong>実装と公開</strong>: 改善内容を反映し、更新履歴とともに公開</li>
-<li><strong>フィードバック</strong>: 提案者への対応状況の連絡</li>
+<li><strong>GitHub Issueを作成</strong>（上のボタンから）</li>
+<li><strong>週次レビュー</strong>（毎週金曜15:00〜）で確認</li>
+<li><strong>実装</strong>：承認されたものから順次反映</li>
+<li><strong>自動更新</strong>：サイトに自動反映</li>
 </ol>
-<h2 id="_6">🎯 これまでの改善例</h2>
+<hr />
+<h2 id="github">GitHubを使ったことがない方へ</h2>
+<h3 id="github3">GitHubアカウントの作り方（3分で完了）</h3>
+<ol>
+<li><a href="https://github.com">GitHub.com</a>にアクセス</li>
+<li>「Sign up」をクリック</li>
+<li>メールアドレスとパスワードを入力</li>
+<li>確認メールのリンクをクリック</li>
+</ol>
+<p>※完全無料です</p>
+<h3 id="_4">それでも難しい場合は...</h3>
+<p>下記のGoogleフォームからも提案可能です。ただし、進捗の確認や議論への参加はできません。</p>
+<div style="background: #f9f9f9; padding: 20px; margin: 20px 0; border: 1px solid #e0e0e0;">
+    <p style="margin-bottom: 15px; color: #666;">GitHubアカウントをお持ちでない方のみご利用ください</p>
+    <iframe src="https://docs.google.com/forms/d/19xonF8Oj6cpZpJzDLoVD7fKJ-HHPGz2VipwQv3umk9M/viewform?embedded=true" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+</div>
+
+<h2 id="_5">良い提案の書き方</h2>
+<p><strong>具体的な状況を教えてください</strong>
+- 「〜の時に困った」「〜があれば良かった」など、実際の場面を共有してください</p>
+<p><strong>改善案もセットで</strong>
+- 問題点だけでなく、可能であれば解決策のアイデアも添えてください</p>
+<p><strong>小さな改善も大歓迎</strong>
+- 誤字脱字の指摘から、大きな構成変更まで、どんな提案も歓迎します</p>
+<p><strong>優先度を教えてください</strong>
+- 「すぐに必要」「あったら便利」など、緊急度の目安があると助かります</p>
+<h2 id="_6">特に歓迎する提案</h2>
+<h3 id="1">1. 実践で得た知見</h3>
+<ul>
+<li>「先方への初回挨拶メッセージ、こう書いたら返信率が上がった」</li>
+<li>「修正依頼の伝え方で、この表現使ったらスムーズに進んだ」</li>
+<li>「Zoom商談で画面共有するときのコツを発見した」</li>
+</ul>
+<h3 id="2">2. よくあるトラブルと解決策</h3>
+<ul>
+<li>「納期遅延しそうなときの事前連絡テンプレート」</li>
+<li>「デザイナーとの認識ズレを防ぐチェックリスト」</li>
+<li>「クライアントの要望が曖昧なときの質問例」</li>
+</ul>
+<h3 id="3_1">3. 新しいカテゴリの提案</h3>
+<ul>
+<li>「テキストコミュニケーション」カテゴリを作って、Slack/メールのテクニックをまとめる</li>
+<li>「ツール活用術」カテゴリで、効率化のTipsを共有</li>
+</ul>
+<h3 id="4">4. すぐに追加すべきもの</h3>
+<p><strong>仕組み化できそうなところは、些細なものでも、問題が起きたタイミングや問題を解決したタイミングに、メモ書き程度で良いので、すぐに追加しましょう。そうすることで同じ問題が二度と起きないシステムが出来上がっていきます。</strong></p>
+<h2 id="_7">これまでの改善例</h2>
 <ul>
 <li>コミュニケーションガイドラインの事例追加</li>
 <li>トラブルシューティングセクションの新設</li>
 <li>動画コンテンツの文字起こし追加</li>
 <li>モバイル対応の改善</li>
+<li>AIチャット機能の実装</li>
 </ul>
-<p>皆さまの声が、ガイドラインをより良いものにしています！</p>
+<h2 id="_8">詳しい使い方</h2>
+<p>GitHub Issueを使った提案方法の詳細は、<a href="/GitHub_Issue運用マニュアル.md">GitHub Issue運用マニュアル</a>をご覧ください。</p>
+<hr />
+<p><a href="https://github.com/Hisashi0001/harukaze/issues/new/choose">GitHub Issueを作成</a></p>
+<p>皆さまの声が、ガイドラインをより良いものにしています。</p>
+                <!-- 更新リクエスト -->
+                <div class="update-request-minimal">
+                    <p>このページを改善する → <a href="feedback.html">ガイドライン追加/改善</a></p>
+                </div>
             </div>
         </main>
     </div>
@@ -1028,7 +1224,7 @@
         });
 
         // AIチャットパネルの表示/非表示
-        function toggleAIPanel() {
+        function toggleAiPanel() {
             const aiPanel = document.getElementById('aiPanel');
             const mainContent = document.getElementById('mainContent');
             const isActive = aiPanel.classList.contains('active');
@@ -1128,7 +1324,7 @@
         }
 
         // AIメッセージ送信
-        function sendAIMessage() {
+        async function sendAIMessage() {
             const input = document.getElementById('aiInput');
             const message = input.value.trim();
             
@@ -1140,21 +1336,80 @@
             // 入力欄をクリア
             input.value = '';
             
-            // AI応答をシミュレート
-            setTimeout(() => {
+            // ローディング表示
+            addAIMessage('考えています...', 'ai', 'loading');
+            
+            try {
+                // Vercel APIエンドポイント
+                const apiUrl = window.location.hostname === 'localhost' 
+                    ? 'http://localhost:3000/api/chat' 
+                    : 'https://guideline-ai-chat.vercel.app/api/chat-gemini';
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message }),
+                });
+                
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+                
+                const data = await response.json();
+                
+                // ローディングメッセージを削除
+                const messagesDiv = document.getElementById('aiMessages');
+                const loadingMsg = messagesDiv.querySelector('.ai-message.ai:last-child');
+                if (loadingMsg && loadingMsg.textContent.includes('考えています...')) {
+                    loadingMsg.remove();
+                }
+                
+                // AI応答を追加
+                let responseText = data.response;
+                
+                // 関連ページがある場合は追加
+                if (data.relatedPages && data.relatedPages.length > 0) {
+                    responseText += '\n\n**関連ページ:**\n';
+                    data.relatedPages.forEach(page => {
+                        responseText += `- [${page.title}](${page.url}) (${page.category})\n`;
+                    });
+                }
+                
+                addAIMessage(responseText, 'ai');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                
+                // ローディングメッセージを削除
+                const messagesDiv = document.getElementById('aiMessages');
+                const loadingMsg = messagesDiv.querySelector('.ai-message.ai:last-child');
+                if (loadingMsg && loadingMsg.textContent.includes('考えています...')) {
+                    loadingMsg.remove();
+                }
+                
+                // フォールバック: 従来のローカル応答を使用
                 const response = findBestResponse(message);
-                addAIMessage(response, 'ai');
-            }, 800);
+                addAIMessage(response + '\n\n*（注: 現在オフラインモードで動作しています）*', 'ai');
+            }
         }
 
-        function addAIMessage(text, sender) {
+        function addAIMessage(text, sender, className = '') {
             const messagesDiv = document.getElementById('aiMessages');
             const messageDiv = document.createElement('div');
-            messageDiv.className = `ai-message ${sender}`;
+            messageDiv.className = `ai-message ${sender} ${className}`;
             
             const contentDiv = document.createElement('div');
             contentDiv.className = 'ai-message-content';
-            contentDiv.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Markdownリンクを実際のリンクに変換
+            let html = text
+                .replace(/\n/g, '<br>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            
+            contentDiv.innerHTML = html;
             
             messageDiv.appendChild(contentDiv);
             messagesDiv.appendChild(messageDiv);
@@ -1171,6 +1426,75 @@
             }
         });
 
+        // トグル機能の実装
+        function initializeToggleCategories() {
+            // カテゴリのトグル
+            document.querySelectorAll('.category-title').forEach(title => {
+                // トグルアイコンが既に存在しない場合のみ追加
+                if (!title.querySelector('.toggle-icon')) {
+                    const icon = document.createElement('div');
+                    icon.className = 'toggle-icon';
+                    title.insertBefore(icon, title.firstChild);
+                }
+                
+                title.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const category = title.parentElement;
+                    category.classList.toggle('collapsed');
+                    
+                    // 状態を保存
+                    const categoryName = title.textContent.trim();
+                    const isCollapsed = category.classList.contains('collapsed');
+                    localStorage.setItem(`category-${categoryName}`, isCollapsed);
+                });
+            });
+            
+            // サブカテゴリのトグル
+            document.querySelectorAll('.subcategory-title').forEach(title => {
+                // トグルアイコンが既に存在しない場合のみ追加
+                if (!title.querySelector('.toggle-icon')) {
+                    const icon = document.createElement('div');
+                    icon.className = 'toggle-icon';
+                    title.insertBefore(icon, title.firstChild);
+                }
+                
+                title.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const subcategory = title.parentElement;
+                    subcategory.classList.toggle('collapsed');
+                    
+                    // 状態を保存
+                    const subcategoryName = title.textContent.trim();
+                    const isCollapsed = subcategory.classList.contains('collapsed');
+                    localStorage.setItem(`subcategory-${subcategoryName}`, isCollapsed);
+                });
+            });
+            
+            // 保存された状態を復元（デフォルトは閉じた状態）
+            document.querySelectorAll('.category').forEach(category => {
+                const title = category.querySelector('.category-title');
+                if (title) {
+                    const categoryName = title.textContent.trim();
+                    const savedState = localStorage.getItem(`category-${categoryName}`);
+                    // 保存された状態がない場合はデフォルトで閉じる
+                    if (savedState === null || savedState === 'true') {
+                        category.classList.add('collapsed');
+                    }
+                }
+            });
+            
+            document.querySelectorAll('.subcategory').forEach(subcategory => {
+                const title = subcategory.querySelector('.subcategory-title');
+                if (title) {
+                    const subcategoryName = title.textContent.trim();
+                    const isCollapsed = localStorage.getItem(`subcategory-${subcategoryName}`) === 'true';
+                    if (isCollapsed) {
+                        subcategory.classList.add('collapsed');
+                    }
+                }
+            });
+        }
+        
         // アクティブなページをハイライト
         document.addEventListener('DOMContentLoaded', function() {
             const currentPage = window.location.pathname.split('/').pop();
@@ -1179,8 +1503,30 @@
             navItems.forEach(item => {
                 if (item.getAttribute('href') === currentPage) {
                     item.classList.add('active');
+                    
+                    // アクティブなアイテムが含まれるカテゴリを展開
+                    let parent = item.parentElement;
+                    while (parent) {
+                        if (parent.classList.contains('category') || parent.classList.contains('subcategory')) {
+                            parent.classList.remove('collapsed');
+                            // アクティブなカテゴリの状態を保存
+                            const title = parent.querySelector('.category-title, .subcategory-title');
+                            if (title) {
+                                const name = title.textContent.trim();
+                                const prefix = parent.classList.contains('category') ? 'category' : 'subcategory';
+                                localStorage.setItem(`${prefix}-${name}`, 'false');
+                            }
+                        }
+                        parent = parent.parentElement;
+                        if (parent && parent.classList.contains('sidebar-nav')) {
+                            break;
+                        }
+                    }
                 }
             });
+            
+            // トグル機能を初期化
+            initializeToggleCategories();
 
             // スムーススクロール for アンカーリンク
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {

@@ -176,43 +176,107 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン改善提案",
-    "sectionTitle": "より良いガイドラインを一緒に作りましょう！",
-    "content": "日々の業務で感じた改善点や、「こうだったらもっと使いやすいのに」というアイデアをお聞かせください。 皆さまからのフィードバックが、Harukazeのガイドラインをより実践的で使いやすいものに進化させます。 ",
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "みんなで育てるガイドライン",
+    "content": "「こんなケースもガイドラインに載せたい！」「最近見つけた良い方法をチームに共有したい！」 そんな想いを持ったことはありませんか？このガイドラインは皆さんの知見を集めて、日々進化していくことを前提に作られています。 ",
     "url": "feedback.html",
-    "sectionId": "より良いガイドラインを一緒に作りましょう",
+    "sectionId": "みんなで育てるガイドライン",
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン改善提案",
-    "sectionTitle": "📝 改善提案フォーム",
-    "content": "下記のGoogleフォームから、改善提案をお送りください。 <div style=\"background: #f8f9fa; padding: 30px; border-radius: 8px; margin: 20px 0;\"> <iframe src=\"https://docs.google.com/forms/d/19xonF8Oj6cpZpJzDLoVD7fKJ-HHPGz2VipwQv3umk9M/viewform?embedded=true\" width=\"100%\" height=\"800\" frameborder=\"0\" marginheight=\"0\" marginwidth",
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "追加/改善はGitHub Issueで",
+    "content": "ガイドラインへの改善提案は、透明性と効率性を重視してGitHub Issueで管理しています。 ",
     "url": "feedback.html",
-    "sectionId": "-改善提案フォーム",
+    "sectionId": "追加改善はgithub-issueで",
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン改善提案",
-    "sectionTitle": "💡 より良い提案のためのヒント",
-    "content": "✅ **具体的な状況を教えてください** - 「〜の時に困った」「〜があれば良かった」など、実際の場面を共有してください ✅ **改善案もセットで** - 問題点だけでなく、可能であれば解決策のアイデアも添えてください ✅ **小さな改善も大歓迎** - 誤字脱字の指摘から、大きな構成変更まで、どんな提案も歓迎します ✅ **優先度を教えてください** - 「すぐに必要」「あったら便利」など、緊急度の目安があると助かります ",
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "以下の3つから選んでください：",
+    "content": "<div style=\"display: flex; gap: 16px; margin: 30px 0; flex-wrap: wrap; justify-content: center;\"> <a href=\"https://github.com/Hisashi0001/harukaze/issues/new?template=content-addition.md\" style=\"flex: 1; min-width: 200px; padding: 20px 16px; background: #ffffff; border: 1px solid #d0d7de; text-decor",
     "url": "feedback.html",
-    "sectionId": "-より良い提案のためのヒント",
+    "sectionId": "以下の3つから選んでください",
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン改善提案",
-    "sectionTitle": "📊 提案の活用について",
-    "content": "いただいた提案は以下のように活用されます： 1. **月次レビュー**: 毎月の運営会議で全ての提案を確認 2. **優先順位付け**: 影響度と実現可能性を考慮して対応順を決定 3. **実装と公開**: 改善内容を反映し、更新履歴とともに公開 4. **フィードバック**: 提案者への対応状況の連絡 ",
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "提案の流れ",
+    "content": "1. **GitHub Issueを作成**（上のボタンから） 2. **週次レビュー**（毎週金曜15:00〜）で確認 3. **実装**：承認されたものから順次反映 4. **自動更新**：サイトに自動反映 --- ",
     "url": "feedback.html",
-    "sectionId": "-提案の活用について",
+    "sectionId": "提案の流れ",
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン改善提案",
-    "sectionTitle": "🎯 これまでの改善例",
-    "content": "- コミュニケーションガイドラインの事例追加 - トラブルシューティングセクションの新設 - 動画コンテンツの文字起こし追加 - モバイル対応の改善 皆さまの声が、ガイドラインをより良いものにしています！ ",
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "GitHubアカウントの作り方（3分で完了）",
+    "content": "1. [GitHub.com](https://github.com)にアクセス 2. 「Sign up」をクリック 3. メールアドレスとパスワードを入力 4. 確認メールのリンクをクリック ※完全無料です ",
     "url": "feedback.html",
-    "sectionId": "-これまでの改善例",
+    "sectionId": "githubアカウントの作り方3分で完了",
+    "category": "その他"
+  },
+  {
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "それでも難しい場合は...",
+    "content": "下記のGoogleフォームからも提案可能です。ただし、進捗の確認や議論への参加はできません。 <div style=\"background: #f9f9f9; padding: 20px; margin: 20px 0; border: 1px solid #e0e0e0;\"> <p style=\"margin-bottom: 15px; color: #666;\">GitHubアカウントをお持ちでない方のみご利用ください</p> <iframe src=\"https://docs.google.com/forms/d/19xonF8Oj6cpZpJzDLoVD7fKJ-HHPGz2VipwQ",
+    "url": "feedback.html",
+    "sectionId": "それでも難しい場合は",
+    "category": "その他"
+  },
+  {
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "良い提案の書き方",
+    "content": "**具体的な状況を教えてください** - 「〜の時に困った」「〜があれば良かった」など、実際の場面を共有してください **改善案もセットで** - 問題点だけでなく、可能であれば解決策のアイデアも添えてください **小さな改善も大歓迎** - 誤字脱字の指摘から、大きな構成変更まで、どんな提案も歓迎します **優先度を教えてください** - 「すぐに必要」「あったら便利」など、緊急度の目安があると助かります ",
+    "url": "feedback.html",
+    "sectionId": "良い提案の書き方",
+    "category": "その他"
+  },
+  {
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "1. 実践で得た知見",
+    "content": "- 「先方への初回挨拶メッセージ、こう書いたら返信率が上がった」 - 「修正依頼の伝え方で、この表現使ったらスムーズに進んだ」 - 「Zoom商談で画面共有するときのコツを発見した」 ",
+    "url": "feedback.html",
+    "sectionId": "1-実践で得た知見",
+    "category": "その他"
+  },
+  {
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "2. よくあるトラブルと解決策",
+    "content": "- 「納期遅延しそうなときの事前連絡テンプレート」 - 「デザイナーとの認識ズレを防ぐチェックリスト」 - 「クライアントの要望が曖昧なときの質問例」 ",
+    "url": "feedback.html",
+    "sectionId": "2-よくあるトラブルと解決策",
+    "category": "その他"
+  },
+  {
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "3. 新しいカテゴリの提案",
+    "content": "- 「テキストコミュニケーション」カテゴリを作って、Slack/メールのテクニックをまとめる - 「ツール活用術」カテゴリで、効率化のTipsを共有 ",
+    "url": "feedback.html",
+    "sectionId": "3-新しいカテゴリの提案",
+    "category": "その他"
+  },
+  {
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "4. すぐに追加すべきもの",
+    "content": "**仕組み化できそうなところは、些細なものでも、問題が起きたタイミングや問題を解決したタイミングに、メモ書き程度で良いので、すぐに追加しましょう。そうすることで同じ問題が二度と起きないシステムが出来上がっていきます。** ",
+    "url": "feedback.html",
+    "sectionId": "4-すぐに追加すべきもの",
+    "category": "その他"
+  },
+  {
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "これまでの改善例",
+    "content": "- コミュニケーションガイドラインの事例追加 - トラブルシューティングセクションの新設 - 動画コンテンツの文字起こし追加 - モバイル対応の改善 - AIチャット機能の実装 ",
+    "url": "feedback.html",
+    "sectionId": "これまでの改善例",
+    "category": "その他"
+  },
+  {
+    "pageTitle": "ガイドライン追加・改善",
+    "sectionTitle": "詳しい使い方",
+    "content": "GitHub Issueを使った提案方法の詳細は、[GitHub Issue運用マニュアル](/GitHub_Issue運用マニュアル.md)をご覧ください。 --- [GitHub Issueを作成](https://github.com/Hisashi0001/harukaze/issues/new/choose) 皆さまの声が、ガイドラインをより良いものにしています。 ",
+    "url": "feedback.html",
+    "sectionId": "詳しい使い方",
     "category": "その他"
   },
   {

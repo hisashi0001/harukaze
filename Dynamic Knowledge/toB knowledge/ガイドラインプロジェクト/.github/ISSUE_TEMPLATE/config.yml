@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Slack で相談
+    url: https://harukaze.slack.com/
+    about: 緊急の相談はSlackでお願いします
+  - name: ガイドラインを見る
+    url: https://hisashi0001.github.io/harukaze/Dynamic%20Knowledge/toB%20knowledge/ガイドラインプロジェクト/site_output/
+    about: まずはガイドラインを確認してみてください
