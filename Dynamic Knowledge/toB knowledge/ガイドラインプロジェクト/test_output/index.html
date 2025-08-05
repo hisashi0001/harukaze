@@ -327,14 +327,20 @@
             border-left-color: var(--text-primary);
         }
         
+        /* デフォルトでカテゴリは閉じた状態 */
+        .category {
+            /* 初期状態で閉じておく */
+        }
+        
         .category-content {
-            max-height: 1000px;
+            max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
         
-        .category.collapsed .category-content {
-            max-height: 0;
+        /* 明示的に開いた状態のスタイル */
+        .category:not(.collapsed) .category-content {
+            max-height: 1000px;
         }
         
         /* サブカテゴリ */
@@ -1017,7 +1023,7 @@
 <div class="sidebar-nav">
 <a href="index.html" class="nav-item">ホーム</a>
 <div class="nav-divider"></div>
-<div class="category">
+<div class="category collapsed">
     <div class="category-title">基本情報</div>
     <div class="category-content">
         <a href="introduction.html" class="nav-item">はじめに</a>
@@ -1027,7 +1033,7 @@
         <a href="troubleshooting.html" class="nav-item">代表的なトラブルシューティング</a>
     </div>
 </div>
-<div class="category">
+<div class="category collapsed">
     <div class="category-title">商談マニュアル</div>
     <div class="category-content">
         <a href="sales-overview.html" class="nav-item">法人商談の全体像</a>
@@ -1040,7 +1046,7 @@
         <a href="difficulty-handling.html" class="nav-item">難易度別の対処法</a>
     </div>
 </div>
-<div class="category">
+<div class="category collapsed">
     <div class="category-title">その他</div>
     <div class="category-content">
         <a href="page.html" class="nav-item">AIチャット</a>
@@ -1409,8 +1415,10 @@
                 if (title) {
                     const categoryName = title.textContent.trim();
                     const savedState = localStorage.getItem(`category-${categoryName}`);
-                    // 保存された状態がない場合はデフォルトで閉じる
-                    if (savedState === null || savedState === 'true') {
+                    // 保存された状態がない場合（null）はデフォルトで閉じる
+                    // 保存された状態が'true'の場合も閉じる
+                    // 'false'の場合のみ開く
+                    if (savedState !== 'false') {
                         category.classList.add('collapsed');
                     }
                 }
@@ -1430,6 +1438,9 @@
         
         // アクティブなページをハイライト
         document.addEventListener('DOMContentLoaded', function() {
+            // 先にトグル機能を初期化（デフォルト状態を設定）
+            initializeToggleCategories();
+            
             const currentPage = window.location.pathname.split('/').pop();
             const navItems = document.querySelectorAll('.nav-item');
             
@@ -1457,9 +1468,6 @@
                     }
                 }
             });
-            
-            // トグル機能を初期化
-            initializeToggleCategories();
 
             // スムーススクロール for アンカーリンク
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {

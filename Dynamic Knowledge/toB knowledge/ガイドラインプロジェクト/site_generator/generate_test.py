@@ -228,7 +228,7 @@ def generate_navigation(files_by_category, current_file=None):
     nav_items.append('<div class="nav-divider"></div>')
     
     for category in sorted_categories:
-        nav_items.append('<div class="category">')
+        nav_items.append('<div class="category collapsed">')
         nav_items.append(f'    <div class="category-title">{category}</div>')
         nav_items.append('    <div class="category-content">')
         

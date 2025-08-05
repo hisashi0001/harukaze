@@ -1286,11 +1286,6 @@
 
         // トグル機能の実装
         function initializeToggleCategories() {
-            // 最初にすべてのカテゴリをcollapsed状態にする
-            document.querySelectorAll('.category').forEach(category => {
-                category.classList.add('collapsed');
-            });
-            
             // カテゴリのトグル
             document.querySelectorAll('.category-title').forEach(title => {
                 // トグルアイコンが既に存在しない場合のみ追加

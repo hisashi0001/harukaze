@@ -265,27 +265,29 @@ class AutoSiteGenerator:
             if category in categories:
                 pages = categories[category]
                 sidebar_html += f'''
-<div class="category">
-<div class="category-title">{category}</div>'''
+<div class="category collapsed">
+<div class="category-title">{category}</div>
+<div class="category-content">'''
                 
                 for page in pages:
                     sidebar_html += f'''
 <a href="{page['output_name']}" class="nav-item">{page['title']}</a>'''
                 
-                sidebar_html += '\n</div>'
+                sidebar_html += '\n</div>\n</div>'
         
         # 定義されていないカテゴリも追加
         for category, pages in categories.items():
             if category not in category_order:
                 sidebar_html += f'''
-<div class="category">
-<div class="category-title">{category}</div>'''
+<div class="category collapsed">
+<div class="category-title">{category}</div>
+<div class="category-content">'''
                 
                 for page in pages:
                     sidebar_html += f'''
 <a href="{page['output_name']}" class="nav-item">{page['title']}</a>'''
                 
-                sidebar_html += '\n</div>'
+                sidebar_html += '\n</div>\n</div>'
         
         sidebar_html += '\n</nav>'
         

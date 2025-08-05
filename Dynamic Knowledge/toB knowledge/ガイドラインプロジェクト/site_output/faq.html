@@ -1021,16 +1021,19 @@
 <p>法人事業 品質管理マニュアル</p>
 </div>
 <nav class="sidebar-nav">
-<div class="category">
+<div class="category collapsed">
 <div class="category-title">基本情報</div>
+<div class="category-content">
 <a href="index.html" class="nav-item">はじめに</a>
 <a href="director_mindset.html" class="nav-item">ディレクターの心得</a>
 <a href="business_process.html" class="nav-item">全体の業務プロセス</a>
 <a href="communication_guide.html" class="nav-item">コミュニケーションガイド</a>
 <a href="troubleshooting.html" class="nav-item">代表的なトラブルシューティング</a>
 </div>
-<div class="category">
+</div>
+<div class="category collapsed">
 <div class="category-title">商談マニュアル</div>
+<div class="category-content">
 <a href="page_10.html" class="nav-item">法人商談の全体像</a>
 <a href="page_11.html" class="nav-item">法人商談の心得</a>
 <a href="page_12.html" class="nav-item">信頼関係の構築テクニック</a>
@@ -1040,12 +1043,15 @@
 <a href="page_16.html" class="nav-item">商材別の攻略法</a>
 <a href="page_17.html" class="nav-item">難易度別の対処法</a>
 </div>
-<div class="category">
+</div>
+<div class="category collapsed">
 <div class="category-title">その他</div>
+<div class="category-content">
 <a href="ai-assistant.html" class="nav-item">Aiチャット</a>
 <a href="faq.html" class="nav-item">よくある質問（FAQ）</a>
 <a href="feedback.html" class="nav-item">ガイドライン追加・改善</a>
 <a href="improvement_cases.html" class="nav-item">実践改善事例集</a>
+</div>
 </div>
 </nav>
 <div class="sidebar-footer">
@@ -1477,11 +1483,6 @@ Google Driveの自動同期設定をしておけば、保存し忘れのリス�
 
         // トグル機能の実装
         function initializeToggleCategories() {
-            // 最初にすべてのカテゴリをcollapsed状態にする
-            document.querySelectorAll('.category').forEach(category => {
-                category.classList.add('collapsed');
-            });
-            
             // カテゴリのトグル
             document.querySelectorAll('.category-title').forEach(title => {
                 // トグルアイコンが既に存在しない場合のみ追加
