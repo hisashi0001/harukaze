@@ -167,7 +167,7 @@ class AutoSiteGenerator:
         
         # 日本語ファイル名の変換テーブル
         replacements = {
-            'はじめに': 'index',
+            'はじめに': 'introduction',
             'ディレクターの心得': 'director_mindset',
             '全体の業務プロセス': 'business_process',
             'コミュニケーションガイド': 'communication_guide',
@@ -192,6 +192,9 @@ class AutoSiteGenerator:
         # 変換テーブルで一致するものがあれば使用
         for jp, en in replacements.items():
             if jp in name:
+                # 「はじめに」はintroductionに変更（indexではなく）
+                if jp == 'はじめに':
+                    return 'introduction'
                 return en
         
         # 一致しない場合は安全な形式に変換
@@ -255,7 +258,9 @@ class AutoSiteGenerator:
 </a>
 <p>法人事業 品質管理マニュアル</p>
 </div>
-<nav class="sidebar-nav">'''
+<nav class="sidebar-nav">
+<a href="index.html" class="nav-item">ホーム</a>
+<div class="nav-divider"></div>'''
         
         # カテゴリの表示順序を定義
         category_order = ["基本情報", "商談マニュアル", "その他", "Loom動画"]
@@ -407,10 +412,9 @@ class AutoSiteGenerator:
             output_path = self.output_dir / page['output_name']
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.write(output)
-            
-            # 最初のページをindex.htmlとしてもコピー
-            if i == 0:
-                shutil.copy(output_path, self.output_dir / 'index.html')
+        
+        # ホームページを生成
+        self.generate_index_page(template, sidebar_html)
         
         # 検索インデックスを生成
         search_index = self.generate_search_index()
@@ -426,6 +430,65 @@ class AutoSiteGenerator:
             print(f"\n【{category}】")
             for page in pages:
                 print(f"  - {page['title']} ({page['output_name']})")
+    
+    def generate_index_page(self, template, sidebar_html):
+        """ホームページを生成"""
+        content = '''
+# Harukazeガイドライン
+
+このサイトはHarukazeのディレクター向けガイドラインです。
+
+## 初めての方へ
+
+このガイドラインを初めてご覧になる方は、まず「基本情報」カテゴリのコンテンツから順番にお読みください。基本情報には、ディレクターとして押さえておくべき重要な5つのコンテンツがまとめられています。
+
+## コンテンツ一覧
+'''
+        
+        # カテゴリの表示順序
+        category_order = ["基本情報", "商談マニュアル", "その他"]
+        
+        # カテゴリごとにリンクを生成
+        for category in category_order:
+            pages = [p for p in self.pages if p['category'] == category]
+            if pages:
+                content += f"\n### {category}\n\n"
+                for page in pages:
+                    content += f"- [{page['title']}]({page['output_name']})\n"
+        
+        # 定義されていないカテゴリも追加
+        other_categories = [cat for cat in set(p['category'] for p in self.pages) if cat not in category_order]
+        for category in other_categories:
+            pages = [p for p in self.pages if p['category'] == category]
+            if pages:
+                content += f"\n### {category}\n\n"
+                for page in pages:
+                    content += f"- [{page['title']}]({page['output_name']})\n"
+        
+        content += '''
+## フィードバック
+
+ガイドラインをより良くするため、ぜひご意見をお聞かせください。
+
+→ [改善提案フォームはこちら](feedback.html)
+'''
+        
+        # Markdownをレンダリング
+        md = markdown.Markdown(extensions=['extra', 'codehilite', 'toc', 'nl2br'])
+        html_content = md.convert(content)
+        
+        # テンプレートに埋め込み
+        output = template.replace('{{TITLE}}', 'Harukazeガイドライン')
+        output = output.replace('{{SIDEBAR}}', sidebar_html)
+        output = output.replace('{{CONTENT}}', html_content)
+        output = output.replace('{{PAGE_TITLE}}', 'ホーム')
+        
+        # index.htmlとして保存
+        output_path = self.output_dir / 'index.html'
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(output)
+        
+        print("⚡ ホームページ を生成中...")
     
     def get_pages_by_category(self):
         """カテゴリごとにページを整理"""
