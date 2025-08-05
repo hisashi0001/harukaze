@@ -194,7 +194,7 @@
   {
     "pageTitle": "ガイドライン追加・改善",
     "sectionTitle": "以下の3つから選んでください：",
-    "content": "<div style=\"display: flex; gap: 16px; margin: 30px 0; flex-wrap: wrap; justify-content: center;\"> <a href=\"https://github.com/Hisashi0001/harukaze/issues/new?template=content-addition.md\" style=\"flex: 1; min-width: 200px; padding: 20px 16px; background: #ffffff; border: 1px solid #d0d7de; text-decor",
+    "content": "<div style=\"display: flex; gap: 16px; margin: 30px 0; flex-wrap: wrap; justify-content: center;\"> <a href=\"https://github.com/Hisashi0001/harukaze/issues/new?assignees=&labels=%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E8%BF%BD%E5%8A%A0&projects=&template=content_addition.md&title=%5B%E8%BF%BD%E5",
     "url": "feedback.html",
     "sectionId": "以下の3つから選んでください",
     "category": "その他"
@@ -274,7 +274,7 @@
   {
     "pageTitle": "ガイドライン追加・改善",
     "sectionTitle": "詳しい使い方",
-    "content": "GitHub Issueを使った提案方法の詳細は、[GitHub Issue運用マニュアル](/GitHub_Issue運用マニュアル.md)をご覧ください。 --- [GitHub Issueを作成](https://github.com/Hisashi0001/harukaze/issues/new/choose) 皆さまの声が、ガイドラインをより良いものにしています。 ",
+    "content": "GitHub Issueを使った提案方法の詳細は、[GitHub Issue運用マニュアル](/GitHub_Issue運用マニュアル.md)をご覧ください。 --- <a href=\"https://github.com/Hisashi0001/harukaze/issues/new/choose\" target=\"_blank\">GitHub Issueを作成</a> 皆さまの声が、ガイドラインをより良いものにしています。 ",
     "url": "feedback.html",
     "sectionId": "詳しい使い方",
     "category": "その他"
