@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>リアルタイム商談アドバイザー (Advanced Whisper版)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .advice-box {
+            min-height: 400px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .advice-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        .advice-item.urgent {
+            border-left-color: #ff4444;
+            background-color: #fff5f5;
+        }
+        .advice-item.important {
+            border-left-color: #ffaa00;
+            background-color: #fffaf0;
+        }
+        .advice-item.normal {
+            border-left-color: #00aa00;
+            background-color: #f5fff5;
+        }
+        .phase-indicator {
+            padding: 10px;
+            background-color: #e3f2fd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .customer-info {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .status {
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .status.connected {
+            background-color: #4caf50;
+            color: white;
+        }
+        .status.disconnected {
+            background-color: #f44336;
+            color: white;
+        }
+        .suggested-response {
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .control-button {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .control-button.start {
+            background-color: #4caf50;
+            color: white;
+        }
+        .control-button.start:hover {
+            background-color: #45a049;
+        }
+        .control-button.stop {
+            background-color: #f44336;
+            color: white;
+        }
+        .control-button.stop:hover {
+            background-color: #da190b;
+        }
+        .control-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .question-input-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-radius: 5px;
+        }
+        .question-input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .question-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .question-button:hover {
+            background-color: #1976D2;
+        }
+        .custom-advice {
+            background-color: #e3f2fd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #2196F3;
+        }
+        .quick-questions {
+            margin-top: 10px;
+        }
+        .quick-question-btn {
+            margin: 2px;
+            padding: 5px 10px;
+            background-color: #fff;
+            border: 1px solid #2196F3;
+            border-radius: 3px;
+            color: #2196F3;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .quick-question-btn:hover {
+            background-color: #2196F3;
+            color: white;
+        }
+        .prior-info-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff3cd;
+            border-radius: 5px;
+        }
+        .prior-info-textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            min-height: 100px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        .prior-info-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .prior-info-button:hover {
+            background-color: #f57c00;
+        }
+        .prior-info-status {
+            margin-top: 10px;
+            padding: 5px;
+            text-align: center;
+            border-radius: 3px;
+            font-size: 12px;
+            display: none;
+        }
+        .prior-info-status.success {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+        .transcript-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+        .transcript-box {
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .transcript-item {
+            padding: 5px 10px;
+            margin-bottom: 5px;
+            background-color: white;
+            border-radius: 3px;
+            border-left: 3px solid #6c757d;
+        }
+        .transcript-item.new {
+            animation: fadeIn 0.5s ease-in;
+            border-left-color: #28a745;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .whisper-badge {
+            display: inline-block;
+            background-color: #0084ff;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .model-badge {
+            display: inline-block;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        .confidence-indicator {
+            display: inline-block;
+            font-size: 10px;
+            margin-left: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background-color: #e0e0e0;
+            color: #666;
+        }
+        .confidence-high {
+            background-color: #4caf50;
+            color: white;
+        }
+        .confidence-medium {
+            background-color: #ff9800;
+            color: white;
+        }
+        .confidence-low {
+            background-color: #f44336;
+            color: white;
+        }
+        .terms-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+        }
+        .terms-input {
+            width: calc(100% - 22px);
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 13px;
+            margin-bottom: 8px;
+            box-sizing: border-box;
+        }
+        .terms-button {
+            width: 100%;
+            padding: 8px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .terms-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 リアルタイム商談アドバイザー 
+        <span class="whisper-badge">Whisper</span>
+        <span class="model-badge">GPT-4o</span>
+    </h1>
+    
+    <div class="container">
+        <div class="card">
+            <div id="status" class="status disconnected">接続中...</div>
+            <button id="recordButton" class="control-button stop" onclick="toggleRecording()">
+                🔴 音声入力を停止
+            </button>
+            <button class="control-button" style="background-color: #9c27b0; color: white; margin-bottom: 15px;" onclick="forceAdvice()">
+                🧠 今すぐアドバイスを生成
+            </button>
+            <div id="phase" class="phase-indicator">フェーズ: 診断中</div>
+            
+            <div class="transcript-container">
+                <h3>🎤 文字起こし（リアルタイム）</h3>
+                <div id="transcript-box" class="transcript-box">
+                    <div style="color: #6c757d; font-style: italic;">音声認識を待機中...</div>
+                </div>
+            </div>
+            
+            <h2>アドバイス</h2>
+            <div id="advice-box" class="advice-box"></div>
+        </div>
+        
+        <div class="card">
+            <div class="prior-info-container">
+                <h3>📋 事前情報</h3>
+                <textarea id="priorInfoTextarea" class="prior-info-textarea" 
+                          placeholder="顧客に関する事前情報をここに入力してください。&#10;例：&#10;- 会社名：〇〇株式会社&#10;- 業界：IT&#10;- 課題：デザイナー不足&#10;- 予算感：100万円程度&#10;- その他メモ..."></textarea>
+                <button class="prior-info-button" onclick="updatePriorInfo()">事前情報を更新</button>
+                <div id="priorInfoStatus" class="prior-info-status">✅ 事前情報を更新しました</div>
+            </div>
+            
+            <h2>顧客情報</h2>
+            <div id="customer-info" class="customer-info">
+                <p>情報を収集中...</p>
+            </div>
+            
+            <div class="terms-container">
+                <h3>🔧 専門用語の追加</h3>
+                <input type="text" id="termsInput" class="terms-input" 
+                       placeholder="認識させたい専門用語（カンマ区切り）" />
+                <button class="terms-button" onclick="addTerms()">用語を追加</button>
+            </div>
+            
+            <div class="question-input-container">
+                <h3>💡 AIに質問</h3>
+                <input type="text" id="questionInput" class="question-input" 
+                       placeholder="例: この人へのヒアリングは何が良い？" 
+                       onkeypress="if(event.key==='Enter') sendQuestion()">
+                <button class="question-button" onclick="sendQuestion()">質問する</button>
+                <div class="quick-questions">
+                    <button class="quick-question-btn" onclick="askQuickQuestion('この顧客へのヒアリングは何が良い？')">ヒアリング提案</button>
+                    <button class="quick-question-btn" onclick="askQuickQuestion('この顧客のインサイトは？')">インサイト分析</button>
+                    <button class="quick-question-btn" onclick="askQuickQuestion('次に聞くべき質問は？')">次の質問</button>
+                    <button class="quick-question-btn" onclick="askQuickQuestion('クロージングのタイミングは？')">クロージング</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let isRecording = true;
+        
+        function connectWebSocket() {
+            ws = new WebSocket('ws://localhost:8001/ws');
+            
+            ws.onopen = function() {
+                document.getElementById('status').className = 'status connected';
+                document.getElementById('status').textContent = '🟢 接続中 - 音声を分析しています (GPT-4o Transcribe)';
+                updateRecordButton(true);
+            };
+            
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                
+                if (data.type === 'advice') {
+                    // Update phase
+                    document.getElementById('phase').textContent = 
+                        `フェーズ: ${getPhaseLabel(data.phase)}`;
+                    
+                    // Add advice
+                    addAdvice(data.data);
+                    
+                    // Update customer profile
+                    updateCustomerInfo(data.customer_profile);
+                } else if (data.type === 'status') {
+                    isRecording = data.recording;
+                    updateRecordButton(data.recording);
+                } else if (data.type === 'custom_advice') {
+                    // Add custom advice response
+                    addCustomAdvice(data.data);
+                } else if (data.type === 'prior_info_updated') {
+                    // Show success message
+                    const status = document.getElementById('priorInfoStatus');
+                    status.className = 'prior-info-status success';
+                    setTimeout(() => {
+                        status.className = 'prior-info-status';
+                    }, 3000);
+                } else if (data.type === 'transcript') {
+                    // Add transcript with confidence
+                    addTranscript(data.text, data.confidence);
+                } else if (data.type === 'terms_added') {
+                    alert(`専門用語を追加しました: ${data.terms.join(', ')}`);
+                }
+            };
+            
+            ws.onclose = function() {
+                document.getElementById('status').className = 'status disconnected';
+                document.getElementById('status').textContent = '❌ 切断されました - 再接続中...';
+                setTimeout(connectWebSocket, 3000);
+            };
+        }
+        
+        function toggleRecording() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                alert('WebSocket接続が確立されていません');
+                return;
+            }
+            
+            if (isRecording) {
+                ws.send(JSON.stringify({ command: 'stop' }));
+            } else {
+                ws.send(JSON.stringify({ command: 'start' }));
+            }
+        }
+        
+        function updateRecordButton(recording) {
+            const button = document.getElementById('recordButton');
+            if (recording) {
+                button.textContent = '🔴 音声入力を停止';
+                button.className = 'control-button stop';
+            } else {
+                button.textContent = '🎤 音声入力を開始';
+                button.className = 'control-button start';
+            }
+        }
+        
+        function getPhaseLabel(phase) {
+            const labels = {
+                'diagnosis': '診断',
+                'redefinition': '再定義',
+                'future_presentation': '未来提示',
+                'decision_facilitation': '決断促進'
+            };
+            return labels[phase] || phase;
+        }
+        
+        function addAdvice(advice) {
+            const adviceBox = document.getElementById('advice-box');
+            const adviceItem = document.createElement('div');
+            
+            const priorityClass = advice.priority === '🔴' ? 'urgent' : 
+                                advice.priority === '🟡' ? 'important' : 'normal';
+            
+            adviceItem.className = `advice-item ${priorityClass}`;
+            adviceItem.innerHTML = `
+                <div><strong>${advice.priority} アドバイス:</strong></div>
+                <div>${advice.advice}</div>
+                ${advice.suggested_response ? 
+                    `<div class="suggested-response">💡 提案する返答: ${advice.suggested_response}</div>` : ''}
+            `;
+            
+            adviceBox.insertBefore(adviceItem, adviceBox.firstChild);
+            
+            // Keep only last 10 advice items
+            while (adviceBox.children.length > 10) {
+                adviceBox.removeChild(adviceBox.lastChild);
+            }
+        }
+        
+        function updateCustomerInfo(profile) {
+            const infoDiv = document.getElementById('customer-info');
+            let html = '';
+            
+            for (const [key, value] of Object.entries(profile)) {
+                const label = getProfileLabel(key);
+                html += `<p><strong>${label}:</strong> ${value}</p>`;
+            }
+            
+            if (html === '') {
+                html = '<p>情報を収集中...</p>';
+            }
+            
+            infoDiv.innerHTML = html;
+        }
+        
+        function getProfileLabel(key) {
+            const labels = {
+                'name': '名前',
+                'company': '会社',
+                'role': '役職',
+                'challenge': '課題',
+                'budget': '予算',
+                'timeline': '期限',
+                'motivation': '動機',
+                'concerns': '懸念事項'
+            };
+            return labels[key] || key;
+        }
+        
+        function sendQuestion() {
+            const input = document.getElementById('questionInput');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                alert('WebSocket接続が確立されていません');
+                return;
+            }
+            
+            ws.send(JSON.stringify({ 
+                command: 'question',
+                text: question 
+            }));
+            
+            input.value = '';
+        }
+        
+        function askQuickQuestion(question) {
+            document.getElementById('questionInput').value = question;
+            sendQuestion();
+        }
+        
+        function addCustomAdvice(data) {
+            const adviceBox = document.getElementById('advice-box');
+            const adviceItem = document.createElement('div');
+            adviceItem.className = 'custom-advice';
+            adviceItem.innerHTML = `
+                <div><strong>💡 質問:</strong> ${data.question}</div>
+                <div style="margin-top: 10px;"><strong>回答:</strong></div>
+                <div>${data.answer}</div>
+            `;
+            
+            adviceBox.insertBefore(adviceItem, adviceBox.firstChild);
+            
+            // Keep only last 10 items
+            while (adviceBox.children.length > 10) {
+                adviceBox.removeChild(adviceBox.lastChild);
+            }
+        }
+        
+        function updatePriorInfo() {
+            const textarea = document.getElementById('priorInfoTextarea');
+            const priorInfo = textarea.value.trim();
+            
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                alert('WebSocket接続が確立されていません');
+                return;
+            }
+            
+            ws.send(JSON.stringify({ 
+                command: 'update_prior_info',
+                text: priorInfo 
+            }));
+        }
+        
+        function addTranscript(text, confidence) {
+            const transcriptBox = document.getElementById('transcript-box');
+            
+            // Remove initial message if present
+            if (transcriptBox.innerHTML.includes('音声認識を待機中')) {
+                transcriptBox.innerHTML = '';
+            }
+            
+            const transcriptItem = document.createElement('div');
+            transcriptItem.className = 'transcript-item new';
+            
+            // Add confidence indicator
+            let confidenceClass = 'confidence-low';
+            if (confidence > 80) confidenceClass = 'confidence-high';
+            else if (confidence > 60) confidenceClass = 'confidence-medium';
+            
+            transcriptItem.innerHTML = `
+                ${text}
+                <span class="confidence-indicator ${confidenceClass}">${confidence?.toFixed(0) || 'N/A'}%</span>
+            `;
+            
+            transcriptBox.appendChild(transcriptItem);
+            
+            // Auto scroll to bottom
+            transcriptBox.scrollTop = transcriptBox.scrollHeight;
+            
+            // Remove 'new' class after animation
+            setTimeout(() => {
+                transcriptItem.classList.remove('new');
+            }, 500);
+            
+            // Keep only last 10 transcripts
+            while (transcriptBox.children.length > 10) {
+                transcriptBox.removeChild(transcriptBox.firstChild);
+            }
+        }
+        
+        function addTerms() {
+            const input = document.getElementById('termsInput');
+            const terms = input.value.split(',').map(t => t.trim()).filter(t => t);
+            
+            if (terms.length === 0) return;
+            
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                alert('WebSocket接続が確立されていません');
+                return;
+            }
+            
+            ws.send(JSON.stringify({ 
+                command: 'add_terms',
+                terms: terms 
+            }));
+            
+            input.value = '';
+        }
+        
+        function forceAdvice() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                alert('WebSocket接続が確立されていません');
+                return;
+            }
+            
+            ws.send(JSON.stringify({ 
+                command: 'force_advice'
+            }));
+            
+            // ボタンを一時的に無効化
+            const button = event.target;
+            button.disabled = true;
+            button.textContent = '⏳ 生成中...';
+            
+            setTimeout(() => {
+                button.disabled = false;
+                button.textContent = '🧠 今すぐアドバイスを生成';
+            }, 3000);
+        }
+        
+        // Connect on page load
+        connectWebSocket();
+    </script>
+</body>
+</html>
