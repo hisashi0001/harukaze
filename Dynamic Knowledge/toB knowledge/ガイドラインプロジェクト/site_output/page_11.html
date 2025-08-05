@@ -52,7 +52,8 @@
             display: flex;
             flex-direction: column;
             position: fixed;
-            height: 100vh;
+            height: calc(100vh - 60px); /* ヘッダーの高さ分を引く */
+            top: 60px; /* ヘッダーの下に配置 */
             z-index: 100;
             overflow-y: auto;
             transition: transform 0.3s ease;
@@ -221,21 +222,7 @@
 
         .sidebar-header {
             padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg-primary);
-        }
-
-        .sidebar-header h1 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-        
-        .sidebar-header a:hover h1 {
-            color: var(--accent);
+            display: none; /* PC版では非表示 */
         }
         
         /* モバイル専用スタイル - デフォルトで非表示 */
@@ -426,13 +413,42 @@
             margin: 10px 20px;
         }
 
+        /* 固定ヘッダー */
+        .global-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .site-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .site-name:hover {
+            color: var(--accent);
+        }
+        
         /* メインコンテンツ */
         .main-content {
             flex: 1;
             margin-left: 280px;
+            margin-top: 60px; /* ヘッダーの高さ分 */
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: calc(100vh - 60px);
             transition: margin-left 0.3s ease;
         }
 
@@ -440,18 +456,14 @@
             margin-left: 680px;
         }
 
-        .content-header {
-            background: var(--bg-primary);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 40px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* ページタイトル */
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 24px 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
         }
         
         /* 検索ボックス */
@@ -914,6 +926,11 @@
         }
 
         @media (max-width: 768px) {
+            /* PC用ヘッダーを非表示 */
+            .global-header {
+                display: none;
+            }
+            
             /* モバイル固定ヘッダー */
             body {
                 padding-top: 56px; /* ヘッダーの高さ分 */
@@ -1092,11 +1109,8 @@
             /* メインコンテンツ */
             .main-content {
                 margin-left: 0;
+                margin-top: 0;
                 padding-top: 0;
-            }
-            
-            .content-header {
-                display: none; /* モバイルでは非表示 */
             }
             
             .content-body {
@@ -1105,6 +1119,11 @@
             }
             
             .content-body h1 {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+            
+            .page-title {
                 font-size: 28px;
                 margin-bottom: 20px;
             }
@@ -1211,8 +1230,20 @@
     </style>
 </head>
 <body>
-    <!-- モバイル用固定ヘッダー -->
-    <div class="mobile-header" style="display: none;">
+    <!-- PC用グローバルヘッダー -->
+    <div class="global-header" id="globalHeader">
+        <a href="index.html" class="site-name">Harukazeガイドライン</a>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+    
+    <!-- モバイル用ヘッダー -->
+    <div class="mobile-header" id="mobileHeader">
         <button class="mobile-menu-toggle" id="mobileMenuToggle">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;">
                 <path d="M3 12h18M3 6h18M3 18h18"></path>
@@ -1311,19 +1342,9 @@
         </div>
         
         <main class="main-content" id="mainContent">
-            <div class="content-header">
-                <span>法人商談の心得</span>
-                <div class="search-container">
-                    <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
-                    <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
-                    <div class="search-results" id="searchResults"></div>
-                </div>
-            </div>
-            
             <div class="content-body">
-                <h1 id="_1">法人商談の心得</h1>
+                <h1 class="page-title">法人商談の心得</h1>
+
 <h2 id="-">「売り込む」から「一緒に考える」へ - パートナーとしての商談スタイル</h2>
 <p>「今日は何を売り込もうか...」</p>
 <p>もしあなたが商談前にこう考えているなら、ちょっと立ち止まってみてください。その考え方自体が、商談を難しくしているかもしれません。</p>
@@ -1333,7 +1354,6 @@
 <p>売り込もうとした瞬間、こんな構図が生まれます：</p>
 <pre class="codehilite"><code>あなた（売りたい） vs クライアント（買いたくない）
 </code></pre>
-
 <p>これでは、どんなに素晴らしい提案も「押し付け」に感じられてしまいます。人間の心理として、押し付けられたものには反発したくなるものです。</p>
 <h3 id="_4">実際にあった失敗例</h3>
 <p><strong>NGパターン：</strong></p>
@@ -1342,14 +1362,12 @@
 営業：「実績も豊富で、大手企業様にも...」
 クライアント：「検討します」（＝お断りのサイン）
 </code></pre>
-
 <p>相手の反応が薄くなっていくのを感じたことはありませんか？それは「売り込みモード」のサインかもしれません。</p>
 <h2 id="_5">「一緒に考える」パートナーシップの威力</h2>
 <h3 id="_6">共通のゴールを持つ仲間になる</h3>
 <p>理想的な商談の構図はこうです：</p>
 <pre class="codehilite"><code>あなた ＋ クライアント → 共通のゴール（事業成功）
 </code></pre>
-
 <p><strong>実際の成功例：</strong></p>
 <pre class="codehilite"><code>営業：「YouTubeで7万フォロワーってすごいですね！今、どんな課題を感じていらっしゃいますか？」
 クライアント：「実は動画編集に時間がかかりすぎて...」
@@ -1357,35 +1375,32 @@
 クライアント：「20時間くらいかな...本当は新しい企画を考えたいんだけど」
 営業：「なるほど！じゃあ一緒に、その時間をどう生み出すか考えてみましょうか」
 </code></pre>
-
 <p>この違い、感じていただけるでしょうか？<strong>相手の課題を「自分ごと」として捉え、一緒に解決策を模索する</strong>。これがパートナーシップ型商談の本質です。</p>
 <h2 id="3">実践！パートナーシップ型商談の3つの心得</h2>
 <h3 id="1">心得1: 相手の事業を自分の事業のように考える</h3>
 <p><strong>なぜ重要か</strong></p>
 <p>クライアントは「自分の事業を本気で考えてくれる人」を求めています。表面的な理解ではなく、まるで自分がその事業をやっているかのような視点で考えることが大切です。</p>
-<p><strong>実践のコツ</strong><br />
-- 「もし自分がこの事業をやっていたら」という視点で質問する<br />
-- 売上や利益だけでなく、理念や想いも理解しようとする<br />
+<p><strong>実践のコツ</strong><br/>
+- 「もし自分がこの事業をやっていたら」という視点で質問する<br/>
+- 売上や利益だけでなく、理念や想いも理解しようとする<br/>
 - 競合他社の動向も含めて、業界全体を俯瞰する</p>
 <p><strong>使える質問例</strong></p>
 <pre class="codehilite"><code>「この事業を始められた時、どんな想いがあったんですか？」
 「競合と比べて、御社の一番の強みは何だと思われますか？」
 「5年後、この事業をどんな風に成長させたいですか？」
 </code></pre>
-
 <h3 id="2">心得2: 共通の敵を作り、味方になる</h3>
 <p><strong>なぜ重要か</strong></p>
 <p>人は共通の敵がいると団結します。ただし、ここでいう「敵」は特定の企業や個人ではなく、「課題」や「現状」のことです。</p>
-<p><strong>実践のコツ</strong><br />
-- 業界の一般的な問題点を「敵」として設定<br />
-- 「よくある失敗パターン」を共有<br />
+<p><strong>実践のコツ</strong><br/>
+- 業界の一般的な問題点を「敵」として設定<br/>
+- 「よくある失敗パターン」を共有<br/>
 - 「このままだと困ること」を一緒に確認</p>
 <p><strong>実際の会話例</strong></p>
 <pre class="codehilite"><code>「デザイン会社に頼んだけど、見た目だけで売上に繋がらなかった、という話をよく聞きます」
 「フリーランスだと品質にバラつきがあって、ガチャみたいになっちゃいますよね」
 「今のままだと、競合他社にどんどん差をつけられてしまう可能性があります」
 </code></pre>
-
 <p>そして必ず、<strong>「でも、うちなら大丈夫です」ではなく「一緒に解決していきましょう」</strong>という姿勢を示すことが重要です。</p>
 <h3 id="3_1">心得3: 論点をすり替えない、相手の土俵で戦わない</h3>
 <p><strong>なぜ重要か</strong></p>
@@ -1396,16 +1411,14 @@
 NG対応：「いや、プロから見るとここがダメで...」
 OK対応：「素敵ですね！ちなみに、このデザインでコンバージョン率はどれくらいですか？」
 </code></pre>
-
 <p>❌ <strong>罠：価格だけの比較</strong></p>
 <pre class="codehilite"><code>クライアント：「他社はもっと安いんですが」
 NG対応：「うちはクオリティが違うので...」
 OK対応：「確かに価格は大事ですよね。ところで、安い会社に頼んで失敗したご経験はありませんか？」
 </code></pre>
-
-<p><strong>論点を変える魔法の言葉</strong><br />
-- 「それも大切ですが、もっと重要なのは...」<br />
-- 「別の視点で考えてみると...」<br />
+<p><strong>論点を変える魔法の言葉</strong><br/>
+- 「それも大切ですが、もっと重要なのは...」<br/>
+- 「別の視点で考えてみると...」<br/>
 - 「本質的な目的に立ち返ると...」</p>
 <h2 id="_7">プロフェッショナルとしての信頼構築</h2>
 <h3 id="_8">「制作者」ではなく「ビジネスパートナー」として</h3>
@@ -1439,71 +1452,69 @@ OK対応：「確かに価格は大事ですよね。ところで、安い会社
 「7年間で300社以上のお手伝いをしてきた経験から言えることは...」
 「他社さんとの違いは、単にきれいなだけでなく、売れるデザインを作ることです」
 </code></pre>
-
 <p><strong>「知らない」を武器にする</strong></p>
 <p>全てを知っている必要はありません。知らないことは素直に認め、それを強みに変えましょう。</p>
 <pre class="codehilite"><code>「その分野は私の専門外ですが、弊社には〇〇のスペシャリストがいます」
 「面白い視点ですね！一度持ち帰って、チームで検討させてください」
 「勉強になります。もう少し詳しく教えていただけますか？」
 </code></pre>
-
 <h2 id="3_2">商談で絶対に忘れてはいけない3つの意識</h2>
 <h3 id="1_1">1. リスペクトの精神</h3>
 <p>相手の事業、経験、考え方に対する genuine なリスペクトを持つこと。これが全ての土台です。</p>
-<p><strong>リスペクトを示す行動</strong><br />
-- 事前に徹底的にリサーチする<br />
-- 相手の成功を心から称賛する<br />
+<p><strong>リスペクトを示す行動</strong><br/>
+- 事前に徹底的にリサーチする<br/>
+- 相手の成功を心から称賛する<br/>
 - 批判ではなく、より良い方法を提案する</p>
 <h3 id="2_1">2. 長期的な視点</h3>
 <p>目先の契約だけでなく、3年後も良い関係でいられるかを考えること。</p>
-<p><strong>長期視点の商談</strong><br />
-- 無理な約束はしない<br />
-- できないことは正直に伝える<br />
+<p><strong>長期視点の商談</strong><br/>
+- 無理な約束はしない<br/>
+- できないことは正直に伝える<br/>
 - 次の展開も見据えた提案をする</p>
 <h3 id="3-win-win">3. Win-Winの追求</h3>
 <p>自分だけが得をする提案は長続きしません。相手にとっても自分にとっても良い提案を。</p>
-<p><strong>Win-Winを作るコツ</strong><br />
-- 相手の成功が自分の成功になる仕組みを作る<br />
-- 透明性の高い価格設定<br />
+<p><strong>Win-Winを作るコツ</strong><br/>
+- 相手の成功が自分の成功になる仕組みを作る<br/>
+- 透明性の高い価格設定<br/>
 - 成果に応じたインセンティブ設計</p>
 <h2 id="_10">よくある落とし穴と対処法</h2>
 <h3 id="1_2">落とし穴1: 相手を説得しようとする</h3>
 <p><strong>なぜダメか</strong>: 説得されると、人は反発します</p>
-<p><strong>対処法</strong>: 相手が自ら「やりたい」と思える状況を作る<br />
-- 成功事例を共有し、「うちもできそう」と思ってもらう<br />
-- メリットではなく、やらないデメリットを伝える<br />
+<p><strong>対処法</strong>: 相手が自ら「やりたい」と思える状況を作る<br/>
+- 成功事例を共有し、「うちもできそう」と思ってもらう<br/>
+- メリットではなく、やらないデメリットを伝える<br/>
 - 小さな成功体験から始める提案をする</p>
 <h3 id="2_2">落とし穴2: 完璧を演じようとする</h3>
 <p><strong>なぜダメか</strong>: 完璧な人は近寄りがたく、信頼しづらい</p>
-<p><strong>対処法</strong>: 適度な自己開示で人間味を見せる<br />
-- 過去の失敗談を交える<br />
-- 「実は私も最初は...」と共感を示す<br />
+<p><strong>対処法</strong>: 適度な自己開示で人間味を見せる<br/>
+- 過去の失敗談を交える<br/>
+- 「実は私も最初は...」と共感を示す<br/>
 - 分からないことは素直に認める</p>
 <h3 id="3_3">落とし穴3: 相手のペースに完全に合わせる</h3>
 <p><strong>なぜダメか</strong>: プロとしての価値が伝わらない</p>
-<p><strong>対処法</strong>: 専門家として適切にリードする<br />
-- 「プロとしての意見を言わせていただくと...」<br />
-- 「経験上、こちらの方が効果的です」<br />
+<p><strong>対処法</strong>: 専門家として適切にリードする<br/>
+- 「プロとしての意見を言わせていただくと...」<br/>
+- 「経験上、こちらの方が効果的です」<br/>
 - 「一度、別の角度から考えてみませんか」</p>
 <h2 id="_11">今日から実践できる商談改善アクション</h2>
 <p><strong>すぐに始められること</strong></p>
-<p>✅ 次の商談で「売り込み」ワードを一切使わないでチャレンジ<br />
-✅ 「一緒に」「共に」という言葉を意識的に使う<br />
+<p>✅ 次の商談で「売り込み」ワードを一切使わないでチャレンジ<br/>
+✅ 「一緒に」「共に」という言葉を意識的に使う<br/>
 ✅ 相手の事業について、1つ以上褒めるポイントを見つける</p>
 <p><strong>1週間で身につけたいスキル</strong></p>
-<p>✅ 相手の話を8割、自分の話を2割にする<br />
-✅ 「なぜ」を3回聞いて、本質的な課題を掘り下げる<br />
+<p>✅ 相手の話を8割、自分の話を2割にする<br/>
+✅ 「なぜ」を3回聞いて、本質的な課題を掘り下げる<br/>
 ✅ 提案の前に必ず「ゴールの確認」をする習慣をつける</p>
 <p><strong>1ヶ月後の目標</strong></p>
-<p>✅ クライアントから「相談相手」として認識される<br />
-✅ 商談後に「また話したい」と言われる<br />
+<p>✅ クライアントから「相談相手」として認識される<br/>
+✅ 商談後に「また話したい」と言われる<br/>
 ✅ 紹介や追加案件が自然に生まれる関係性を築く</p>
 <h2 id="-_1">まとめ - 商談の本質は「人と人との信頼関係」</h2>
 <p>商談テクニックは確かに重要です。でも、それ以上に大切なのは「この人と一緒に仕事がしたい」と思ってもらえる人間性です。</p>
 <p>相手の立場に立ち、一緒に考え、共に成功を目指す。そんな姿勢で臨めば、商談は「売り込みの場」から「価値共創の場」に変わります。</p>
 <p><strong>最後に覚えておいてほしい言葉</strong></p>
 <blockquote>
-<p>「あなたはこれが欲しいですよね？」ではなく、<br />
+<p>「あなたはこれが欲しいですよね？」ではなく、<br/>
 「一緒にこんな未来を作りませんか？」</p>
 </blockquote>
 <p>この違いが、普通の営業とトップセールスを分ける分岐点です。</p>
@@ -1930,7 +1941,7 @@ OK対応：「確かに価格は大事ですよね。ところで、安い会社
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-            const mobileHeader = document.querySelector('.mobile-header');
+            const mobileHeader = document.getElementById('mobileHeader');
             const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
             
             // モバイルヘッダーの表示制御

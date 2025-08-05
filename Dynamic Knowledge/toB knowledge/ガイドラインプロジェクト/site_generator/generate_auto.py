@@ -417,11 +417,19 @@ class AutoSiteGenerator:
             html_content = md.convert(page['content'])
             md.reset()
             
+            # h1タグがコンテンツに含まれている場合は削除（タイトルの重複を防ぐ）
+            # BeautifulSoupを使ってHTMLを解析
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(html_content, 'html.parser')
+            first_h1 = soup.find('h1')
+            if first_h1 and first_h1.text.strip() == page['title']:
+                first_h1.decompose()  # 最初のh1タグを削除
+                html_content = str(soup)
+            
             # テンプレートに埋め込み
             output = template.replace('{{TITLE}}', page['title'])
             output = output.replace('{{SIDEBAR}}', sidebar_html)
-            output = output.replace('{{CONTENT}}', html_content)
-            output = output.replace('{{PAGE_TITLE}}', page['title'])
+            output = output.replace('{{CONTENT}}', f'<h1 class="page-title">{page["title"]}</h1>\n{html_content}')
             
             # ファイルを保存
             output_path = self.output_dir / page['output_name']
@@ -496,7 +504,6 @@ class AutoSiteGenerator:
         output = template.replace('{{TITLE}}', 'Harukazeガイドライン')
         output = output.replace('{{SIDEBAR}}', sidebar_html)
         output = output.replace('{{CONTENT}}', html_content)
-        output = output.replace('{{PAGE_TITLE}}', 'ホーム')
         
         # index.htmlとして保存
         output_path = self.output_dir / 'index.html'

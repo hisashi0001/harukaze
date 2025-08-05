@@ -52,7 +52,8 @@
             display: flex;
             flex-direction: column;
             position: fixed;
-            height: 100vh;
+            height: calc(100vh - 60px); /* ヘッダーの高さ分を引く */
+            top: 60px; /* ヘッダーの下に配置 */
             z-index: 100;
             overflow-y: auto;
             transition: transform 0.3s ease;
@@ -221,21 +222,7 @@
 
         .sidebar-header {
             padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg-primary);
-        }
-
-        .sidebar-header h1 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-        
-        .sidebar-header a:hover h1 {
-            color: var(--accent);
+            display: none; /* PC版では非表示 */
         }
         
         /* モバイル専用スタイル - デフォルトで非表示 */
@@ -426,13 +413,42 @@
             margin: 10px 20px;
         }
 
+        /* 固定ヘッダー */
+        .global-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .site-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .site-name:hover {
+            color: var(--accent);
+        }
+        
         /* メインコンテンツ */
         .main-content {
             flex: 1;
             margin-left: 280px;
+            margin-top: 60px; /* ヘッダーの高さ分 */
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: calc(100vh - 60px);
             transition: margin-left 0.3s ease;
         }
 
@@ -440,18 +456,14 @@
             margin-left: 680px;
         }
 
-        .content-header {
-            background: var(--bg-primary);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 40px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* ページタイトル */
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 24px 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
         }
         
         /* 検索ボックス */
@@ -914,6 +926,11 @@
         }
 
         @media (max-width: 768px) {
+            /* PC用ヘッダーを非表示 */
+            .global-header {
+                display: none;
+            }
+            
             /* モバイル固定ヘッダー */
             body {
                 padding-top: 56px; /* ヘッダーの高さ分 */
@@ -1092,11 +1109,8 @@
             /* メインコンテンツ */
             .main-content {
                 margin-left: 0;
+                margin-top: 0;
                 padding-top: 0;
-            }
-            
-            .content-header {
-                display: none; /* モバイルでは非表示 */
             }
             
             .content-body {
@@ -1105,6 +1119,11 @@
             }
             
             .content-body h1 {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+            
+            .page-title {
                 font-size: 28px;
                 margin-bottom: 20px;
             }
@@ -1211,8 +1230,20 @@
     </style>
 </head>
 <body>
-    <!-- モバイル用固定ヘッダー -->
-    <div class="mobile-header" style="display: none;">
+    <!-- PC用グローバルヘッダー -->
+    <div class="global-header" id="globalHeader">
+        <a href="index.html" class="site-name">Harukazeガイドライン</a>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+    
+    <!-- モバイル用ヘッダー -->
+    <div class="mobile-header" id="mobileHeader">
         <button class="mobile-menu-toggle" id="mobileMenuToggle">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;">
                 <path d="M3 12h18M3 6h18M3 18h18"></path>
@@ -1311,19 +1342,9 @@
         </div>
         
         <main class="main-content" id="mainContent">
-            <div class="content-header">
-                <span>コミュニケーションガイド</span>
-                <div class="search-container">
-                    <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
-                    <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
-                    <div class="search-results" id="searchResults"></div>
-                </div>
-            </div>
-            
             <div class="content-body">
-                <h1 id="_1">コミュニケーションガイド</h1>
+                <h1 class="page-title">コミュニケーションガイド</h1>
+
 <h2 id="8">信頼関係の8割はコミュニケーションで決まる</h2>
 <p>「技術は素晴らしいのに、なぜかクライアントとうまくいかない...」</p>
 <p>実は、プロジェクトの成功を左右する最大の要因は、デザインスキルではありません。<strong>コミュニケーション力</strong>です。どんなに素晴らしいデザインを作っても、それを適切に伝え、クライアントとの信頼関係を築けなければ、真の価値は伝わりません。</p>
@@ -1331,22 +1352,22 @@
 <h2 id="_2">クライアントとのコミュニケーション術</h2>
 <h3 id="_3">当事者意識が生む信頼感</h3>
 <p>「指示待ち」ではなく「提案型」のコミュニケーションを心がけましょう。クライアントが「この人に任せておけば安心」と感じる瞬間は、あなたが自発的にネクストアクションを提示し、プロジェクトを前に進めてくれると感じた時です。</p>
-<p><strong>当事者意識を示す具体的な行動：</strong><br />
-- 問題が起きる前に予防策を提案<br />
-- 選択肢を整理して、推奨案と理由を明示<br />
+<p><strong>当事者意識を示す具体的な行動：</strong><br/>
+- 問題が起きる前に予防策を提案<br/>
+- 選択肢を整理して、推奨案と理由を明示<br/>
 - 「どうしましょうか？」ではなく「こうしませんか？」の提案</p>
 <h3 id="_4">心に響く報連相の技術</h3>
 <p>報告・連絡・相談は、情報共有以上の意味があります。それは「一緒にプロジェクトを成功させる仲間として信頼してもらう」ための重要な機会です。</p>
-<p><strong>効果的な報連相のフォーマット：</strong><br />
-1. <strong>感謝・労い</strong> - 相手への敬意から始める<br />
-2. <strong>現状報告</strong> - 事実を簡潔に<br />
-3. <strong>原因分析</strong> - なぜそうなったかの背景<br />
-4. <strong>具体的対応策</strong> - どう解決するかの明確な方針<br />
+<p><strong>効果的な報連相のフォーマット：</strong><br/>
+1. <strong>感謝・労い</strong> - 相手への敬意から始める<br/>
+2. <strong>現状報告</strong> - 事実を簡潔に<br/>
+3. <strong>原因分析</strong> - なぜそうなったかの背景<br/>
+4. <strong>具体的対応策</strong> - どう解決するかの明確な方針<br/>
 5. <strong>期限と責任者</strong> - 誰がいつまでに何をするか</p>
 <h3 id="_5">「選ぶだけ」「答えるだけ」の状態を作る</h3>
 <p>忙しいクライアントにとって最も価値があるのは、判断のための情報が整理され、選択肢が明確に示されている状態です。</p>
-<p><strong>実践例：</strong><br />
-- 「どんなデザインがお好みですか？」→「A案（信頼感重視）、B案（親しみやすさ重視）、C案（先進性重視）のうち、どちらが御社のイメージに近いでしょうか？」<br />
+<p><strong>実践例：</strong><br/>
+- 「どんなデザインがお好みですか？」→「A案（信頼感重視）、B案（親しみやすさ重視）、C案（先進性重視）のうち、どちらが御社のイメージに近いでしょうか？」<br/>
 - 「予算はいくらですか？」→「Xの機能を実現するには〇〇万円、さらにYを加えるなら△△万円になります。どちらをご希望でしょうか？」</p>
 <h2 id="_6">デザイナーとの最高のチームワークを築く</h2>
 <h3 id="4">成長を促すフィードバックの4ステップ</h3>
@@ -1354,49 +1375,49 @@
 <p><strong>効果的なフィードバックの流れ：</strong></p>
 <ol>
 <li>
-<p><strong>まずは良い点を認める</strong><br />
+<p><strong>まずは良い点を認める</strong><br/>
    「ここの色使いが素晴らしいですね」など、具体的に褒める点から始める</p>
 </li>
 <li>
-<p><strong>明確で具体的な改善点を伝える</strong><br />
+<p><strong>明確で具体的な改善点を伝える</strong><br/>
    「もう少し」「なんとなく」などの曖昧な表現は避け、具体的に</p>
 </li>
 <li>
-<p><strong>全体の中での位置づけを共有</strong><br />
+<p><strong>全体の中での位置づけを共有</strong><br/>
    「プロジェクト全体の70%が完了していて、この修正で90%になります」</p>
 </li>
 <li>
-<p><strong>次のステップを明確化</strong><br />
+<p><strong>次のステップを明確化</strong><br/>
    「次回は〇〇の状態で共有してください」と期待値を明示</p>
 </li>
 </ol>
 <h3 id="_7">効率的なフィードバック手法</h3>
 <p><strong>Loom動画フィードバック</strong>が最も効果的です。文字では伝わりにくいニュアンスや、操作手順なども直感的に伝えられます。</p>
-<p><strong>実践的なコミュニケーションツール活用法：</strong><br />
-- <strong>緊急度：高</strong> → 電話・LINE<br />
-- <strong>情報共有</strong> → メール・Slack<br />
-- <strong>詳細な修正指示</strong> → Loom動画<br />
+<p><strong>実践的なコミュニケーションツール活用法：</strong><br/>
+- <strong>緊急度：高</strong> → 電話・LINE<br/>
+- <strong>情報共有</strong> → メール・Slack<br/>
+- <strong>詳細な修正指示</strong> → Loom動画<br/>
 - <strong>ファイル共有</strong> → Googleドライブ・Figma</p>
 <h2 id="_8">実践的なコミュニケーションスキル</h2>
 <h3 id="_9">抽象的な要望を具体的に翻訳する</h3>
 <p>クライアントから「もっとかっこよく」「もう少し目立つように」という要望が来た時、そのまま伝えるのではなく、具体的な改善案に翻訳することがディレクターの重要な役割です。</p>
-<p><strong>翻訳例：</strong><br />
-- 「かっこよく」→「よりシャープな印象にするため、フォントを細くして余白を増やしませんか？」<br />
+<p><strong>翻訳例：</strong><br/>
+- 「かっこよく」→「よりシャープな印象にするため、フォントを細くして余白を増やしませんか？」<br/>
 - 「目立つように」→「視線を集めるため、メインビジュアルのサイズを20%拡大しませんか？」</p>
 <h3 id="_10">価値で勝負する価格交渉</h3>
 <p>安易な値引きは、自分たちの仕事の価値を下げることにつながります。価格に見合う価値を明確に示すことで、適正価格で受注しましょう。</p>
-<p><strong>よくある落とし穴：</strong><br />
-- 「忙しいから」という理由での遅い返信<br />
-- 「たぶん」「おそらく」などの曖昧な表現<br />
+<p><strong>よくある落とし穴：</strong><br/>
+- 「忙しいから」という理由での遅い返信<br/>
+- 「たぶん」「おそらく」などの曖昧な表現<br/>
 - 批判的な指摘ばかりで褒める部分がない</p>
-<p><strong>今すぐ実践できること：</strong><br />
-✅ 次回のフィードバックで必ず良い点から始める<br />
-✅ 具体的な数字や期限を含めたコミュニケーションを心がける<br />
+<p><strong>今すぐ実践できること：</strong><br/>
+✅ 次回のフィードバックで必ず良い点から始める<br/>
+✅ 具体的な数字や期限を含めたコミュニケーションを心がける<br/>
 ✅ 相手の立場に立って、一番楽な方法を考えて提案する</p>
-<p>良いコミュニケーションは、良い仕事の土台です。相手を思いやる気持ちと、プロフェッショナルとしての姿勢を両立させることで、誰からも信頼されるパートナーになれます。<br />
-- 全体の一貫性・統一感<br />
-- 細部のクオリティ（文字サイズ統一、余白感）<br />
-- 使いやすさ（顧客視点での理解しやすさ）<br />
+<p>良いコミュニケーションは、良い仕事の土台です。相手を思いやる気持ちと、プロフェッショナルとしての姿勢を両立させることで、誰からも信頼されるパートナーになれます。<br/>
+- 全体の一貫性・統一感<br/>
+- 細部のクオリティ（文字サイズ統一、余白感）<br/>
+- 使いやすさ（顧客視点での理解しやすさ）<br/>
 - etc...</p>
 <h4 id="2">②ビジネス的な視点</h4>
 <ul>
@@ -1852,7 +1873,7 @@
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-            const mobileHeader = document.querySelector('.mobile-header');
+            const mobileHeader = document.getElementById('mobileHeader');
             const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
             
             // モバイルヘッダーの表示制御

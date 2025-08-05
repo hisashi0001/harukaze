@@ -52,7 +52,8 @@
             display: flex;
             flex-direction: column;
             position: fixed;
-            height: 100vh;
+            height: calc(100vh - 60px); /* ヘッダーの高さ分を引く */
+            top: 60px; /* ヘッダーの下に配置 */
             z-index: 100;
             overflow-y: auto;
             transition: transform 0.3s ease;
@@ -221,21 +222,7 @@
 
         .sidebar-header {
             padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg-primary);
-        }
-
-        .sidebar-header h1 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-        
-        .sidebar-header a:hover h1 {
-            color: var(--accent);
+            display: none; /* PC版では非表示 */
         }
         
         /* モバイル専用スタイル - デフォルトで非表示 */
@@ -426,13 +413,42 @@
             margin: 10px 20px;
         }
 
+        /* 固定ヘッダー */
+        .global-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .site-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .site-name:hover {
+            color: var(--accent);
+        }
+        
         /* メインコンテンツ */
         .main-content {
             flex: 1;
             margin-left: 280px;
+            margin-top: 60px; /* ヘッダーの高さ分 */
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: calc(100vh - 60px);
             transition: margin-left 0.3s ease;
         }
 
@@ -440,18 +456,14 @@
             margin-left: 680px;
         }
 
-        .content-header {
-            background: var(--bg-primary);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 40px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* ページタイトル */
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 24px 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
         }
         
         /* 検索ボックス */
@@ -914,6 +926,11 @@
         }
 
         @media (max-width: 768px) {
+            /* PC用ヘッダーを非表示 */
+            .global-header {
+                display: none;
+            }
+            
             /* モバイル固定ヘッダー */
             body {
                 padding-top: 56px; /* ヘッダーの高さ分 */
@@ -1092,11 +1109,8 @@
             /* メインコンテンツ */
             .main-content {
                 margin-left: 0;
+                margin-top: 0;
                 padding-top: 0;
-            }
-            
-            .content-header {
-                display: none; /* モバイルでは非表示 */
             }
             
             .content-body {
@@ -1105,6 +1119,11 @@
             }
             
             .content-body h1 {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+            
+            .page-title {
                 font-size: 28px;
                 margin-bottom: 20px;
             }
@@ -1211,8 +1230,20 @@
     </style>
 </head>
 <body>
-    <!-- モバイル用固定ヘッダー -->
-    <div class="mobile-header" style="display: none;">
+    <!-- PC用グローバルヘッダー -->
+    <div class="global-header" id="globalHeader">
+        <a href="index.html" class="site-name">Harukazeガイドライン</a>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+    
+    <!-- モバイル用ヘッダー -->
+    <div class="mobile-header" id="mobileHeader">
         <button class="mobile-menu-toggle" id="mobileMenuToggle">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;">
                 <path d="M3 12h18M3 6h18M3 18h18"></path>
@@ -1311,19 +1342,9 @@
         </div>
         
         <main class="main-content" id="mainContent">
-            <div class="content-header">
-                <span>実践改善事例集</span>
-                <div class="search-container">
-                    <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
-                    <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
-                    <div class="search-results" id="searchResults"></div>
-                </div>
-            </div>
-            
             <div class="content-body">
-                <h1 id="_1">実践改善事例集</h1>
+                <h1 class="page-title">実践改善事例集</h1>
+
 <h2 id="_2">失敗から生まれる、最高の学び</h2>
 <p>「もう二度と、同じ失敗はしたくない...」</p>
 <p>トラブルが起きた後、多くの人がそう思います。でも、実はその失敗こそが、チーム全体を成長させる最高の教材なのです。</p>
@@ -1331,7 +1352,7 @@
 <p>この事例集は単なる「失敗談」ではありません。<strong>ピンチをチャンスに変えた成功ストーリー集</strong>です。困難に直面した時こそ、この事例を思い出し、冷静で的確な対応を取れるプロフェッショナルを目指しましょう。</p>
 <h2 id="-">納期管理の改善事例 - 時間との戦いを制する</h2>
 <h3 id="1">事例1: 「明日が納期なのに、デザイナーが倒れた」危機管理ストーリー</h3>
-<p><strong>何が起きたのか</strong><br />
+<p><strong>何が起きたのか</strong><br/>
 大型案件の最終日、メインデザイナーが急性胃腸炎で緊急入院。残り作業時間は16時間、しかし60%の作業が残っている状況でした。</p>
 <p><strong>その時、私たちは何をしたか</strong></p>
 <p>まず、パニックにならずに状況を整理しました。幸い、作業データは全てGoogleドライブで共有されており、進捗状況も明確でした。</p>
@@ -1342,12 +1363,12 @@
 </ol>
 <p><strong>結果として何が起きたか</strong></p>
 <p>クライアントは私たちの迅速な対応と透明性に感動し、「こんな会社だからこそ安心して任せられる」とコメント。その後、同クライアントから3件の追加案件をいただきました。</p>
-<p><strong>この経験から学んだこと</strong><br />
-- 重要案件では必ずサブデザイナーを事前設定<br />
-- データ共有体制の整備が命を救う<br />
+<p><strong>この経験から学んだこと</strong><br/>
+- 重要案件では必ずサブデザイナーを事前設定<br/>
+- データ共有体制の整備が命を救う<br/>
 - 正直な報告こそが信頼を築く</p>
 <h3 id="2-3">事例2: 「3つの案件が重なって大パニック」から生まれた管理革命</h3>
-<p><strong>何が起きたのか</strong><br />
+<p><strong>何が起きたのか</strong><br/>
 年末の繁忙期、偶然にも3つの大型案件が同時期に重なり、誰が何をやっているのか分からない状況に。進捗の把握もできず、全てが遅れ始めました。</p>
 <p><strong>転機となった改善アクション</strong></p>
 <p>「このままではチーム全体が疲弊する」と危機感を感じ、根本的な管理方法を見直しました。</p>
@@ -1358,13 +1379,13 @@
 </ol>
 <p><strong>この改善が生んだ驚きの効果</strong></p>
 <p>導入から1ヶ月後、同じ3案件同時進行でも全くストレスを感じなくなりました。さらに、各デザイナーの稼働状況が見えることで、適切な案件配分も可能になり、チーム全体の生産性が30%向上しました。</p>
-<p><strong>今でも活用している学び</strong><br />
-- 可視化こそが混乱を防ぐ最良の方法<br />
-- 短時間でも定期的なコミュニケーションが重要<br />
+<p><strong>今でも活用している学び</strong><br/>
+- 可視化こそが混乱を防ぐ最良の方法<br/>
+- 短時間でも定期的なコミュニケーションが重要<br/>
 - ツール導入は手段、目的は「チームの安心感」</p>
 <h2 id="-_1">コミュニケーション改善事例 - 認識のズレを未然に防ぐ</h2>
 <h3 id="3">事例3: 「もっとかっこよく」の謎を解いたストーリー</h3>
-<p><strong>何が起きたのか</strong><br />
+<p><strong>何が起きたのか</strong><br/>
 クライアントから「デザインをもっとかっこよくしてほしい」というフィードバック。デザイナーが3回修正しても「何か違う」と言われ続け、プロジェクトが停滞してしまいました。</p>
 <p><strong>問題の本質を見抜く</strong></p>
 <p>4回目の修正前に、私たちは立ち止まって考えました。「かっこいい」の定義が曖昧すぎるのでは？</p>
@@ -1376,12 +1397,12 @@
 </ol>
 <p><strong>驚くべき発見</strong></p>
 <p>実は、クライアントが求めていたのは「かっこよさ」ではなく「信頼感」でした。業界の特性上、斬新さよりも安心感を与えるデザインが適していたのです。</p>
-<p><strong>この経験が変えたもの</strong><br />
-- 抽象的な表現は必ず具体化する仕組みを構築<br />
-- ヒアリング時点で参考デザインを複数共有<br />
+<p><strong>この経験が変えたもの</strong><br/>
+- 抽象的な表現は必ず具体化する仕組みを構築<br/>
+- ヒアリング時点で参考デザインを複数共有<br/>
 - 真の目的（印象や感情）を確認する質問技術</p>
 <h3 id="4">事例4: 「シンプル」の解釈違いで起きた大改修事件</h3>
-<p><strong>何が起きたのか</strong><br />
+<p><strong>何が起きたのか</strong><br/>
 「シンプルなデザインで」という要望で進めたWebサイト。デザイナーはミニマルデザインで仕上げたのに、クライアントからは「情報が足りない」と大幅修正を求められました。</p>
 <p><strong>認識のズレの正体</strong></p>
 <p>後で分かったのは、クライアントにとっての「シンプル」は「分かりやすい」という意味で、デザイナーが理解した「要素を削ぎ落とす」とは真逆の概念だったのです。</p>
@@ -1391,28 +1412,28 @@
 <li><strong>キーワード辞書の共有</strong> - 「シンプル」「エレガント」「モダン」などの共通認識を確立</li>
 <li><strong>プロトタイプでの頻繁確認</strong> - ワイヤーフレーム段階での方向性確認を徹底</li>
 </ol>
-<p><strong>この改善が生んだ副次効果</strong><br />
-- クライアントとの関係がより深くなった<br />
-- デザイナーの創作意欲が向上（方向性が明確なため）<br />
+<p><strong>この改善が生んだ副次効果</strong><br/>
+- クライアントとの関係がより深くなった<br/>
+- デザイナーの創作意欲が向上（方向性が明確なため）<br/>
 - プロジェクト全体の満足度が飛躍的に向上</p>
 <h2 id="-_2">品質管理の改善事例 - 完璧を目指す品質システム</h2>
 <h3 id="5">事例5: 誤字脱字連発事件から生まれた鉄壁チェック体制</h3>
-<p><strong>何が起きたのか</strong><br />
+<p><strong>何が起きたのか</strong><br/>
 大手企業のコーポレートサイトで、納品後に5箇所の誤字が発覚。クライアントからの信頼失墜と、緊急修正作業で大きな損失を被りました。</p>
 <p><strong>危機感から生まれた革新的システム</strong></p>
 <p>「二度とこの恥ずかしい思いはしたくない」という全員の想いから、徹底的な品質管理システムを構築しました。</p>
-<p><strong>3段階の鉄壁チェック体制</strong><br />
-1. <strong>デザイナーセルフチェック</strong> - 作業完了時の必須チェックリスト（30項目）<br />
-2. <strong>文字校正ツール活用</strong> - AIを使った自動誤字脱字検出<br />
+<p><strong>3段階の鉄壁チェック体制</strong><br/>
+1. <strong>デザイナーセルフチェック</strong> - 作業完了時の必須チェックリスト（30項目）<br/>
+2. <strong>文字校正ツール活用</strong> - AIを使った自動誤字脱字検出<br/>
 3. <strong>第三者ダブルチェック</strong> - 作業者以外による最終確認</p>
 <p><strong>導入後の劇的変化</strong></p>
 <p>このシステム導入後1年間で、誤字脱字での指摘はゼロ件。それどころか、クライアントから「Harukazeの品質管理は業界トップレベル」との評価をいただくようになりました。</p>
-<p><strong>予想外のメリット</strong><br />
-- デザイナーの意識向上（品質への責任感が強化）<br />
-- 修正時間の削減（事前チェックで効率化）<br />
+<p><strong>予想外のメリット</strong><br/>
+- デザイナーの意識向上（品質への責任感が強化）<br/>
+- 修正時間の削減（事前チェックで効率化）<br/>
 - クライアントからの絶対的信頼獲得</p>
 <h3 id="6">事例6: スマホ表示崩れから学んだマルチデバイス対応の重要性</h3>
-<p><strong>何が起きたのか</strong><br />
+<p><strong>何が起きたのか</strong><br/>
 PCでは完璧に見えたランディングページが、スマートフォンでは文字が重なり、ボタンが押せない状態に。クライアントからSNSで指摘され、大変な恥をかきました。</p>
 <p><strong>根本原因の分析</strong></p>
 <p>問題は技術的なスキル不足ではなく、「確認プロセスの不備」でした。PCでの確認のみで満足し、実際のユーザー環境での検証を怠っていたのです。</p>
@@ -1426,51 +1447,51 @@ PCでは完璧に見えたランディングページが、スマートフォン
 <p>現在では、他社で発生したマルチデバイス対応の問題を解決する専門チームとして、業界内で高い評価を得ています。失敗から生まれた専門性が、新たなビジネス機会を創出しました。</p>
 <h2 id="-_3">プロジェクト管理の改善事例 - スコープと感情のマネジメント</h2>
 <h3 id="7">事例7: 「ついでに」の恐怖から生まれた透明性重視の料金システム</h3>
-<p><strong>何が起きたのか</strong><br />
+<p><strong>何が起きたのか</strong><br/>
 「ついでにバナーも作って」「せっかくだから商品写真も修正して」という小さな追加要望が積み重なり、当初予算の1.5倍の工数に。しかし、途中で料金の話を切り出すのも気まずい状況でした。</p>
 <p><strong>関係性を壊さない解決策</strong></p>
 <p>まず、クライアントとの関係を大切にしながら、公正な取引を維持する方法を模索しました。</p>
-<p><strong>透明性を重視した新システム</strong><br />
-1. <strong>要望の全記録</strong> - 口頭での依頼も必ず書面で記録し、相互確認<br />
-2. <strong>即座の見積もり提示</strong> - 追加作業は5分以内に概算見積もりを提示<br />
+<p><strong>透明性を重視した新システム</strong><br/>
+1. <strong>要望の全記録</strong> - 口頭での依頼も必ず書面で記録し、相互確認<br/>
+2. <strong>即座の見積もり提示</strong> - 追加作業は5分以内に概算見積もりを提示<br/>
 3. <strong>月次レポート</strong> - 工数の見える化で、お互いの認識をすり合わせ</p>
 <p><strong>win-winの関係構築</strong></p>
 <p>このシステムにより、クライアントも「どこまでが基本料金で、どこからが追加なのか」が明確になり、安心して依頼できるようになりました。結果として、追加案件の受注率も40%向上しました。</p>
-<p><strong>学んだ価値ある教訓</strong><br />
-- 透明性こそが信頼関係の基盤<br />
-- 「言いにくいこと」ほど、システム化で解決<br />
+<p><strong>学んだ価値ある教訓</strong><br/>
+- 透明性こそが信頼関係の基盤<br/>
+- 「言いにくいこと」ほど、システム化で解決<br/>
 - お互いの利益を考えることが、長期的な成功につながる</p>
 <h3 id="8">事例8: モチベーション低下危機から生まれた感情マネジメント術</h3>
-<p><strong>何が起きたのか</strong><br />
+<p><strong>何が起きたのか</strong><br/>
 優秀なデザイナーが、修正回数の多さとクライアントからの厳しいフィードバックで、明らかにやる気を失っている状況に。このまま放置すれば、退職の可能性もありました。</p>
 <p><strong>人の心に寄り添うマネジメント</strong></p>
 <p>技術的な問題ではなく、感情的なケアが必要だと判断しました。</p>
-<p><strong>感情面を大切にした改善アプローチ</strong><br />
-1. <strong>修正理由の丁寧な説明</strong> - 「なぜ変更が必要なのか」背景も含めて共有<br />
-2. <strong>ポジティブフィードバック</strong> - 良い部分を具体的に、修正点の2倍の時間をかけて褒める<br />
+<p><strong>感情面を大切にした改善アプローチ</strong><br/>
+1. <strong>修正理由の丁寧な説明</strong> - 「なぜ変更が必要なのか」背景も含めて共有<br/>
+2. <strong>ポジティブフィードバック</strong> - 良い部分を具体的に、修正点の2倍の時間をかけて褒める<br/>
 3. <strong>小さな成功体験の設計</strong> - 大きなプロジェクトを小さなマイルストーンに分割</p>
 <p><strong>予想を超えた効果</strong></p>
 <p>この取り組みの結果、そのデザイナーは過去最高のパフォーマンスを発揮。さらに、チーム全体のモチベーションも向上し、離職率が半減しました。</p>
-<p><strong>人材マネジメントの新たな視点</strong><br />
-- 論理だけでなく、感情面のケアが生産性を左右<br />
-- 褒めることの投資効果は修正指示の何倍にもなる<br />
+<p><strong>人材マネジメントの新たな視点</strong><br/>
+- 論理だけでなく、感情面のケアが生産性を左右<br/>
+- 褒めることの投資効果は修正指示の何倍にもなる<br/>
 - 個人の成長がチーム全体の力になる</p>
 <h2 id="_3">継続的な改善文化の醸成</h2>
 <p>これらの事例は、決して特別な出来事ではありません。日々の業務で起こりうる、ごく普通の課題です。大切なのは、問題が起きた時に「誰のせい」ではなく「どう改善するか」に焦点を当てることです。</p>
 <h3 id="_4">みんなで育てる改善文化</h3>
-<p><strong>事例共有の仕組み</strong><br />
-1. <strong>月次振り返り会</strong> - 成功例も失敗例も、感情的にならずに話し合う場<br />
-2. <strong>リアルタイム共有</strong> - Slackで「今日学んだこと」を気軽に投稿<br />
+<p><strong>事例共有の仕組み</strong><br/>
+1. <strong>月次振り返り会</strong> - 成功例も失敗例も、感情的にならずに話し合う場<br/>
+2. <strong>リアルタイム共有</strong> - Slackで「今日学んだこと」を気軽に投稿<br/>
 3. <strong>ナレッジベースの更新</strong> - このドキュメントを、みんなで育てていく</p>
-<p><strong>改善提案のルール</strong><br />
-- 批判ではなく、建設的な改善案を<br />
-- 小さな改善も大切に<br />
+<p><strong>改善提案のルール</strong><br/>
+- 批判ではなく、建設的な改善案を<br/>
+- 小さな改善も大切に<br/>
 - 実行可能性を重視した現実的な提案</p>
 <h2 id="-_4">最後に - 失敗は成長の証</h2>
 <p>失敗を恐れるあまり、挑戦しないのが一番の失敗です。私たちHarukazeは、新しいことに挑戦し、時には失敗し、そこから学び続けるチームでありたいと思っています。</p>
-<p><strong>今すぐ実践できること</strong><br />
-✅ 現在のプロジェクトで改善できる点を1つ見つける<br />
-✅ 過去の失敗から学んだことを、チームメンバーと共有する<br />
+<p><strong>今すぐ実践できること</strong><br/>
+✅ 現在のプロジェクトで改善できる点を1つ見つける<br/>
+✅ 過去の失敗から学んだことを、チームメンバーと共有する<br/>
 ✅ 次の案件で、この事例集の知識を実際に活用してみる  </p>
 <p>あなたの経験と知恵が、次のメンバーの成長につながります。一緒に、学び続けるチームを作っていきましょう。</p>
                 <!-- 更新リクエスト -->
@@ -1895,7 +1916,7 @@ PCでは完璧に見えたランディングページが、スマートフォン
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-            const mobileHeader = document.querySelector('.mobile-header');
+            const mobileHeader = document.getElementById('mobileHeader');
             const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
             
             // モバイルヘッダーの表示制御

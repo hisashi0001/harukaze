@@ -52,7 +52,8 @@
             display: flex;
             flex-direction: column;
             position: fixed;
-            height: 100vh;
+            height: calc(100vh - 60px); /* ヘッダーの高さ分を引く */
+            top: 60px; /* ヘッダーの下に配置 */
             z-index: 100;
             overflow-y: auto;
             transition: transform 0.3s ease;
@@ -221,21 +222,7 @@
 
         .sidebar-header {
             padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg-primary);
-        }
-
-        .sidebar-header h1 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-        
-        .sidebar-header a:hover h1 {
-            color: var(--accent);
+            display: none; /* PC版では非表示 */
         }
         
         /* モバイル専用スタイル - デフォルトで非表示 */
@@ -426,13 +413,42 @@
             margin: 10px 20px;
         }
 
+        /* 固定ヘッダー */
+        .global-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .site-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .site-name:hover {
+            color: var(--accent);
+        }
+        
         /* メインコンテンツ */
         .main-content {
             flex: 1;
             margin-left: 280px;
+            margin-top: 60px; /* ヘッダーの高さ分 */
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: calc(100vh - 60px);
             transition: margin-left 0.3s ease;
         }
 
@@ -440,18 +456,14 @@
             margin-left: 680px;
         }
 
-        .content-header {
-            background: var(--bg-primary);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 40px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* ページタイトル */
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 24px 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
         }
         
         /* 検索ボックス */
@@ -914,6 +926,11 @@
         }
 
         @media (max-width: 768px) {
+            /* PC用ヘッダーを非表示 */
+            .global-header {
+                display: none;
+            }
+            
             /* モバイル固定ヘッダー */
             body {
                 padding-top: 56px; /* ヘッダーの高さ分 */
@@ -1092,11 +1109,8 @@
             /* メインコンテンツ */
             .main-content {
                 margin-left: 0;
+                margin-top: 0;
                 padding-top: 0;
-            }
-            
-            .content-header {
-                display: none; /* モバイルでは非表示 */
             }
             
             .content-body {
@@ -1105,6 +1119,11 @@
             }
             
             .content-body h1 {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+            
+            .page-title {
                 font-size: 28px;
                 margin-bottom: 20px;
             }
@@ -1211,8 +1230,20 @@
     </style>
 </head>
 <body>
-    <!-- モバイル用固定ヘッダー -->
-    <div class="mobile-header" style="display: none;">
+    <!-- PC用グローバルヘッダー -->
+    <div class="global-header" id="globalHeader">
+        <a href="index.html" class="site-name">Harukazeガイドライン</a>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+    
+    <!-- モバイル用ヘッダー -->
+    <div class="mobile-header" id="mobileHeader">
         <button class="mobile-menu-toggle" id="mobileMenuToggle">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;">
                 <path d="M3 12h18M3 6h18M3 18h18"></path>
@@ -1311,19 +1342,9 @@
         </div>
         
         <main class="main-content" id="mainContent">
-            <div class="content-header">
-                <span>ヒアリングマスター講座</span>
-                <div class="search-container">
-                    <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
-                    <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
-                    <div class="search-results" id="searchResults"></div>
-                </div>
-            </div>
-            
             <div class="content-body">
-                <h1 id="_1">ヒアリングマスター講座</h1>
+                <h1 class="page-title">ヒアリングマスター講座</h1>
+
 <h2 id="-">課題の本質を見抜く質問技術 - 聞き上手は売り上手</h2>
 <p>「お客様は自分が何を求めているか分かっていない」</p>
 <p>スティーブ・ジョブズの有名な言葉ですが、これは法人商談でも同じです。クライアントが口にする「要望」の裏には、本人も気づいていない「本質的な課題」が隠れています。</p>
@@ -1337,7 +1358,6 @@
 営業：「分かりました。いつまでに必要ですか？」
 → 結果：ただきれいなLPができただけで、売上は変わらず
 </code></pre>
-
 <p>✅ <strong>深いヒアリングの結果：</strong></p>
 <pre class="codehilite"><code>クライアント：「LPを作り直したいんです」
 営業：「なるほど。ちなみに、なぜ今のタイミングでリニューアルを？」
@@ -1347,7 +1367,6 @@
 営業：「じゃあ、本当の課題は差別化ポイントの訴求ですね」
 → 結果：強みを明確に打ち出したLPで、問い合わせ数が2.5倍に
 </code></pre>
-
 <p>この違い、感じていただけるでしょうか？<strong>ヒアリングの深さが、成果の大きさに直結する</strong>のです。</p>
 <h2 id="3-">ヒアリングの3層構造 - 氷山の下を見る技術</h2>
 <h3 id="_4">要望の裏にある本当のニーズ</h3>
@@ -1363,7 +1382,6 @@
 第3層（深層）- Why：なぜそれが必要か
 「家族との時間を増やしたい」「業界のパイオニアになりたい」
 </code></pre>
-
 <h3 id="_5">各層への掘り下げ方</h3>
 <p><strong>第1層→第2層への質問例</strong></p>
 <pre class="codehilite"><code>「LPを作りたい」と言われたら...
@@ -1371,14 +1389,12 @@
 →「現在のLPの、どこに課題を感じていますか？」
 →「理想的には、どんなLPになったら嬉しいですか？」
 </code></pre>
-
 <p><strong>第2層→第3層への質問例</strong></p>
 <pre class="codehilite"><code>「売上を上げたい」と言われたら...
 →「売上が上がったら、何に投資したいですか？」
 →「なぜ今、売上向上が急務なのですか？」
 →「売上目標を達成したら、次は何を目指しますか？」
 </code></pre>
-
 <p><strong>プロの視点</strong></p>
 <p>第3層まで掘り下げると、クライアント自身も気づいていなかった「真の動機」が見えてきます。そして、その動機に訴えかける提案は、圧倒的に刺さりやすくなるのです。</p>
 <h2 id="_6">ファネル思考でビジネス全体を理解する</h2>
@@ -1396,7 +1412,6 @@
 ↓
 継続（リピート、アップセル）
 </code></pre>
-
 <h3 id="_8">なぜファネル思考が重要なのか</h3>
 <p><strong>ボトルネックを見つけられる</strong></p>
 <p>クライアントが「LPを改善したい」と言っても、本当の問題は別の場所にあるかもしれません。</p>
@@ -1411,7 +1426,6 @@
 営業：「なるほど。実はLPの問題より、そもそもの流入数が少ないことと、
       問い合わせ後のフォローに改善の余地がありそうですね」
 </code></pre>
-
 <h3 id="_9">ファネル分析の実践質問集</h3>
 <p><strong>各段階での具体的な質問</strong></p>
 <ol>
@@ -1453,7 +1467,6 @@
 レベル2：「集客面での課題は何かありますか？」（やや絞る）
 レベル3：「SNSからの流入は月何人くらいですか？」（具体的）
 </code></pre>
-
 <h3 id="2">2. ミラーリング質問法</h3>
 <p><strong>使い方</strong></p>
 <p>相手の言葉をそのまま使って質問を返す。これにより、相手は「ちゃんと聞いてもらえている」と感じます。</p>
@@ -1462,7 +1475,6 @@
 あなた：「単価が下がってきた...それは心配ですね。
         いつ頃から下がり始めたんですか？」
 </code></pre>
-
 <h3 id="3">3. 仮説検証型質問</h3>
 <p><strong>使い方</strong></p>
 <p>事前リサーチから仮説を立て、それを確認する形で質問する。外れても、正しい情報が得られます。</p>
@@ -1472,7 +1484,6 @@
 
 「もしかして、Instagram経由のお客様が多いんじゃないですか？」
 </code></pre>
-
 <h3 id="4">4. 数値化質問法</h3>
 <p><strong>使い方</strong></p>
 <p>曖昧な表現を具体的な数字に変換してもらう。これにより、問題の深刻度が明確になります。</p>
@@ -1483,7 +1494,6 @@
 クライアント：「作業に時間がかかりすぎて...」
 あなた：「1つの作業に、平均何時間くらいかかっていますか？」
 </code></pre>
-
 <h3 id="5">5. タイムマシン質問法</h3>
 <p><strong>使い方</strong></p>
 <p>過去や未来の視点から質問することで、現在の課題がより明確になります。</p>
@@ -1492,7 +1502,6 @@
 未来：「1年後、理想的にはどうなっていたいですか？」
 現在：「その理想と現状のギャップは何だと思いますか？」
 </code></pre>
-
 <h3 id="6">6. 第三者視点質問法</h3>
 <p><strong>使い方</strong></p>
 <p>本人の意見だけでなく、周りからの視点も聞くことで、客観的な状況が見えてきます。</p>
@@ -1501,7 +1510,6 @@
 「スタッフの方は、この課題についてどう言っていますか？」
 「競合他社は、御社のことをどう見ていると思いますか？」
 </code></pre>
-
 <h3 id="7-3">7. 深掘り3回法</h3>
 <p><strong>使い方</strong></p>
 <p>「なぜ？」「それで？」「つまり？」を3回繰り返すことで、表面的な話から核心に迫ります。</p>
@@ -1514,7 +1522,6 @@
 あなた：「つまり、デザインで若年層を取り込みたい？」
 クライアント：「そう！それが本当の目的です」
 </code></pre>
-
 <h2 id="_10">クロスセルチャンスを見逃さない</h2>
 <h3 id="_11">点ではなく面で捉える</h3>
 <p>一つの課題の裏には、関連する複数の課題が隠れています。それを見つけ出すことで、より大きな価値提供ができます。</p>
@@ -1523,15 +1530,14 @@
 「せっかくLPを作るなら、LINE登録後のリッチメニューも統一感を持たせませんか？」
 「プレゼン資料は、今どなたが作られているんですか？」
 </code></pre>
-
 <h3 id="_12">タイミングを見極める</h3>
-<p><strong>ベストなタイミング</strong><br />
-- 相手が課題を認識した直後<br />
-- 予算の話が出た時<br />
+<p><strong>ベストなタイミング</strong><br/>
+- 相手が課題を認識した直後<br/>
+- 予算の話が出た時<br/>
 - 「ついでに」と相手が言った時</p>
-<p><strong>NGなタイミング</strong><br />
-- まだ信頼関係ができていない序盤<br />
-- 相手が困っている最中<br />
+<p><strong>NGなタイミング</strong><br/>
+- まだ信頼関係ができていない序盤<br/>
+- 相手が困っている最中<br/>
 - 予算がないと明言された後</p>
 <h2 id="_13">ヒアリングシートの活用法</h2>
 <h3 id="_14">プロが使うヒアリングシートの構成</h3>
@@ -1570,7 +1576,6 @@
 □ 3年後のビジョン
 □ そのための課題
 </code></pre>
-
 <h3 id="_15">使い方のコツ</h3>
 <ol>
 <li><strong>全部埋めようとしない</strong> - 自然な会話の流れを優先</li>
@@ -1580,44 +1585,44 @@
 <h2 id="_16">よくある失敗と対処法</h2>
 <h3 id="1_1">失敗例1: 尋問になってしまう</h3>
 <p><strong>状況</strong>: 質問を連発して、相手が疲れてしまう</p>
-<p><strong>対処法</strong>: <br />
-- 質問の間に自分の意見や経験を挟む<br />
-- 「なるほど」「素晴らしいですね」などのリアクションを入れる<br />
+<p><strong>対処法</strong>: <br/>
+- 質問の間に自分の意見や経験を挟む<br/>
+- 「なるほど」「素晴らしいですね」などのリアクションを入れる<br/>
 - 相手の答えを深く掘り下げてから次の質問へ</p>
 <h3 id="2_1">失敗例2: 誘導尋問になってしまう</h3>
 <p><strong>状況</strong>: 自分の売りたいものに誘導する質問</p>
-<p><strong>対処法</strong>:<br />
-- 本当に相手のためになることは何かを考える<br />
-- 複数の選択肢を提示する<br />
+<p><strong>対処法</strong>:<br/>
+- 本当に相手のためになることは何かを考える<br/>
+- 複数の選択肢を提示する<br/>
 - 「必要ない」という結論も受け入れる</p>
 <h3 id="3_1">失敗例3: 表面的な情報で満足してしまう</h3>
 <p><strong>状況</strong>: 「はい」「いいえ」で終わる質問ばかり</p>
-<p><strong>対処法</strong>:<br />
-- 「どのように」「なぜ」を使った質問を増やす<br />
-- 具体例を求める<br />
+<p><strong>対処法</strong>:<br/>
+- 「どのように」「なぜ」を使った質問を増やす<br/>
+- 具体例を求める<br/>
 - 感情面での影響も聞く</p>
 <h2 id="_17">実践トレーニング</h2>
 <h3 id="_18">今日から始められる練習法</h3>
-<p><strong>1. 日常会話でのヒアリング練習</strong><br />
-- 家族や友人との会話で「なぜ？」を3回聞いてみる<br />
+<p><strong>1. 日常会話でのヒアリング練習</strong><br/>
+- 家族や友人との会話で「なぜ？」を3回聞いてみる<br/>
 - 相手の話を要約して確認する習慣をつける</p>
-<p><strong>2. ニュース記事での仮説トレーニング</strong><br />
-- 企業のプレスリリースを読んで、裏にある課題を推測<br />
+<p><strong>2. ニュース記事での仮説トレーニング</strong><br/>
+- 企業のプレスリリースを読んで、裏にある課題を推測<br/>
 - その企業に提案するとしたら何を聞くか考える</p>
-<p><strong>3. ロールプレイング</strong><br />
-- 同僚とクライアント役を交代で練習<br />
+<p><strong>3. ロールプレイング</strong><br/>
+- 同僚とクライアント役を交代で練習<br/>
 - 実際の商談を想定したシナリオで実践</p>
 <h2 id="-_1">まとめ - 聞く力が、売る力になる</h2>
 <p>ヒアリングは単なる情報収集ではありません。<strong>相手の成功を心から願い、そのために必要な情報を引き出すプロセス</strong>です。</p>
-<p>上手なヒアリングができれば：<br />
-- 相手が自ら課題に気づく<br />
-- 解決への意欲が高まる<br />
-- あなたへの信頼が深まる<br />
-- 最適な提案ができる<br />
+<p>上手なヒアリングができれば：<br/>
+- 相手が自ら課題に気づく<br/>
+- 解決への意欲が高まる<br/>
+- あなたへの信頼が深まる<br/>
+- 最適な提案ができる<br/>
 - 成果が出やすくなる</p>
 <p><strong>今日から意識すること</strong></p>
-<p>✅ 「売る」ではなく「理解する」ことにフォーカス<br />
-✅ 相手の話を8割、自分の話を2割に<br />
+<p>✅ 「売る」ではなく「理解する」ことにフォーカス<br/>
+✅ 相手の話を8割、自分の話を2割に<br/>
 ✅ 表面的な要望の裏にある、本質的な課題を探る</p>
 <p>次の商談では、ぜひ「もう一段深い質問」を意識してみてください。きっと、今まで見えなかった景色が見えてくるはずです。</p>
                 <!-- 更新リクエスト -->
@@ -2042,7 +2047,7 @@
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-            const mobileHeader = document.querySelector('.mobile-header');
+            const mobileHeader = document.getElementById('mobileHeader');
             const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
             
             // モバイルヘッダーの表示制御

@@ -52,7 +52,8 @@
             display: flex;
             flex-direction: column;
             position: fixed;
-            height: 100vh;
+            height: calc(100vh - 60px); /* ヘッダーの高さ分を引く */
+            top: 60px; /* ヘッダーの下に配置 */
             z-index: 100;
             overflow-y: auto;
             transition: transform 0.3s ease;
@@ -221,21 +222,7 @@
 
         .sidebar-header {
             padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg-primary);
-        }
-
-        .sidebar-header h1 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-        
-        .sidebar-header a:hover h1 {
-            color: var(--accent);
+            display: none; /* PC版では非表示 */
         }
         
         /* モバイル専用スタイル - デフォルトで非表示 */
@@ -426,13 +413,42 @@
             margin: 10px 20px;
         }
 
+        /* 固定ヘッダー */
+        .global-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .site-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .site-name:hover {
+            color: var(--accent);
+        }
+        
         /* メインコンテンツ */
         .main-content {
             flex: 1;
             margin-left: 280px;
+            margin-top: 60px; /* ヘッダーの高さ分 */
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: calc(100vh - 60px);
             transition: margin-left 0.3s ease;
         }
 
@@ -440,18 +456,14 @@
             margin-left: 680px;
         }
 
-        .content-header {
-            background: var(--bg-primary);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 40px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* ページタイトル */
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 24px 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
         }
         
         /* 検索ボックス */
@@ -914,6 +926,11 @@
         }
 
         @media (max-width: 768px) {
+            /* PC用ヘッダーを非表示 */
+            .global-header {
+                display: none;
+            }
+            
             /* モバイル固定ヘッダー */
             body {
                 padding-top: 56px; /* ヘッダーの高さ分 */
@@ -1092,11 +1109,8 @@
             /* メインコンテンツ */
             .main-content {
                 margin-left: 0;
+                margin-top: 0;
                 padding-top: 0;
-            }
-            
-            .content-header {
-                display: none; /* モバイルでは非表示 */
             }
             
             .content-body {
@@ -1105,6 +1119,11 @@
             }
             
             .content-body h1 {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+            
+            .page-title {
                 font-size: 28px;
                 margin-bottom: 20px;
             }
@@ -1211,8 +1230,20 @@
     </style>
 </head>
 <body>
-    <!-- モバイル用固定ヘッダー -->
-    <div class="mobile-header" style="display: none;">
+    <!-- PC用グローバルヘッダー -->
+    <div class="global-header" id="globalHeader">
+        <a href="index.html" class="site-name">Harukazeガイドライン</a>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+    
+    <!-- モバイル用ヘッダー -->
+    <div class="mobile-header" id="mobileHeader">
         <button class="mobile-menu-toggle" id="mobileMenuToggle">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;">
                 <path d="M3 12h18M3 6h18M3 18h18"></path>
@@ -1311,48 +1342,36 @@
         </div>
         
         <main class="main-content" id="mainContent">
-            <div class="content-header">
-                <span>全体の業務プロセス</span>
-                <div class="search-container">
-                    <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
-                    <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
-                    <div class="search-results" id="searchResults"></div>
-                </div>
-            </div>
-            
             <div class="content-body">
-                <h1 id="_1">全体の業務プロセス</h1>
+                <h1 class="page-title">全体の業務プロセス</h1>
+
 <h2 id="_2">動画で理解する</h2>
-<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/3b8eb36dcb16476a84b31f02d7dddbd2?sid=fb584477-afb6-4ba0-b702-08071b07401c" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
-
-<div style="position: relative; padding-bottom: 56.25%; height: 0; margin-top: 20px;"><iframe src="https://www.loom.com/embed/2a0bcb3e7bea4d3fafc5735521fcc618?sid=ac9b8adf-5319-4c64-9105-15ead7a70688" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
-
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="https://www.loom.com/embed/3b8eb36dcb16476a84b31f02d7dddbd2?sid=fb584477-afb6-4ba0-b702-08071b07401c" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" webkitallowfullscreen=""></iframe></div>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; margin-top: 20px;"><iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="https://www.loom.com/embed/2a0bcb3e7bea4d3fafc5735521fcc618?sid=ac9b8adf-5319-4c64-9105-15ead7a70688" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" webkitallowfullscreen=""></iframe></div>
 <h2 id="_3">なぜプロセスが重要なのか</h2>
 <p>「このプロジェクト、どこから手をつけていいか分からない...」</p>
 <p>新しい案件が始まるとき、こんな気持ちになったことはありませんか？特に複数のプロジェクトが同時進行している時や、初めてのクライアントとの仕事では、何から始めて、どんな順序で進めれば良いのか迷ってしまうものです。</p>
 <p>Harukazeが長年の経験を通じて確立したこの業務プロセスは、あなたがどんな案件でも迷わず、そして確実にクライアントの期待を超える成果を出すための道筋です。このプロセスに従うことで、抜け漏れを防ぎ、クライアントからの信頼を着実に積み上げることができます。</p>
 <h2 id="8">プロジェクト成功への8つのステップ</h2>
 <p>以下のフローは、問い合わせから最終的な振り返りまで、プロジェクト全体を成功に導くためのロードマップです。各ステップには明確な目的があり、これらを順序立てて実行することで、スムーズな案件進行が可能になります。</p>
-<p><strong>全体の流れ：</strong><br />
+<p><strong>全体の流れ：</strong><br/>
 問い合わせ → ヒアリング・提案・見積 → 受注・契約 → チーム結成 → プロジェクト始動・制作 → 納品 → 請求・支払い → 振り返り</p>
 <h2 id="step-1-">STEP 1: 案件獲得フェーズ - 最初の印象が全てを決める</h2>
 <p>新しいクライアントとの出会いは、まさに「第一印象」がその後の関係性を決定づけます。問い合わせが来た瞬間から、あなたはHarukazeの代表として見られているのです。</p>
-<p><strong>迅速で丁寧な初期対応のコツ：</strong><br />
-1. <strong>24時間以内の返信</strong> - どんなに忙しくても、まずは受領確認だけでも<br />
-2. <strong>テンプレートの活用</strong> - 質の高い返信を効率的に<br />
-3. <strong>相手の温度感を見極める</strong> - 急いでいるのか、じっくり検討したいのか<br />
+<p><strong>迅速で丁寧な初期対応のコツ：</strong><br/>
+1. <strong>24時間以内の返信</strong> - どんなに忙しくても、まずは受領確認だけでも<br/>
+2. <strong>テンプレートの活用</strong> - 質の高い返信を効率的に<br/>
+3. <strong>相手の温度感を見極める</strong> - 急いでいるのか、じっくり検討したいのか<br/>
 4. <strong>デザイナーアサインの早期検討</strong> - 案件の規模感に応じた体制準備</p>
 <p>この段階で信頼関係の土台が作られます。「この人なら安心して任せられそう」という印象を与えることが、その後のスムーズな進行につながります。</p>
 <h2 id="step-2-">STEP 2: ヒアリング・提案・見積フェーズ - 真の課題を見抜く</h2>
 <p>「ロゴを作ってほしい」という依頼の裏に、実は「ブランド全体を見直したい」という想いが隠れていることがあります。表面的な要望だけでなく、クライアントの本当の課題や期待を引き出すのがこのフェーズの重要な役割です。</p>
 <h3 id="_4">価値を生むヒアリングの進め方</h3>
 <p>ヒアリングは単なる情報収集ではありません。クライアント自身も気づいていない課題を発見し、それに対する解決策を提案する絶好の機会です。</p>
-<p><strong>効果的なヒアリングのポイント：</strong><br />
-- 「なぜそれが必要なのか」を必ず確認<br />
-- 現在の課題と理想の状態のギャップを明確化<br />
-- 予算は「いくらまで」ではなく「何にどれくらい価値を感じるか」で探る<br />
+<p><strong>効果的なヒアリングのポイント：</strong><br/>
+- 「なぜそれが必要なのか」を必ず確認<br/>
+- 現在の課題と理想の状態のギャップを明確化<br/>
+- 予算は「いくらまで」ではなく「何にどれくらい価値を感じるか」で探る<br/>
 - 競合他社の取り組みも含めて市場全体を理解</p>
 <h3 id="_5">心に響く提案書の作り方</h3>
 <p>提案書は単なる作業内容の説明書ではありません。クライアントの未来をより良くするための戦略書です。「なぜこの提案なのか」「どんな未来が待っているのか」を明確に伝えましょう。</p>
@@ -1360,9 +1379,9 @@
 <p>安すぎる見積は「品質への不安」を、高すぎる見積は「予算オーバー」を招きます。提供価値に見合った適正価格を自信を持って提示することが、互いにとって良い関係性の始まりです。</p>
 <h2 id="step-3-">STEP 3: 受注・契約フェーズ - 安心して進められる基盤作り</h2>
 <p>口約束ではなく、しっかりとした契約書を交わすことで、お互いが安心してプロジェクトに集中できる環境を整えます。これは信頼関係の証明でもあります。</p>
-<p><strong>スムーズな契約締結のために：</strong><br />
-- 見積内容について不明点がないか最終確認<br />
-- 電子契約システムの活用で効率化<br />
+<p><strong>スムーズな契約締結のために：</strong><br/>
+- 見積内容について不明点がないか最終確認<br/>
+- 電子契約システムの活用で効率化<br/>
 - 契約書の保管体制も忘れずに</p>
 <h2 id="step-4-">STEP 4: チーム結成フェーズ - 最強チームの編成</h2>
 <p>適材適所のデザイナー選定と、円滑なコミュニケーション体制の構築が、プロジェクト成功の鍵を握ります。</p>
@@ -1382,31 +1401,31 @@
 <p>大きな修正を防ぐため、ラフ段階での方向性確認は必須です。この段階でのフィードバックが、最終的な成果物の品質を大きく左右します。</p>
 <h2 id="step-6-">STEP 6: 納品フェーズ - 完璧な仕上がりを約束</h2>
 <p>最後の最後まで気を抜かず、チェックリストに基づいた確認を徹底することで、クライアントに安心して受け取ってもらえる成果物を納品します。</p>
-<p><strong>納品前の必須チェック項目：</strong><br />
-- 誤字脱字・表記ゆれの確認<br />
-- ファイル形式・サイズの適合性<br />
+<p><strong>納品前の必須チェック項目：</strong><br/>
+- 誤字脱字・表記ゆれの確認<br/>
+- ファイル形式・サイズの適合性<br/>
 - 納品データの整理と説明資料の準備</p>
 <h2 id="step-7-">STEP 7: 請求・支払フェーズ - 気持ちよく完了させる</h2>
 <p>プロジェクトの終わり方が、次のプロジェクトの始まりを決めます。スムーズな請求・支払処理で、ポジティブな印象を最後まで保ちましょう。</p>
 <h2 id="step-8-">STEP 8: 振り返りフェーズ - 次への成長につなげる</h2>
 <p>完了したプロジェクトを振り返り、成功要因と改善点を明確にすることで、次のプロジェクトがより良いものになります。</p>
-<p><strong>効果的な振り返りの観点：</strong><br />
-- クライアントの満足度はどうだったか<br />
-- チーム内のコミュニケーションは円滑だったか<br />
-- 予算・スケジュール管理は適切だったか<br />
+<p><strong>効果的な振り返りの観点：</strong><br/>
+- クライアントの満足度はどうだったか<br/>
+- チーム内のコミュニケーションは円滑だったか<br/>
+- 予算・スケジュール管理は適切だったか<br/>
 - 学んだことを次にどう活かすか</p>
 <h2 id="_11">よくある落とし穴と対策</h2>
-<p><strong>「プロセスを飛ばしたくなる誘惑」</strong><br />
+<p><strong>「プロセスを飛ばしたくなる誘惑」</strong><br/>
 急いでいる案件でも、必要なステップを省略するとかえって時間がかかることが多いものです。</p>
-<p><strong>「コミュニケーション不足」</strong><br />
+<p><strong>「コミュニケーション不足」</strong><br/>
 「言わなくても分かるだろう」は危険な思い込み。こまめな確認と情報共有を心がけましょう。</p>
 <h2 id="_12">今すぐ実践できること</h2>
-<p>✅ 現在進行中のプロジェクトがどのステップにあるか確認する<br />
-✅ 次の案件で使えるテンプレートを準備する<br />
+<p>✅ 現在進行中のプロジェクトがどのステップにあるか確認する<br/>
+✅ 次の案件で使えるテンプレートを準備する<br/>
 ✅ チーム内でプロセスの共有を行う  </p>
-<p>このプロセスを身につけることで、あなたのプロジェクト管理スキルは飛躍的に向上し、クライアントからの信頼も確実に高まります。一緒に、業界のスタンダードを塗り替えていきましょう。<br />
-- 請求書URLの取得<br />
-- クライアントへの請求書送付<br />
+<p>このプロセスを身につけることで、あなたのプロジェクト管理スキルは飛躍的に向上し、クライアントからの信頼も確実に高まります。一緒に、業界のスタンダードを塗り替えていきましょう。<br/>
+- 請求書URLの取得<br/>
+- クライアントへの請求書送付<br/>
 - 支払い確認とフォロー</p>
 <h2 id="38">3.8 振り返りフェーズ</h2>
 <h3 id="_13">振り返りミーティング</h3>
@@ -1846,7 +1865,7 @@
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-            const mobileHeader = document.querySelector('.mobile-header');
+            const mobileHeader = document.getElementById('mobileHeader');
             const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
             
             // モバイルヘッダーの表示制御

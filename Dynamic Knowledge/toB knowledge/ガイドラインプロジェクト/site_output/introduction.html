@@ -52,7 +52,8 @@
             display: flex;
             flex-direction: column;
             position: fixed;
-            height: 100vh;
+            height: calc(100vh - 60px); /* ヘッダーの高さ分を引く */
+            top: 60px; /* ヘッダーの下に配置 */
             z-index: 100;
             overflow-y: auto;
             transition: transform 0.3s ease;
@@ -221,21 +222,7 @@
 
         .sidebar-header {
             padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg-primary);
-        }
-
-        .sidebar-header h1 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-        
-        .sidebar-header a:hover h1 {
-            color: var(--accent);
+            display: none; /* PC版では非表示 */
         }
         
         /* モバイル専用スタイル - デフォルトで非表示 */
@@ -426,13 +413,42 @@
             margin: 10px 20px;
         }
 
+        /* 固定ヘッダー */
+        .global-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .site-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .site-name:hover {
+            color: var(--accent);
+        }
+        
         /* メインコンテンツ */
         .main-content {
             flex: 1;
             margin-left: 280px;
+            margin-top: 60px; /* ヘッダーの高さ分 */
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: calc(100vh - 60px);
             transition: margin-left 0.3s ease;
         }
 
@@ -440,18 +456,14 @@
             margin-left: 680px;
         }
 
-        .content-header {
-            background: var(--bg-primary);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 40px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* ページタイトル */
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 24px 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
         }
         
         /* 検索ボックス */
@@ -914,6 +926,11 @@
         }
 
         @media (max-width: 768px) {
+            /* PC用ヘッダーを非表示 */
+            .global-header {
+                display: none;
+            }
+            
             /* モバイル固定ヘッダー */
             body {
                 padding-top: 56px; /* ヘッダーの高さ分 */
@@ -1092,11 +1109,8 @@
             /* メインコンテンツ */
             .main-content {
                 margin-left: 0;
+                margin-top: 0;
                 padding-top: 0;
-            }
-            
-            .content-header {
-                display: none; /* モバイルでは非表示 */
             }
             
             .content-body {
@@ -1105,6 +1119,11 @@
             }
             
             .content-body h1 {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+            
+            .page-title {
                 font-size: 28px;
                 margin-bottom: 20px;
             }
@@ -1211,8 +1230,20 @@
     </style>
 </head>
 <body>
-    <!-- モバイル用固定ヘッダー -->
-    <div class="mobile-header" style="display: none;">
+    <!-- PC用グローバルヘッダー -->
+    <div class="global-header" id="globalHeader">
+        <a href="index.html" class="site-name">Harukazeガイドライン</a>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+    
+    <!-- モバイル用ヘッダー -->
+    <div class="mobile-header" id="mobileHeader">
         <button class="mobile-menu-toggle" id="mobileMenuToggle">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;">
                 <path d="M3 12h18M3 6h18M3 18h18"></path>
@@ -1311,26 +1342,14 @@
         </div>
         
         <main class="main-content" id="mainContent">
-            <div class="content-header">
-                <span>はじめに</span>
-                <div class="search-container">
-                    <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
-                    <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
-                    <div class="search-results" id="searchResults"></div>
-                </div>
-            </div>
-            
             <div class="content-body">
-                <h1 id="_1">はじめに</h1>
+                <h1 class="page-title">はじめに</h1>
+
 <h2 id="_2">初めての方へ</h2>
 <p>このガイドラインを初めてご覧になる方は、まず「基本情報」カテゴリのコンテンツから順番にお読みください。基本情報には、ディレクターとして押さえておくべき重要な5つのコンテンツがまとめられています。</p>
 <h2 id="_3">動画で理解する</h2>
-<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/7990e66509a946b1a2859f4b54bf9dc0?sid=95a9d275-d84d-49da-99c6-412916601a73" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
-
-<div style="position: relative; padding-bottom: 56.25%; height: 0; margin-top: 20px;"><iframe src="https://www.loom.com/embed/b8fef1c8ec804443819ce2cb9c45617f?sid=319857f0-1b77-42b3-b4d1-303a4fc85f31" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
-
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="https://www.loom.com/embed/7990e66509a946b1a2859f4b54bf9dc0?sid=95a9d275-d84d-49da-99c6-412916601a73" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" webkitallowfullscreen=""></iframe></div>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; margin-top: 20px;"><iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="https://www.loom.com/embed/b8fef1c8ec804443819ce2cb9c45617f?sid=319857f0-1b77-42b3-b4d1-303a4fc85f31" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" webkitallowfullscreen=""></iframe></div>
 <h2 id="_4">なぜこのガイドラインが必要なのか</h2>
 <p>「またクライアントから修正が入った...今度は何が違うんだろう？」</p>
 <p>こんな経験、ありませんか？デザイナーとして、ディレクターとして、日々の業務の中で感じる小さなモヤモヤや、「もっとスムーズに進められたら」という想い。実は、これらの課題の多くは、お互いの理解不足やコミュニケーションのすれ違いから生まれています。</p>
@@ -1340,8 +1359,8 @@
 <p>私たちは単純に売上を上げることが目的ではありません。<strong>「クリエイティブと社会をもっと、ちかづける」</strong>というコンセプトのもと、クリエイティブが持つ本当の力を社会に実装していきたいと考えています。</p>
 <p>具体的には、修正ラリーで疲弊することなく、お互いを理解し合えるコミュニケーションを通じて、クライアントには「依頼して本当に良かった」と心から思ってもらえる関係性を築くこと。そして、クリエイターには正当な評価と対価を得ながら、自分の作品が実際にビジネス成果を生む喜びを感じてもらえる環境を作ることです。</p>
 <h3 id="_5">私たちの理念</h3>
-<p><strong>ビジョン</strong>：日本一影響力のあるクリエイティブチームになる<br />
-<strong>ミッション</strong>：ひとびとのクリエイティビティを呼び覚ます<br />
+<p><strong>ビジョン</strong>：日本一影響力のあるクリエイティブチームになる<br/>
+<strong>ミッション</strong>：ひとびとのクリエイティビティを呼び覚ます<br/>
 <strong>コンセプト</strong>：クリエイティブと社会をもっと、ちかづける</p>
 <h3 id="5">日々の行動指針「5バリュー」</h3>
 <ol>
@@ -1366,9 +1385,9 @@
 <p><strong>ディレクターの方は</strong>、効果的なコミュニケーション方法や進行管理のコツを身につけることで、プロジェクトをスムーズに進められるようになります。</p>
 <p><strong>外部パートナーの方は</strong>、Harukazeの考え方や進め方を理解することで、より深い連携が可能になり、お互いにとって価値の高い関係性を築けます。</p>
 <h2 id="_10">よくある誤解</h2>
-<p><strong>「ガイドラインは制約」という考え</strong><br />
+<p><strong>「ガイドラインは制約」という考え</strong><br/>
 ガイドラインは決して自由を奪うものではありません。むしろ、基本的な部分を整理することで、本当に集中すべき創造的な部分により多くの時間を使えるようになります。</p>
-<p><strong>「一度読めば終わり」という考え</strong><br />
+<p><strong>「一度読めば終わり」という考え</strong><br/>
 実際の案件を経験しながら読み返すことで、新たな気づきが生まれます。成長と共に理解が深まる、生きた教材として活用してください。</p>
 <h2 id="_11">始めの一歩</h2>
 <ul>
@@ -1799,7 +1818,7 @@
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-            const mobileHeader = document.querySelector('.mobile-header');
+            const mobileHeader = document.getElementById('mobileHeader');
             const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
             
             // モバイルヘッダーの表示制御
