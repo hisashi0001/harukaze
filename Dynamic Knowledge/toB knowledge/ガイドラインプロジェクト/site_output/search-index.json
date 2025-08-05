@@ -1,6 +1,6 @@
 [
   {
-    "pageTitle": "Aiチャット",
+    "pageTitle": "AIチャット（テスト版）",
     "sectionTitle": "ガイドラインについて質問してみましょう",
     "content": "AIチャットは、Harukazeガイドラインに関する質問に即座にお答えします。 ",
     "url": "ai-assistant.html",
@@ -8,7 +8,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "Aiチャット",
+    "pageTitle": "AIチャット（テスト版）",
     "sectionTitle": "利用方法",
     "content": "画面右下の **AIチャット** ボタンをクリックすると、AIチャットパネルが開きます。 1. 質問を入力して送信 2. AIからの回答を確認 3. 必要に応じて追加の質問 ",
     "url": "ai-assistant.html",
@@ -16,7 +16,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "Aiチャット",
+    "pageTitle": "AIチャット（テスト版）",
     "sectionTitle": "こんな時に便利",
     "content": "- **急いでいる時**: すぐに答えが欲しい質問がある - **探す時間がない時**: どのページを見ればいいか分からない - **確認したい時**: 自分の理解が正しいか確認したい ",
     "url": "ai-assistant.html",
@@ -24,7 +24,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "Aiチャット",
+    "pageTitle": "AIチャット（テスト版）",
     "sectionTitle": "よくある質問例",
     "content": "- 「納期が遅れそうな時はどうすればいい？」 - 「デザイナーへの効果的なフィードバック方法は？」 - 「品質チェックで見るべきポイントは？」 - 「クライアントの無理な要求への対処法は？」 ",
     "url": "ai-assistant.html",
@@ -32,7 +32,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "Aiチャット",
+    "pageTitle": "AIチャット（テスト版）",
     "sectionTitle": "注意事項",
     "content": "**テスト版のため、以下の点にご注意ください：** - 回答は基本的な内容に限定されています - 複雑な質問には対応できない場合があります - 正確な情報は必ずガイドライン本文をご確認ください ",
     "url": "ai-assistant.html",
@@ -40,7 +40,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "Aiチャット",
+    "pageTitle": "AIチャット（テスト版）",
     "sectionTitle": "フィードバック",
     "content": "AIチャットの改善のため、ぜひご意見をお聞かせください： - 役に立った回答 - 改善が必要な回答 - 追加してほしい機能 [改善提案フォーム](feedback.html)からお送りください ",
     "url": "ai-assistant.html",
@@ -176,7 +176,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "みんなで育てるガイドライン",
     "content": "「こんなケースもガイドラインに載せたい！」「最近見つけた良い方法をチームに共有したい！」 そんな想いを持ったことはありませんか？このガイドラインは皆さんの知見を集めて、日々進化していくことを前提に作られています。 ",
     "url": "feedback.html",
@@ -184,7 +184,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "追加/改善はGitHub Issueで",
     "content": "ガイドラインへの改善提案は、透明性と効率性を重視してGitHub Issueで管理しています。 ",
     "url": "feedback.html",
@@ -192,7 +192,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "以下の3つから選んでください：",
     "content": "<div style=\"display: flex; gap: 16px; margin: 30px 0; flex-wrap: wrap; justify-content: center;\"> <a href=\"https://github.com/Hisashi0001/harukaze/issues/new?assignees=&labels=%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E8%BF%BD%E5%8A%A0&projects=&template=content_addition.md&title=%5B%E8%BF%BD%E5",
     "url": "feedback.html",
@@ -200,7 +200,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "提案の流れ",
     "content": "1. **GitHub Issueを作成**（上のボタンから） 2. **週次レビュー**（毎週金曜15:00〜）で確認 3. **実装**：承認されたものから順次反映 4. **自動更新**：サイトに自動反映 --- ",
     "url": "feedback.html",
@@ -208,7 +208,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "GitHubアカウントの作り方（3分で完了）",
     "content": "1. [GitHub.com](https://github.com)にアクセス 2. 「Sign up」をクリック 3. メールアドレスとパスワードを入力 4. 確認メールのリンクをクリック ※完全無料です ",
     "url": "feedback.html",
@@ -216,7 +216,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "それでも難しい場合は...",
     "content": "下記のGoogleフォームからも提案可能です。ただし、進捗の確認や議論への参加はできません。 <div style=\"background: #f9f9f9; padding: 20px; margin: 20px 0; border: 1px solid #e0e0e0;\"> <p style=\"margin-bottom: 15px; color: #666;\">GitHubアカウントをお持ちでない方のみご利用ください</p> <iframe src=\"https://docs.google.com/forms/d/19xonF8Oj6cpZpJzDLoVD7fKJ-HHPGz2VipwQ",
     "url": "feedback.html",
@@ -224,7 +224,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "良い提案の書き方",
     "content": "**具体的な状況を教えてください** - 「〜の時に困った」「〜があれば良かった」など、実際の場面を共有してください **改善案もセットで** - 問題点だけでなく、可能であれば解決策のアイデアも添えてください **小さな改善も大歓迎** - 誤字脱字の指摘から、大きな構成変更まで、どんな提案も歓迎します **優先度を教えてください** - 「すぐに必要」「あったら便利」など、緊急度の目安があると助かります ",
     "url": "feedback.html",
@@ -232,7 +232,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "1. 実践で得た知見",
     "content": "- 「先方への初回挨拶メッセージ、こう書いたら返信率が上がった」 - 「修正依頼の伝え方で、この表現使ったらスムーズに進んだ」 - 「Zoom商談で画面共有するときのコツを発見した」 ",
     "url": "feedback.html",
@@ -240,7 +240,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "2. よくあるトラブルと解決策",
     "content": "- 「納期遅延しそうなときの事前連絡テンプレート」 - 「デザイナーとの認識ズレを防ぐチェックリスト」 - 「クライアントの要望が曖昧なときの質問例」 ",
     "url": "feedback.html",
@@ -248,7 +248,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "3. 新しいカテゴリの提案",
     "content": "- 「テキストコミュニケーション」カテゴリを作って、Slack/メールのテクニックをまとめる - 「ツール活用術」カテゴリで、効率化のTipsを共有 ",
     "url": "feedback.html",
@@ -256,7 +256,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "4. すぐに追加すべきもの",
     "content": "**仕組み化できそうなところは、些細なものでも、問題が起きたタイミングや問題を解決したタイミングに、メモ書き程度で良いので、すぐに追加しましょう。そうすることで同じ問題が二度と起きないシステムが出来上がっていきます。** ",
     "url": "feedback.html",
@@ -264,7 +264,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "これまでの改善例",
     "content": "- コミュニケーションガイドラインの事例追加 - トラブルシューティングセクションの新設 - 動画コンテンツの文字起こし追加 - モバイル対応の改善 - AIチャット機能の実装 ",
     "url": "feedback.html",
@@ -272,7 +272,7 @@
     "category": "その他"
   },
   {
-    "pageTitle": "ガイドライン追加・改善",
+    "pageTitle": "ガイドライン追加/改善",
     "sectionTitle": "詳しい使い方",
     "content": "GitHub Issueを使った提案方法の詳細は、[GitHub Issue運用マニュアル](/GitHub_Issue運用マニュアル.md)をご覧ください。 --- <a href=\"https://github.com/Hisashi0001/harukaze/issues/new/choose\" target=\"_blank\">GitHub Issueを作成</a> 皆さまの声が、ガイドラインをより良いものにしています。 ",
     "url": "feedback.html",

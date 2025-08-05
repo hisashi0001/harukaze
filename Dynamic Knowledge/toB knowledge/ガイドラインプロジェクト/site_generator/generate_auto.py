@@ -83,7 +83,12 @@ class AutoSiteGenerator:
                 page_info['tags'] = frontmatter.get('tags', [])
             else:
                 # フロントマターがない場合は自動推測
-                page_info['title'] = self.clean_filename(md_file.stem)
+                # 最初のH1タグからタイトルを取得
+                h1_match = re.search(r'^#\s+(.+)$', markdown_content, re.MULTILINE)
+                if h1_match:
+                    page_info['title'] = h1_match.group(1).strip()
+                else:
+                    page_info['title'] = self.clean_filename(md_file.stem)
                 page_info['category'] = self.guess_category(relative_path)
                 page_info['subcategory'] = self.guess_subcategory(relative_path)
                 page_info['order'] = self.extract_order(md_file.name)
@@ -183,7 +188,7 @@ class AutoSiteGenerator:
             '文字起こし': 'transcript',
             'AIチャット': 'ai-assistant',
             'AIアシスタント': 'ai-assistant',
-            'Aiアシスタント': 'ai-assistant',
+            'AIアシスタント': 'ai-assistant',
             'ガイドライン改善提案': 'feedback',
             'ガイドライン追加・改善': 'feedback',
             'コンテンツ追加・修正ガイド': 'content-guide'
@@ -289,8 +294,12 @@ class AutoSiteGenerator:
 <div class="category-content">'''
                 
                 for page in pages:
+                    # サイドバー用のタイトル（AIチャットの場合は「（テスト版）」を除去）
+                    sidebar_title = page['title']
+                    if sidebar_title == 'AIチャット（テスト版）':
+                        sidebar_title = 'AIチャット'
                     sidebar_html += f'''
-<a href="{page['output_name']}" class="nav-item">{page['title']}</a>'''
+<a href="{page['output_name']}" class="nav-item">{sidebar_title}</a>'''
                 
                 sidebar_html += '\n</div>\n</div>'
         
@@ -303,8 +312,12 @@ class AutoSiteGenerator:
 <div class="category-content">'''
                 
                 for page in pages:
+                    # サイドバー用のタイトル（AIチャットの場合は「（テスト版）」を除去）
+                    sidebar_title = page['title']
+                    if sidebar_title == 'AIチャット（テスト版）':
+                        sidebar_title = 'AIチャット'
                     sidebar_html += f'''
-<a href="{page['output_name']}" class="nav-item">{page['title']}</a>'''
+<a href="{page['output_name']}" class="nav-item">{sidebar_title}</a>'''
                 
                 sidebar_html += '\n</div>\n</div>'
         
