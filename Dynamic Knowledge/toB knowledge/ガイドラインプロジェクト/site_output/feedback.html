@@ -1124,12 +1124,54 @@
                 line-height: 1.7;
             }
             
+            /* 横スクロール防止 */
+            .content-body {
+                overflow-x: hidden;
+                word-wrap: break-word;
+                word-break: break-word;
+            }
+            
+            /* コードブロックの横スクロール防止 */
+            .content-body pre {
+                overflow-x: auto;
+                max-width: 100%;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+            
+            .content-body code {
+                word-break: break-all;
+            }
+            
+            /* テーブルの横スクロール対応 */
+            .content-body table {
+                display: block;
+                overflow-x: auto;
+                max-width: 100%;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* 画像の最大幅制限 */
+            .content-body img {
+                max-width: 100%;
+                height: auto;
+            }
+            
+            /* 長いURLの折り返し */
+            .content-body a {
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+            
             /* AIパネル - モバイルでは全画面 */
             .ai-panel {
                 width: 100%;
                 max-width: 100%;
                 left: 0;
-                z-index: 101;
+                z-index: 1002; /* サイドバーより上に表示 */
+                height: 100%;
+                position: fixed;
+                top: 0;
             }
             
             .ai-panel.active {
@@ -1241,7 +1283,8 @@
 </div>
 </nav>
 <div class="sidebar-footer">
-    <a href="#" class="footer-link" onclick="toggleAiPanel(); return false;">AIチャット</a>
+    <button class="footer-link" onclick="toggleAiPanel(); event.stopPropagation();">AIチャット</button>
+    <div class="footer-divider"></div>
     <a href="feedback.html" class="footer-link">ガイドライン改善提案</a>
 </div>
         </div>
@@ -1250,7 +1293,7 @@
         <div class="ai-panel" id="aiPanel">
             <div class="ai-panel-header">
                 <h3>AIチャット</h3>
-                <button class="ai-close-btn" onclick="toggleAiPanel()">×</button>
+                <button class="ai-close-btn" onclick="toggleAiPanel(); event.stopPropagation();">×</button>
             </div>
             <div class="ai-messages" id="aiMessages">
                 <div class="ai-message">
@@ -1417,14 +1460,27 @@
         function toggleAiPanel() {
             const aiPanel = document.getElementById('aiPanel');
             const mainContent = document.getElementById('mainContent');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
             const isActive = aiPanel.classList.contains('active');
             
             if (isActive) {
                 aiPanel.classList.remove('active');
                 mainContent.classList.remove('with-ai');
             } else {
-                aiPanel.classList.add('active');
-                mainContent.classList.add('with-ai');
+                // モバイルの場合、サイドバーを閉じてからAIパネルを開く
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                    // 少し遅延させてからAIパネルを開く
+                    setTimeout(() => {
+                        aiPanel.classList.add('active');
+                    }, 300);
+                } else {
+                    aiPanel.classList.add('active');
+                    mainContent.classList.add('with-ai');
+                }
             }
         }
 

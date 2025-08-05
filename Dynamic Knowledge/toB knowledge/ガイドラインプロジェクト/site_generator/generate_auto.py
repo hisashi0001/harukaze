@@ -313,7 +313,8 @@ class AutoSiteGenerator:
         # サイドバーフッターを追加
         sidebar_html += '''
 <div class="sidebar-footer">
-    <a href="#" class="footer-link" onclick="toggleAiPanel(); return false;">AIチャット</a>
+    <button class="footer-link" onclick="toggleAiPanel(); event.stopPropagation();">AIチャット</button>
+    <div class="footer-divider"></div>
     <a href="feedback.html" class="footer-link">ガイドライン改善提案</a>
 </div>'''
         
