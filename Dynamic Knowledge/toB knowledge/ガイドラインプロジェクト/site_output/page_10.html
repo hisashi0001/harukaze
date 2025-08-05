@@ -327,14 +327,20 @@
             border-left-color: var(--text-primary);
         }
         
+        /* デフォルトでカテゴリは閉じた状態 */
+        .category {
+            /* 初期状態で閉じておく */
+        }
+        
         .category-content {
-            max-height: 1000px;
+            max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
         
-        .category.collapsed .category-content {
-            max-height: 0;
+        /* 明示的に開いた状態のスタイル */
+        .category:not(.collapsed) .category-content {
+            max-height: 1000px;
         }
         
         /* サブカテゴリ */
@@ -1458,6 +1464,11 @@ OK例：「先ほどサイトを拝見したんですが、7万フォロワー�
 
         // トグル機能の実装
         function initializeToggleCategories() {
+            // 最初にすべてのカテゴリをcollapsed状態にする
+            document.querySelectorAll('.category').forEach(category => {
+                category.classList.add('collapsed');
+            });
+            
             // カテゴリのトグル
             document.querySelectorAll('.category-title').forEach(title => {
                 // トグルアイコンが既に存在しない場合のみ追加
@@ -1506,8 +1517,10 @@ OK例：「先ほどサイトを拝見したんですが、7万フォロワー�
                 if (title) {
                     const categoryName = title.textContent.trim();
                     const savedState = localStorage.getItem(`category-${categoryName}`);
-                    // 保存された状態がない場合はデフォルトで閉じる
-                    if (savedState === null || savedState === 'true') {
+                    // 保存された状態がない場合（null）はデフォルトで閉じる
+                    // 保存された状態が'true'の場合も閉じる
+                    // 'false'の場合のみ開く
+                    if (savedState !== 'false') {
                         category.classList.add('collapsed');
                     }
                 }
@@ -1527,6 +1540,9 @@ OK例：「先ほどサイトを拝見したんですが、7万フォロワー�
         
         // アクティブなページをハイライト
         document.addEventListener('DOMContentLoaded', function() {
+            // 先にトグル機能を初期化（デフォルト状態を設定）
+            initializeToggleCategories();
+            
             const currentPage = window.location.pathname.split('/').pop();
             const navItems = document.querySelectorAll('.nav-item');
             
@@ -1554,9 +1570,6 @@ OK例：「先ほどサイトを拝見したんですが、7万フォロワー�
                     }
                 }
             });
-            
-            // トグル機能を初期化
-            initializeToggleCategories();
 
             // スムーススクロール for アンカーリンク
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
