@@ -238,25 +238,11 @@
             color: var(--accent);
         }
         
-        /* モバイル用ハンバーガーメニュー */
-        .mobile-menu-toggle {
+        /* モバイル専用スタイル - デフォルトで非表示 */
+        .mobile-header,
+        .mobile-sidebar-header,
+        .mobile-sidebar-search {
             display: none;
-            position: fixed;
-            top: 16px;
-            left: 16px;
-            z-index: 1001;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 8px;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .mobile-menu-toggle svg {
-            width: 24px;
-            height: 24px;
-            color: var(--text-primary);
         }
         
         .sidebar-overlay {
@@ -928,58 +914,239 @@
         }
 
         @media (max-width: 768px) {
-            .mobile-menu-toggle {
-                display: block;
+            /* モバイル固定ヘッダー */
+            body {
+                padding-top: 56px; /* ヘッダーの高さ分 */
             }
             
+            .mobile-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 56px;
+                background: var(--bg-primary);
+                border-bottom: 1px solid var(--border);
+                display: flex;
+                align-items: center;
+                padding: 0 16px;
+                z-index: 1000;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: var(--text-primary);
+            }
+            
+            .mobile-header-title {
+                flex: 1;
+                margin-left: 12px;
+                font-size: 18px;
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+            
+            /* サイドバー - フルスクリーン */
             .sidebar {
-                width: 280px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: var(--sidebar-bg);
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
+                z-index: 1001;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
             }
             
             .sidebar.active {
                 transform: translateX(0);
             }
             
+            /* サイドバー内の検索 */
+            .mobile-sidebar-search {
+                padding: 16px;
+                background: var(--bg-primary);
+                border-bottom: 1px solid var(--border);
+            }
+            
+            .mobile-sidebar-search input {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font-size: 16px;
+                background: var(--bg-secondary);
+            }
+            
+            /* サイドバーナビゲーション改善 */
+            .sidebar-nav {
+                padding-bottom: 100px; /* フッター分の余白 */
+            }
+            
+            .nav-item {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+            
+            .category-title {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+                padding: 12px 16px;
+                font-size: 15px;
+                font-weight: 600;
+            }
+            
+            .category-title .toggle-icon {
+                margin-right: 12px;
+                border-width: 6px 0 6px 10px;
+            }
+            
+            /* モバイルサイドバーヘッダー */
+            .mobile-sidebar-header {
+                display: flex !important;
+                align-items: center;
+                min-height: 56px;
+                padding: 16px;
+                background: var(--bg-primary);
+                border-bottom: 1px solid var(--border);
+            }
+            
+            .sidebar-close-btn {
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: var(--text-primary);
+                margin-right: 12px;
+            }
+            
+            /* デスクトップサイドバーヘッダーを非表示 */
+            .sidebar-header.desktop-only {
+                display: none;
+            }
+            
+            /* モバイル検索を表示 */
+            .mobile-sidebar-search {
+                display: block !important;
+            }
+            
+            /* サイドバーフッター */
+            .sidebar-footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--sidebar-bg);
+                border-top: 1px solid var(--border);
+                padding: 0;
+            }
+            
+            .footer-link {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+            
+            /* オーバーレイ */
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                display: none;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
             .sidebar-overlay.active {
                 display: block;
+                opacity: 1;
             }
-
+            
+            /* メインコンテンツ */
             .main-content {
                 margin-left: 0;
-            }
-
-            .main-content.with-ai {
-                margin-left: 0;
-            }
-
-            .container {
-                flex-direction: row;
+                padding-top: 0;
             }
             
             .content-header {
-                padding-left: 60px; /* ハンバーガーボタンの分のスペース */
-                flex-direction: column;
-                gap: 12px;
-                align-items: stretch;
+                display: none; /* モバイルでは非表示 */
             }
             
-            .search-container {
-                width: 100%;
-            }
-
             .content-body {
-                padding: 20px;
-                padding-top: 40px;
+                padding: 16px;
+                padding-bottom: 40px;
             }
-
+            
+            .content-body h1 {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+            
+            .content-body h2 {
+                font-size: 22px;
+                margin: 32px 0 16px 0;
+            }
+            
+            .content-body h3 {
+                font-size: 18px;
+                margin: 24px 0 12px 0;
+            }
+            
+            .content-body p, .content-body li {
+                font-size: 16px;
+                line-height: 1.7;
+            }
+            
+            /* AIパネル - モバイルでは全画面 */
+            .ai-panel {
+                width: 100%;
+                max-width: 100%;
+                left: 0;
+                z-index: 101;
+            }
+            
+            .ai-panel.active {
+                display: flex;
+            }
+            
+            /* ボタンやリンクのタッチターゲット最適化 */
+            button, a, .nav-item, .category-title {
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            /* 動画の最適化 */
             .video-embed iframe {
                 height: auto;
                 aspect-ratio: 16/9;
             }
             
-            /* Loom動画のモバイル対応 */
             .loom-container {
                 margin: 16px 0;
             }
@@ -1002,19 +1169,36 @@
     </style>
 </head>
 <body>
-    <!-- モバイル用ハンバーガーメニュー -->
-    <button class="mobile-menu-toggle" id="mobileMenuToggle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 12h18M3 6h18M3 18h18"></path>
-        </svg>
-    </button>
+    <!-- モバイル用固定ヘッダー -->
+    <div class="mobile-header" style="display: none;">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;">
+                <path d="M3 12h18M3 6h18M3 18h18"></path>
+            </svg>
+        </button>
+        <div class="mobile-header-title">Harukazeガイドライン</div>
+    </div>
     
     <!-- サイドバーオーバーレイ -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     
     <div class="container">
         <div class="sidebar" id="sidebar">
-<div class="sidebar-header">
+<!-- モバイル用サイドバーヘッダー -->
+<div class="mobile-sidebar-header" style="display: none;">
+    <button class="sidebar-close-btn" id="sidebarCloseBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+    <span style="flex: 1; font-size: 18px; font-weight: 600;">メニュー</span>
+</div>
+<!-- モバイル用検索 -->
+<div class="mobile-sidebar-search" style="display: none;">
+    <input type="text" placeholder="ページを検索..." id="mobileSidebarSearch">
+</div>
+<!-- 通常のサイドバーヘッダー -->
+<div class="sidebar-header desktop-only">
 <a href="index.html" style="text-decoration: none; color: inherit;">
 <h1>Harukazeガイドライン</h1>
 </a>
@@ -1647,17 +1831,42 @@ OK例：「先ほどサイトを拝見したんですが、7万フォロワー�
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const mobileHeader = document.querySelector('.mobile-header');
+            const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+            
+            // モバイルヘッダーの表示制御
+            function updateMobileHeader() {
+                if (window.innerWidth <= 768) {
+                    mobileHeader.style.display = 'flex';
+                } else {
+                    mobileHeader.style.display = 'none';
+                }
+            }
+            
+            updateMobileHeader();
+            window.addEventListener('resize', updateMobileHeader);
             
             if (mobileMenuToggle) {
                 mobileMenuToggle.addEventListener('click', () => {
-                    sidebar.classList.toggle('active');
-                    sidebarOverlay.classList.toggle('active');
+                    sidebar.classList.add('active');
+                    sidebarOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // スクロール防止
                 });
                 
                 sidebarOverlay.addEventListener('click', () => {
                     sidebar.classList.remove('active');
                     sidebarOverlay.classList.remove('active');
+                    document.body.style.overflow = ''; // スクロール再開
                 });
+                
+                // サイドバー閉じるボタン
+                if (sidebarCloseBtn) {
+                    sidebarCloseBtn.addEventListener('click', () => {
+                        sidebar.classList.remove('active');
+                        sidebarOverlay.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                }
                 
                 // サイドバー内のリンクをクリックしたらメニューを閉じる
                 document.querySelectorAll('.nav-item').forEach(item => {
@@ -1665,9 +1874,44 @@ OK例：「先ほどサイトを拝見したんですが、7万フォロワー�
                         if (window.innerWidth <= 768) {
                             sidebar.classList.remove('active');
                             sidebarOverlay.classList.remove('active');
+                            document.body.style.overflow = '';
                         }
                     });
                 });
+                
+                // モバイルサイドバー内検索
+                const mobileSidebarSearch = document.getElementById('mobileSidebarSearch');
+                if (mobileSidebarSearch) {
+                    mobileSidebarSearch.addEventListener('input', (e) => {
+                        const searchTerm = e.target.value.toLowerCase();
+                        const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
+                        
+                        navItems.forEach(item => {
+                            const text = item.textContent.toLowerCase();
+                            if (text.includes(searchTerm)) {
+                                item.style.display = '';
+                                // 親カテゴリも展開
+                                let parent = item.parentElement;
+                                while (parent && parent.classList.contains('category-content')) {
+                                    parent.parentElement.classList.remove('collapsed');
+                                    parent = parent.parentElement.parentElement;
+                                }
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                        
+                        // カテゴリの表示/非表示
+                        document.querySelectorAll('.category').forEach(category => {
+                            const visibleItems = category.querySelectorAll('.nav-item:not([style*="display: none"])');
+                            if (visibleItems.length === 0 && searchTerm !== '') {
+                                category.style.display = 'none';
+                            } else {
+                                category.style.display = '';
+                            }
+                        });
+                    });
+                }
             }
             
             // 検索機能の実装

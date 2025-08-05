@@ -4796,7 +4796,7 @@ textarea {
 .flowListItem .wrapper .screenListContainer .screenGridListWrapperWeb .screenGridList .listItem .screenAdBox {
     aspect-ratio: 390/844;
     padding: 16px;
-    border-radius: 10%/4.7%;
+    border-radius: 10%/4.7%;D０００００００００００００００００００００００００００００００００００００００００００００００００００００００００００
     background-color: #232323
 }
 

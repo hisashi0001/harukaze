@@ -252,7 +252,21 @@ class AutoSiteGenerator:
             categories[category].append(page)
         
         # サイドバーHTML生成
-        sidebar_html = '''<div class="sidebar-header">
+        sidebar_html = '''<!-- モバイル用サイドバーヘッダー -->
+<div class="mobile-sidebar-header" style="display: none;">
+    <button class="sidebar-close-btn" id="sidebarCloseBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+    <span style="flex: 1; font-size: 18px; font-weight: 600;">メニュー</span>
+</div>
+<!-- モバイル用検索 -->
+<div class="mobile-sidebar-search" style="display: none;">
+    <input type="text" placeholder="ページを検索..." id="mobileSidebarSearch">
+</div>
+<!-- 通常のサイドバーヘッダー -->
+<div class="sidebar-header desktop-only">
 <a href="index.html" style="text-decoration: none; color: inherit;">
 <h1>Harukazeガイドライン</h1>
 </a>
