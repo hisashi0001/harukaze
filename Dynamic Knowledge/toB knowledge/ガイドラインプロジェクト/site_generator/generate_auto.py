@@ -15,7 +15,7 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 class AutoSiteGenerator:
-    def __init__(self, content_dir="../01_現行ガイドライン/サイトコンテンツ", 
+    def __init__(self, content_dir="../サイトコンテンツ", 
                  output_dir="../site_output",
                  template_dir="_templates"):
         self.content_dir = Path(content_dir)
