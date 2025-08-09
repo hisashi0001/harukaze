@@ -1883,10 +1883,11 @@ Google Driveの自動同期設定をしておけば、保存し忘れのリス�
                     const categoryName = title.textContent.trim();
                     const savedState = localStorage.getItem(`category-${categoryName}`);
                     
-                    if (savedState !== 'false') {
-                        category.classList.add('collapsed');
-                    } else {
+                    // デフォルトは閉じた状態、明示的に'false'の場合のみ開く
+                    if (savedState === 'false') {
                         category.classList.remove('collapsed');
+                    } else {
+                        category.classList.add('collapsed');
                     }
                     
                     // トグルアイコン追加
@@ -1913,10 +1914,11 @@ Google Driveの自動同期設定をしておけば、保存し忘れのリス�
                     const folderName = title.textContent.trim();
                     const savedState = localStorage.getItem(`subcategory-${folderName}`);
                     
-                    if (savedState !== 'false') {
-                        folder.classList.add('collapsed');
-                    } else {
+                    // デフォルトは閉じた状態、明示的に'false'の場合のみ開く
+                    if (savedState === 'false') {
                         folder.classList.remove('collapsed');
+                    } else {
+                        folder.classList.add('collapsed');
                     }
                     
                     // トグルアイコン追加

@@ -15,7 +15,7 @@ duration: 2分
 <div style="display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
   <a href="index.html" style="text-decoration: none;">← 目次に戻る</a>
   <span>1/5</span>
-  <a href="02_vision.html" style="text-decoration: none;">次へ: Harukazeが目指す世界 →</a>
+  <a href="vision.html" style="text-decoration: none;">次へ: Harukazeが目指す世界 →</a>
 </div>
 
 ## 内容
@@ -51,5 +51,5 @@ Harukazeとしては「こういうスタンスで、こういう形でお仕事
 <div style="display: flex; justify-content: space-between; margin-top: 40px; padding: 20px; background: #f5f5f5; border-radius: 8px;">
   <a href="index.html" style="text-decoration: none;">← 目次に戻る</a>
   <span>1/5</span>
-  <a href="02_vision.html" style="text-decoration: none;">次へ: Harukazeが目指す世界 →</a>
+  <a href="vision.html" style="text-decoration: none;">次へ: Harukazeが目指す世界 →</a>
 </div>

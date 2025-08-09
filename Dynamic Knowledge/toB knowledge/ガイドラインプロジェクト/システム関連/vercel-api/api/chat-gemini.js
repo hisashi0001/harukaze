@@ -47,8 +47,9 @@ module.exports = async function handler(req, res) {
       relevantGuidelines.push(...additionalGuidelines);
     }
     
-    // コンテキストを構築
-    const context = buildContext(relevantGuidelines);
+    // コンテキストを構築（関連度の高い上位3つのみ使用）
+    const topRelevant = relevantGuidelines.slice(0, 3);
+    const context = buildContext(topRelevant, message);
     
     // プロンプトを構築
     const prompt = `あなたはHarukazeガイドラインのAIアシスタントです。HarukazeはtoB事業としてデザイン制作を行っているクリエイティブチームです。
@@ -58,7 +59,11 @@ ${context}
 
 ユーザーの質問: ${message}
 
-回答は2-3文程度で簡潔に。ガイドラインからの情報を優先し、ない場合は一般的な知識で答えてください。`;
+回答方法：
+1. ガイドラインに記載されている具体的な対処法や推奨事項を3-5項目で箇条書きにしてください
+2. 実践的で具体的なアドバイスを心がけてください
+3. 最後に「詳しくは『〇〇』ページをご覧ください」と関連ページへ案内してください
+4. ガイドラインに明確な記載がない場合は、一般的な知識で補完してください`;
 
     // Gemini APIを呼び出し
     const result = await model.generateContent(prompt);
@@ -149,22 +154,84 @@ function findRelevantGuidelines(query, guidelines) {
   return scores.slice(0, 10).map(s => s.guideline);
 }
 
-// コンテキストを構築
-function buildContext(guidelines) {
+// コンテキストを構築（重要なセクションを優先的に抽出）
+function buildContext(guidelines, query) {
   if (!guidelines || guidelines.length === 0) {
     return 'ガイドラインに関連する情報が見つかりませんでした。';
   }
 
-  // より多くのコンテンツ情報を含める
   return guidelines.map(g => {
-    // contentとsummaryの両方を使用し、より多くの情報を提供
     const content = g.content || g.summary || '';
-    const excerpt = content.substring(0, 500) + (content.length > 500 ? '...' : '');
+    
+    // 重要なセクションを抽出
+    const sections = extractImportantSections(content, query);
+    
     return `
 【${g.title}】（${g.category || '未分類'}）
-${excerpt}
+URL: ${g.url}
+
+${sections}
 `;
-  }).join('\n\n');
+  }).join('\n\n---\n\n');
+}
+
+// 重要なセクションを抽出する関数
+function extractImportantSections(content, query) {
+  const queryLower = query.toLowerCase();
+  const lines = content.split('\n');
+  const importantSections = [];
+  let currentSection = [];
+  let inRelevantSection = false;
+  
+  // 優先的に抽出するセクション名
+  const prioritySections = [
+    '実践的なTips', '実践的な活用', 'よくある失敗例', 'よくある落とし穴',
+    '対処法', '解決策', '具体的な', 'ポイント', '押さえるべき',
+    'コツ', '方法', '手順', 'チェックリスト'
+  ];
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const lineLower = line.toLowerCase();
+    
+    // 見出しを検出
+    if (line.match(/^#{1,3}\s+/)) {
+      // 前のセクションを保存
+      if (inRelevantSection && currentSection.length > 0) {
+        importantSections.push(currentSection.join('\n'));
+      }
+      
+      currentSection = [line];
+      
+      // 優先セクションかチェック
+      inRelevantSection = prioritySections.some(section => 
+        lineLower.includes(section.toLowerCase())
+      ) || lineLower.includes(queryLower);
+    } else if (inRelevantSection) {
+      currentSection.push(line);
+    }
+    
+    // クエリに関連する内容は必ず含める
+    if (lineLower.includes(queryLower) && !inRelevantSection) {
+      // 前後の文脈も含める
+      const contextStart = Math.max(0, i - 2);
+      const contextEnd = Math.min(lines.length - 1, i + 2);
+      const context = lines.slice(contextStart, contextEnd + 1).join('\n');
+      importantSections.push(context);
+    }
+  }
+  
+  // 最後のセクションを保存
+  if (inRelevantSection && currentSection.length > 0) {
+    importantSections.push(currentSection.join('\n'));
+  }
+  
+  // 重要なセクションがない場合は、コンテンツの最初の部分を返す
+  if (importantSections.length === 0) {
+    return content.substring(0, 1500) + (content.length > 1500 ? '\n\n...' : '');
+  }
+  
+  return importantSections.join('\n\n');
 }
 
 // 簡易的な回答生成（フォールバック用）

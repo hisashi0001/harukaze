@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 
 // Markdownファイルを読み込んでJSONデータベースを作成
 function prepareGuidelineData() {
-  const contentDir = path.join(__dirname, '../../01_現行ガイドライン/サイトコンテンツ');
+  const contentDir = path.join(__dirname, '../../../サイトコンテンツ');
   const outputFile = path.join(__dirname, '../data/guidelines.json');
   
   const guidelines = [];

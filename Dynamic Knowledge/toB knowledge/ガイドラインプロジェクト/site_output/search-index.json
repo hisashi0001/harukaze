@@ -2250,7 +2250,7 @@
   {
     "pageTitle": "Harukazeの理念",
     "sectionTitle": "5. 「当たり前」を疑い、新しい風を吹き込む",
-    "content": "**「既存の枠にとらわれない発想をする」** 「いつもこうだから」で終わらせず、「こうしたらもっと良くなるのでは？」と考える。 クライアントの事業を自分の事業だと思うくらい深く考えることで、新しい発想が生まれます。 --- <div style=\"display: flex; justify-content: space-between; margin-top: 40px; padding: 20px; background: #f5f5f5; border-radius: 8px;\"> <a href=\"02_vision.html\" style=\"text-decoration: none",
+    "content": "**「既存の枠にとらわれない発想をする」** 「いつもこうだから」で終わらせず、「こうしたらもっと良くなるのでは？」と考える。 クライアントの事業を自分の事業だと思うくらい深く考えることで、新しい発想が生まれます。 --- <div style=\"display: flex; justify-content: space-between; margin-top: 40px; padding: 20px; background: #f5f5f5; border-radius: 8px;\"> <a href=\"vision.html\" style=\"text-decoration: none;\">",
     "url": "page_03.html",
     "sectionId": "5-当たり前を疑い新しい風を吹き込む",
     "category": "基本情報"
@@ -2378,7 +2378,7 @@
   {
     "pageTitle": "このガイドラインの活用法",
     "sectionTitle": "次のステップ",
-    "content": "これで「はじめに」の章は完了です。 次は「ディレクターの心得」へ進み、より実践的な内容を学んでいきましょう。 共に、クリエイティブの未来を創っていきましょう！ --- <div style=\"display: flex; justify-content: space-between; margin-top: 40px; padding: 20px; background: #f5f5f5; border-radius: 8px;\"> <a href=\"04_Harukazeから提供てきること.html\" style=\"text-decoration: none;\">← 前へ: Harukaze",
+    "content": "これで「はじめに」の章は完了です。 次は「ディレクターの心得」へ進み、より実践的な内容を学んでいきましょう。 共に、クリエイティブの未来を創っていきましょう！ --- <div style=\"display: flex; justify-content: space-between; margin-top: 40px; padding: 20px; background: #f5f5f5; border-radius: 8px;\"> <a href=\"page_04.html\" style=\"text-decoration: none;\">← 前へ: Harukazeから提供できること</a>",
     "url": "page_05.html",
     "sectionId": "次のステップ",
     "category": "基本情報"

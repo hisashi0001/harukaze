@@ -1479,9 +1479,9 @@
 <h2 id="4">動画で理解する（4分）</h2>
 <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="https://www.loom.com/embed/342c81f74a8542318e57ba831ee09f5e?sid=1805b64d-92f6-447b-b7b5-84952261af60" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" webkitallowfullscreen=""></iframe></div>
 <div style="display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
-<a href="04_Harukazeから提供てきること.html" style="text-decoration: none;">← 前へ: Harukazeから提供できること</a>
+<a href="page_04.html" style="text-decoration: none;">← 前へ: Harukazeから提供できること</a>
 <span>5/5</span>
-<a href="../../02_ディレクターの心得.html" style="text-decoration: none;">次の章へ: ディレクターの心得 →</a>
+<a href="director_mindset.html" style="text-decoration: none;">次の章へ: ディレクターの心得 →</a>
 </div>
 <h2 id="_2">内容</h2>
 <p>「このガイドラインを、あなたの成長の道しるべにしてください」</p>
@@ -1552,9 +1552,9 @@
 <p>共に、クリエイティブの未来を創っていきましょう！</p>
 <hr/>
 <div style="display: flex; justify-content: space-between; margin-top: 40px; padding: 20px; background: #f5f5f5; border-radius: 8px;">
-<a href="04_Harukazeから提供てきること.html" style="text-decoration: none;">← 前へ: Harukazeから提供できること</a>
+<a href="page_04.html" style="text-decoration: none;">← 前へ: Harukazeから提供できること</a>
 <span>5/5</span>
-<a href="../../02_ディレクターの心得.html" style="text-decoration: none;">次の章へ: ディレクターの心得 →</a>
+<a href="director_mindset.html" style="text-decoration: none;">次の章へ: ディレクターの心得 →</a>
 </div>
                 <!-- 更新リクエスト -->
                 <div class="update-request-minimal">
@@ -1810,10 +1810,11 @@
                     const categoryName = title.textContent.trim();
                     const savedState = localStorage.getItem(`category-${categoryName}`);
                     
-                    if (savedState !== 'false') {
-                        category.classList.add('collapsed');
-                    } else {
+                    // デフォルトは閉じた状態、明示的に'false'の場合のみ開く
+                    if (savedState === 'false') {
                         category.classList.remove('collapsed');
+                    } else {
+                        category.classList.add('collapsed');
                     }
                     
                     // トグルアイコン追加
@@ -1840,10 +1841,11 @@
                     const folderName = title.textContent.trim();
                     const savedState = localStorage.getItem(`subcategory-${folderName}`);
                     
-                    if (savedState !== 'false') {
-                        folder.classList.add('collapsed');
-                    } else {
+                    // デフォルトは閉じた状態、明示的に'false'の場合のみ開く
+                    if (savedState === 'false') {
                         folder.classList.remove('collapsed');
+                    } else {
+                        folder.classList.add('collapsed');
                     }
                     
                     // トグルアイコン追加

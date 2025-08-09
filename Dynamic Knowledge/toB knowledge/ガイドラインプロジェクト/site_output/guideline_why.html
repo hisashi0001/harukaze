@@ -1481,7 +1481,7 @@
 <div style="display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
 <a href="index.html" style="text-decoration: none;">← 目次に戻る</a>
 <span>1/5</span>
-<a href="02_vision.html" style="text-decoration: none;">次へ: Harukazeが目指す世界 →</a>
+<a href="vision.html" style="text-decoration: none;">次へ: Harukazeが目指す世界 →</a>
 </div>
 <h2 id="_2">内容</h2>
 <h3 id="_3">はじめに</h3>
@@ -1501,7 +1501,7 @@
 <div style="display: flex; justify-content: space-between; margin-top: 40px; padding: 20px; background: #f5f5f5; border-radius: 8px;">
 <a href="index.html" style="text-decoration: none;">← 目次に戻る</a>
 <span>1/5</span>
-<a href="02_vision.html" style="text-decoration: none;">次へ: Harukazeが目指す世界 →</a>
+<a href="vision.html" style="text-decoration: none;">次へ: Harukazeが目指す世界 →</a>
 </div>
                 <!-- 更新リクエスト -->
                 <div class="update-request-minimal">
@@ -1757,10 +1757,11 @@
                     const categoryName = title.textContent.trim();
                     const savedState = localStorage.getItem(`category-${categoryName}`);
                     
-                    if (savedState !== 'false') {
-                        category.classList.add('collapsed');
-                    } else {
+                    // デフォルトは閉じた状態、明示的に'false'の場合のみ開く
+                    if (savedState === 'false') {
                         category.classList.remove('collapsed');
+                    } else {
+                        category.classList.add('collapsed');
                     }
                     
                     // トグルアイコン追加
@@ -1787,10 +1788,11 @@
                     const folderName = title.textContent.trim();
                     const savedState = localStorage.getItem(`subcategory-${folderName}`);
                     
-                    if (savedState !== 'false') {
-                        folder.classList.add('collapsed');
-                    } else {
+                    // デフォルトは閉じた状態、明示的に'false'の場合のみ開く
+                    if (savedState === 'false') {
                         folder.classList.remove('collapsed');
+                    } else {
+                        folder.classList.add('collapsed');
                     }
                     
                     // トグルアイコン追加
