@@ -292,7 +292,7 @@
         }
         
         /* 開いた状態は下向き三角形にするため90度回転 */
-        .category:not(.collapsed) .toggle-icon {
+        .category:not(.collapsed) > .category-title > .toggle-icon {
             transform: rotate(90deg);
         }
         
@@ -411,6 +411,128 @@
             height: 1px;
             background: var(--border);
             margin: 10px 20px;
+        }
+        
+        /* 展開可能なナビゲーションアイテム */
+        .nav-item-expandable {
+            position: relative;
+        }
+        
+        .nav-item.with-toggle {
+            position: relative;
+            padding-right: 40px;
+        }
+        
+        .nav-item.with-toggle::after {
+            content: '';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 5px 0 5px 8px;
+            border-color: transparent transparent transparent var(--text-secondary);
+            transition: transform 0.2s ease;
+        }
+        
+        .nav-item-expandable.expanded .nav-item.with-toggle::after {
+            transform: translateY(-50%) rotate(90deg);
+        }
+        
+        .nav-item-children {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .nav-item-expandable.expanded .nav-item-children {
+            max-height: 500px;
+        }
+        
+        .nav-item.sub-item {
+            padding-left: 48px;
+            font-size: 13px;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        
+        .nav-item.sub-item::before {
+            content: '•';
+            position: absolute;
+            left: 36px;
+            color: var(--text-secondary);
+        }
+        
+        .nav-item.sub-item:hover {
+            color: var(--accent);
+        }
+        
+        /* サブカテゴリフォルダのスタイル（カテゴリと同じUIにインデント追加） */
+        .subcategory-folder {
+            margin-left: 16px; /* 左側にインデント */
+            margin-bottom: 8px;
+        }
+        
+        .subcategory-folder-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 8px 16px;
+            margin-bottom: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+        
+        .subcategory-folder-title:hover {
+            color: var(--text-primary);
+            background: var(--sidebar-hover);
+        }
+        
+        .subcategory-folder-title .toggle-icon {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            /* デフォルト: 右向き三角形（閉じた状態） */
+            border-width: 5px 0 5px 8px;
+            border-color: transparent transparent transparent var(--text-secondary);
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+            margin-right: 8px;
+        }
+        
+        /* 開いた状態は下向き三角形にするため90度回転 */
+        .subcategory-folder:not(.collapsed) > .subcategory-folder-title > .toggle-icon {
+            transform: rotate(90deg);
+        }
+        
+        .subcategory-folder-title:hover .toggle-icon {
+            border-left-color: var(--text-primary);
+        }
+        
+        .subcategory-folder-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .subcategory-folder:not(.collapsed) .subcategory-folder-content {
+            max-height: 1000px;
+        }
+        
+        .subcategory-folder .nav-item {
+            padding-left: 40px;
+            font-size: 13px;
+        }
+        
+        .subcategory-folder .nav-item::before {
+            display: none; /* 点を削除 */
         }
 
         /* 固定ヘッダー */
@@ -1283,7 +1405,16 @@
 <div class="category collapsed">
 <div class="category-title">基本情報</div>
 <div class="category-content">
-<a href="introduction.html" class="nav-item">はじめに</a>
+<div class="subcategory-folder collapsed">
+<div class="subcategory-folder-title">はじめに</div>
+<div class="subcategory-folder-content">
+<a href="guideline_why.html" class="nav-item">このガイドラインの目的</a>
+<a href="vision.html" class="nav-item">Harukazeが目指す世界</a>
+<a href="page_03.html" class="nav-item">Harukazeの理念</a>
+<a href="page_04.html" class="nav-item">Harukazeから提供できること</a>
+<a href="page_05.html" class="nav-item">このガイドラインの活用法</a>
+</div>
+</div>
 <a href="director_mindset.html" class="nav-item">ディレクターの心得</a>
 <a href="business_process.html" class="nav-item">全体の業務プロセス</a>
 <a href="communication_guide.html" class="nav-item">コミュニケーションガイド</a>
@@ -1813,71 +1944,63 @@ CPMを1000円とすると、月間20万円の追加収益の可能性があり�
 
         // トグル機能の実装
         function initializeToggleCategories() {
-            // カテゴリのトグル
-            document.querySelectorAll('.category-title').forEach(title => {
-                // トグルアイコンが既に存在しない場合のみ追加
-                if (!title.querySelector('.toggle-icon')) {
-                    const icon = document.createElement('div');
-                    icon.className = 'toggle-icon';
-                    title.insertBefore(icon, title.firstChild);
-                }
-                
-                title.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const category = title.parentElement;
-                    category.classList.toggle('collapsed');
-                    
-                    // 状態を保存
-                    const categoryName = title.textContent.trim();
-                    const isCollapsed = category.classList.contains('collapsed');
-                    localStorage.setItem(`category-${categoryName}`, isCollapsed);
-                });
-            });
-            
-            // サブカテゴリのトグル
-            document.querySelectorAll('.subcategory-title').forEach(title => {
-                // トグルアイコンが既に存在しない場合のみ追加
-                if (!title.querySelector('.toggle-icon')) {
-                    const icon = document.createElement('div');
-                    icon.className = 'toggle-icon';
-                    title.insertBefore(icon, title.firstChild);
-                }
-                
-                title.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const subcategory = title.parentElement;
-                    subcategory.classList.toggle('collapsed');
-                    
-                    // 状態を保存
-                    const subcategoryName = title.textContent.trim();
-                    const isCollapsed = subcategory.classList.contains('collapsed');
-                    localStorage.setItem(`subcategory-${subcategoryName}`, isCollapsed);
-                });
-            });
-            
-            // 保存された状態を復元（デフォルトは閉じた状態）
+            // カテゴリの初期化
             document.querySelectorAll('.category').forEach(category => {
                 const title = category.querySelector('.category-title');
                 if (title) {
                     const categoryName = title.textContent.trim();
                     const savedState = localStorage.getItem(`category-${categoryName}`);
-                    // 保存された状態がない場合（null）はデフォルトで閉じる
-                    // 保存された状態が'true'の場合も閉じる
-                    // 'false'の場合のみ開く
+                    
                     if (savedState !== 'false') {
                         category.classList.add('collapsed');
+                    } else {
+                        category.classList.remove('collapsed');
                     }
+                    
+                    // トグルアイコン追加
+                    if (!title.querySelector('.toggle-icon')) {
+                        const icon = document.createElement('div');
+                        icon.className = 'toggle-icon';
+                        title.insertBefore(icon, title.firstChild);
+                    }
+                    
+                    // クリックイベント
+                    title.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        category.classList.toggle('collapsed');
+                        const isCollapsed = category.classList.contains('collapsed');
+                        localStorage.setItem(`category-${categoryName}`, isCollapsed);
+                    });
                 }
             });
             
-            document.querySelectorAll('.subcategory').forEach(subcategory => {
-                const title = subcategory.querySelector('.subcategory-title');
+            // サブカテゴリフォルダの初期化
+            document.querySelectorAll('.subcategory-folder').forEach(folder => {
+                const title = folder.querySelector('.subcategory-folder-title');
                 if (title) {
-                    const subcategoryName = title.textContent.trim();
-                    const isCollapsed = localStorage.getItem(`subcategory-${subcategoryName}`) === 'true';
-                    if (isCollapsed) {
-                        subcategory.classList.add('collapsed');
+                    const folderName = title.textContent.trim();
+                    const savedState = localStorage.getItem(`subcategory-${folderName}`);
+                    
+                    if (savedState !== 'false') {
+                        folder.classList.add('collapsed');
+                    } else {
+                        folder.classList.remove('collapsed');
                     }
+                    
+                    // トグルアイコン追加
+                    if (!title.querySelector('.toggle-icon')) {
+                        const icon = document.createElement('div');
+                        icon.className = 'toggle-icon';
+                        title.insertBefore(icon, title.firstChild);
+                    }
+                    
+                    // クリックイベント
+                    title.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        folder.classList.toggle('collapsed');
+                        const isCollapsed = folder.classList.contains('collapsed');
+                        localStorage.setItem(`subcategory-${folderName}`, isCollapsed);
+                    });
                 }
             });
         }
@@ -1894,17 +2017,24 @@ CPMを1000円とすると、月間20万円の追加収益の可能性があり�
                 if (item.getAttribute('href') === currentPage) {
                     item.classList.add('active');
                     
-                    // アクティブなアイテムが含まれるカテゴリを展開
+                    // アクティブなアイテムが含まれるカテゴリとサブカテゴリを展開
                     let parent = item.parentElement;
                     while (parent) {
-                        if (parent.classList.contains('category') || parent.classList.contains('subcategory')) {
+                        if (parent.classList.contains('category')) {
                             parent.classList.remove('collapsed');
                             // アクティブなカテゴリの状態を保存
-                            const title = parent.querySelector('.category-title, .subcategory-title');
+                            const title = parent.querySelector('.category-title');
                             if (title) {
                                 const name = title.textContent.trim();
-                                const prefix = parent.classList.contains('category') ? 'category' : 'subcategory';
-                                localStorage.setItem(`${prefix}-${name}`, 'false');
+                                localStorage.setItem(`category-${name}`, 'false');
+                            }
+                        } else if (parent.classList.contains('subcategory-folder')) {
+                            // サブカテゴリフォルダを展開
+                            parent.classList.remove('collapsed');
+                            const title = parent.querySelector('.subcategory-folder-title');
+                            if (title) {
+                                const name = title.textContent.trim();
+                                localStorage.setItem(`subcategory-${name}`, 'false');
                             }
                         }
                         parent = parent.parentElement;

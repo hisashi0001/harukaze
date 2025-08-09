@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
-    <title>{{TITLE}} | Harukazeガイドライン</title>
+    <title>Harukazeから提供できること | Harukazeガイドライン</title>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -52,7 +52,8 @@
             display: flex;
             flex-direction: column;
             position: fixed;
-            height: 100vh;
+            height: calc(100vh - 60px); /* ヘッダーの高さ分を引く */
+            top: 60px; /* ヘッダーの下に配置 */
             z-index: 100;
             overflow-y: auto;
             transition: transform 0.3s ease;
@@ -221,42 +222,14 @@
 
         .sidebar-header {
             padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg-primary);
-        }
-
-        .sidebar-header h1 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            cursor: pointer;
-            transition: color 0.2s ease;
+            display: none; /* PC版では非表示 */
         }
         
-        .sidebar-header a:hover h1 {
-            color: var(--accent);
-        }
-        
-        /* モバイル用ハンバーガーメニュー */
-        .mobile-menu-toggle {
+        /* モバイル専用スタイル - デフォルトで非表示 */
+        .mobile-header,
+        .mobile-sidebar-header,
+        .mobile-sidebar-search {
             display: none;
-            position: fixed;
-            top: 16px;
-            left: 16px;
-            z-index: 1001;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 8px;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .mobile-menu-toggle svg {
-            width: 24px;
-            height: 24px;
-            color: var(--text-primary);
         }
         
         .sidebar-overlay {
@@ -283,7 +256,7 @@
         }
 
         .category {
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
 
         .category-title {
@@ -292,13 +265,110 @@
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            padding: 8px 24px 4px 24px;
+            padding: 8px 16px;
+            margin-bottom: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+        
+        .category-title:hover {
+            color: var(--text-primary);
+            background: var(--sidebar-hover);
+        }
+        
+        .category-title .toggle-icon {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            /* デフォルト: 右向き三角形（閉じた状態） */
+            border-width: 5px 0 5px 8px;
+            border-color: transparent transparent transparent var(--text-secondary);
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+            margin-right: 8px;
+        }
+        
+        /* 開いた状態は下向き三角形にするため90度回転 */
+        .category:not(.collapsed) > .category-title > .toggle-icon {
+            transform: rotate(90deg);
+        }
+        
+        .category-title:hover .toggle-icon {
+            border-left-color: var(--text-primary);
+        }
+        
+        /* デフォルトでカテゴリは閉じた状態 */
+        .category {
+            /* 初期状態で閉じておく */
+        }
+        
+        .category-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        /* 明示的に開いた状態のスタイル */
+        .category:not(.collapsed) .category-content {
+            max-height: 1000px;
+        }
+        
+        /* サブカテゴリ */
+        .subcategory {
+            margin-left: 24px;
             margin-bottom: 4px;
+        }
+        
+        .subcategory-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding: 6px 16px 6px 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+        
+        .subcategory-title:hover {
+            color: var(--text-primary);
+            background: var(--sidebar-hover);
+        }
+        
+        .subcategory-title .toggle-icon {
+            width: 12px;
+            height: 12px;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .subcategory.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        
+        .subcategory-content {
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .subcategory.collapsed .subcategory-content {
+            max-height: 0;
+        }
+        
+        .subcategory .nav-item {
+            font-size: 13px;
+            padding: 8px 24px 8px 32px;
         }
 
         .nav-item {
             display: block;
-            padding: 10px 24px;
+            padding: 8px 24px 8px 32px;
             color: var(--text-primary);
             text-decoration: none;
             font-size: 14px;
@@ -342,14 +412,165 @@
             background: var(--border);
             margin: 10px 20px;
         }
+        
+        /* 展開可能なナビゲーションアイテム */
+        .nav-item-expandable {
+            position: relative;
+        }
+        
+        .nav-item.with-toggle {
+            position: relative;
+            padding-right: 40px;
+        }
+        
+        .nav-item.with-toggle::after {
+            content: '';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 5px 0 5px 8px;
+            border-color: transparent transparent transparent var(--text-secondary);
+            transition: transform 0.2s ease;
+        }
+        
+        .nav-item-expandable.expanded .nav-item.with-toggle::after {
+            transform: translateY(-50%) rotate(90deg);
+        }
+        
+        .nav-item-children {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .nav-item-expandable.expanded .nav-item-children {
+            max-height: 500px;
+        }
+        
+        .nav-item.sub-item {
+            padding-left: 48px;
+            font-size: 13px;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        
+        .nav-item.sub-item::before {
+            content: '•';
+            position: absolute;
+            left: 36px;
+            color: var(--text-secondary);
+        }
+        
+        .nav-item.sub-item:hover {
+            color: var(--accent);
+        }
+        
+        /* サブカテゴリフォルダのスタイル（カテゴリと同じUIにインデント追加） */
+        .subcategory-folder {
+            margin-left: 16px; /* 左側にインデント */
+            margin-bottom: 8px;
+        }
+        
+        .subcategory-folder-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 8px 16px;
+            margin-bottom: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+        
+        .subcategory-folder-title:hover {
+            color: var(--text-primary);
+            background: var(--sidebar-hover);
+        }
+        
+        .subcategory-folder-title .toggle-icon {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            /* デフォルト: 右向き三角形（閉じた状態） */
+            border-width: 5px 0 5px 8px;
+            border-color: transparent transparent transparent var(--text-secondary);
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+            margin-right: 8px;
+        }
+        
+        /* 開いた状態は下向き三角形にするため90度回転 */
+        .subcategory-folder:not(.collapsed) > .subcategory-folder-title > .toggle-icon {
+            transform: rotate(90deg);
+        }
+        
+        .subcategory-folder-title:hover .toggle-icon {
+            border-left-color: var(--text-primary);
+        }
+        
+        .subcategory-folder-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .subcategory-folder:not(.collapsed) .subcategory-folder-content {
+            max-height: 1000px;
+        }
+        
+        .subcategory-folder .nav-item {
+            padding-left: 40px;
+            font-size: 13px;
+        }
+        
+        .subcategory-folder .nav-item::before {
+            display: none; /* 点を削除 */
+        }
 
+        /* 固定ヘッダー */
+        .global-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .site-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .site-name:hover {
+            color: var(--accent);
+        }
+        
         /* メインコンテンツ */
         .main-content {
             flex: 1;
             margin-left: 280px;
+            margin-top: 60px; /* ヘッダーの高さ分 */
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: calc(100vh - 60px);
             transition: margin-left 0.3s ease;
         }
 
@@ -357,18 +578,14 @@
             margin-left: 680px;
         }
 
-        .content-header {
-            background: var(--bg-primary);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 40px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* ページタイトル */
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 24px 0;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
         }
         
         /* 検索ボックス */
@@ -781,102 +998,30 @@
             background: var(--text-secondary);
         }
 
-        /* 更新リクエストセクション */
-        .update-request-section {
-            margin-top: 80px;
-            padding-top: 40px;
-            border-top: 2px solid var(--border);
-        }
-
-        .update-request-box {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 32px;
+        /* 更新リクエストミニマル版 */
+        .update-request-minimal {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
             text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
         }
 
-        .update-request-box h3 {
-            font-size: 24px;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-
-        .update-request-box p {
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-
-        .update-request-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .update-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border: 2px solid transparent;
-        }
-
-        .add-btn {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border-color: #4caf50;
-        }
-
-        .add-btn:hover {
-            background: #4caf50;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-        }
-
-        .fix-btn {
-            background: #fff3e0;
-            color: #e65100;
-            border-color: #ff9800;
-        }
-
-        .fix-btn:hover {
-            background: #ff9800;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
-        }
-
-        .question-btn {
-            background: #e3f2fd;
-            color: #0d47a1;
-            border-color: #2196f3;
-        }
-
-        .question-btn:hover {
-            background: #2196f3;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
-        }
-
-        .update-note {
+        .update-request-minimal p {
             font-size: 14px;
             color: var(--text-secondary);
             margin: 0;
         }
 
-        .update-note a {
+        .update-request-minimal a {
             color: var(--accent);
-            text-decoration: underline;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted var(--accent);
+        }
+
+        .update-request-minimal a:hover {
+            color: var(--accent-hover);
+            border-bottom-style: solid;
         }
 
         /* レスポンシブ */
@@ -903,58 +1048,288 @@
         }
 
         @media (max-width: 768px) {
-            .mobile-menu-toggle {
-                display: block;
+            /* PC用ヘッダーを非表示 */
+            .global-header {
+                display: none;
             }
             
+            /* モバイル固定ヘッダー */
+            body {
+                padding-top: 56px; /* ヘッダーの高さ分 */
+            }
+            
+            .mobile-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 56px;
+                background: var(--bg-primary);
+                border-bottom: 1px solid var(--border);
+                display: flex;
+                align-items: center;
+                padding: 0 16px;
+                z-index: 1000;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: var(--text-primary);
+            }
+            
+            .mobile-header-title {
+                flex: 1;
+                margin-left: 12px;
+                font-size: 18px;
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+            
+            /* サイドバー - フルスクリーン */
             .sidebar {
-                width: 280px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: var(--sidebar-bg);
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
+                z-index: 1001;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
             }
             
             .sidebar.active {
                 transform: translateX(0);
             }
             
+            /* サイドバー内の検索 */
+            .mobile-sidebar-search {
+                padding: 16px;
+                background: var(--bg-primary);
+                border-bottom: 1px solid var(--border);
+            }
+            
+            .mobile-sidebar-search input {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font-size: 16px;
+                background: var(--bg-secondary);
+            }
+            
+            /* サイドバーナビゲーション改善 */
+            .sidebar-nav {
+                padding-bottom: 100px; /* フッター分の余白 */
+            }
+            
+            .nav-item {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+            
+            .category-title {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+                padding: 12px 16px;
+                font-size: 15px;
+                font-weight: 600;
+            }
+            
+            .category-title .toggle-icon {
+                margin-right: 12px;
+                border-width: 6px 0 6px 10px;
+            }
+            
+            /* モバイルサイドバーヘッダー */
+            .mobile-sidebar-header {
+                display: flex !important;
+                align-items: center;
+                min-height: 56px;
+                padding: 16px;
+                background: var(--bg-primary);
+                border-bottom: 1px solid var(--border);
+            }
+            
+            .sidebar-close-btn {
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: var(--text-primary);
+                margin-right: 12px;
+            }
+            
+            /* デスクトップサイドバーヘッダーを非表示 */
+            .sidebar-header.desktop-only {
+                display: none;
+            }
+            
+            /* モバイル検索を表示 */
+            .mobile-sidebar-search {
+                display: block !important;
+            }
+            
+            /* サイドバーフッター */
+            .sidebar-footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--sidebar-bg);
+                border-top: 1px solid var(--border);
+                padding: 0;
+            }
+            
+            .footer-link {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+            
+            /* オーバーレイ */
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                display: none;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
             .sidebar-overlay.active {
                 display: block;
+                opacity: 1;
             }
-
+            
+            /* メインコンテンツ */
             .main-content {
                 margin-left: 0;
-            }
-
-            .main-content.with-ai {
-                margin-left: 0;
-            }
-
-            .container {
-                flex-direction: row;
+                margin-top: 0;
+                padding-top: 0;
             }
             
-            .content-header {
-                padding-left: 60px; /* ハンバーガーボタンの分のスペース */
-                flex-direction: column;
-                gap: 12px;
-                align-items: stretch;
-            }
-            
-            .search-container {
-                width: 100%;
-            }
-
             .content-body {
-                padding: 20px;
-                padding-top: 40px;
+                padding: 16px;
+                padding-bottom: 40px;
             }
-
+            
+            .content-body h1 {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+            
+            .page-title {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+            
+            .content-body h2 {
+                font-size: 22px;
+                margin: 32px 0 16px 0;
+            }
+            
+            .content-body h3 {
+                font-size: 18px;
+                margin: 24px 0 12px 0;
+            }
+            
+            .content-body p, .content-body li {
+                font-size: 16px;
+                line-height: 1.7;
+            }
+            
+            /* 横スクロール防止 */
+            .content-body {
+                overflow-x: hidden;
+                word-wrap: break-word;
+                word-break: break-word;
+            }
+            
+            /* コードブロックの横スクロール防止 */
+            .content-body pre {
+                overflow-x: auto;
+                max-width: 100%;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+            
+            .content-body code {
+                word-break: break-all;
+            }
+            
+            /* テーブルの横スクロール対応 */
+            .content-body table {
+                display: block;
+                overflow-x: auto;
+                max-width: 100%;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* 画像の最大幅制限 */
+            .content-body img {
+                max-width: 100%;
+                height: auto;
+            }
+            
+            /* 長いURLの折り返し */
+            .content-body a {
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+            
+            /* AIパネル - モバイルでは全画面 */
+            .ai-panel {
+                width: 100%;
+                max-width: 100%;
+                left: 0;
+                z-index: 1002; /* サイドバーより上に表示 */
+                height: 100%;
+                position: fixed;
+                top: 0;
+            }
+            
+            .ai-panel.active {
+                display: flex;
+            }
+            
+            /* ボタンやリンクのタッチターゲット最適化 */
+            button, a, .nav-item, .category-title {
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            /* 動画の最適化 */
             .video-embed iframe {
                 height: auto;
                 aspect-ratio: 16/9;
             }
             
-            /* Loom動画のモバイル対応 */
             .loom-container {
                 margin: 16px 0;
             }
@@ -977,26 +1352,110 @@
     </style>
 </head>
 <body>
-    <!-- モバイル用ハンバーガーメニュー -->
-    <button class="mobile-menu-toggle" id="mobileMenuToggle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 12h18M3 6h18M3 18h18"></path>
-        </svg>
-    </button>
+    <!-- PC用グローバルヘッダー -->
+    <div class="global-header" id="globalHeader">
+        <a href="index.html" class="site-name">Harukazeガイドライン</a>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+    
+    <!-- モバイル用ヘッダー -->
+    <div class="mobile-header" id="mobileHeader">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;">
+                <path d="M3 12h18M3 6h18M3 18h18"></path>
+            </svg>
+        </button>
+        <div class="mobile-header-title">Harukazeガイドライン</div>
+    </div>
     
     <!-- サイドバーオーバーレイ -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     
     <div class="container">
         <div class="sidebar" id="sidebar">
-{{SIDEBAR}}
+<!-- モバイル用サイドバーヘッダー -->
+<div class="mobile-sidebar-header" style="display: none;">
+    <button class="sidebar-close-btn" id="sidebarCloseBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+    <span style="flex: 1; font-size: 18px; font-weight: 600;">メニュー</span>
+</div>
+<!-- モバイル用検索 -->
+<div class="mobile-sidebar-search" style="display: none;">
+    <input type="text" placeholder="ページを検索..." id="mobileSidebarSearch">
+</div>
+<!-- 通常のサイドバーヘッダー -->
+<div class="sidebar-header desktop-only">
+<a href="index.html" style="text-decoration: none; color: inherit;">
+<h1>Harukazeガイドライン</h1>
+</a>
+<p>法人事業 品質管理マニュアル</p>
+</div>
+<nav class="sidebar-nav">
+<a href="index.html" class="nav-item">ホーム</a>
+<div class="nav-divider"></div>
+<div class="category collapsed">
+<div class="category-title">基本情報</div>
+<div class="category-content">
+<div class="subcategory-folder collapsed">
+<div class="subcategory-folder-title">はじめに</div>
+<div class="subcategory-folder-content">
+<a href="guideline_why.html" class="nav-item">このガイドラインの目的</a>
+<a href="vision.html" class="nav-item">Harukazeが目指す世界</a>
+<a href="page_03.html" class="nav-item">Harukazeの理念</a>
+<a href="page_04.html" class="nav-item">Harukazeから提供できること</a>
+<a href="page_05.html" class="nav-item">このガイドラインの活用法</a>
+</div>
+</div>
+<a href="director_mindset.html" class="nav-item">ディレクターの心得</a>
+<a href="business_process.html" class="nav-item">全体の業務プロセス</a>
+<a href="communication_guide.html" class="nav-item">コミュニケーションガイド</a>
+<a href="troubleshooting.html" class="nav-item">代表的なトラブルシューティング</a>
+</div>
+</div>
+<div class="category collapsed">
+<div class="category-title">商談マニュアル</div>
+<div class="category-content">
+<a href="page_10.html" class="nav-item">法人商談の全体像</a>
+<a href="page_11.html" class="nav-item">法人商談の心得</a>
+<a href="page_12.html" class="nav-item">信頼関係の構築テクニック</a>
+<a href="page_13.html" class="nav-item">ヒアリングマスター講座</a>
+<a href="page_14.html" class="nav-item">提案力を高める実践テクニック</a>
+<a href="page_15.html" class="nav-item">クロージング成功の秘訣</a>
+<a href="page_16.html" class="nav-item">商材別の攻略法</a>
+<a href="page_17.html" class="nav-item">難易度別の対処法</a>
+</div>
+</div>
+<div class="category collapsed">
+<div class="category-title">その他</div>
+<div class="category-content">
+<a href="ai-assistant.html" class="nav-item">AIチャット</a>
+<a href="faq.html" class="nav-item">よくある質問（FAQ）</a>
+<a href="feedback.html" class="nav-item">ガイドライン追加/改善</a>
+<a href="improvement_cases.html" class="nav-item">実践改善事例集</a>
+</div>
+</div>
+</nav>
+<div class="sidebar-footer">
+    <button class="footer-link" onclick="toggleAiPanel(); event.stopPropagation();">AIチャット</button>
+    <div class="footer-divider"></div>
+    <a href="feedback.html" class="footer-link">ガイドライン改善提案</a>
+</div>
         </div>
         
         <!-- AIチャットパネル -->
         <div class="ai-panel" id="aiPanel">
             <div class="ai-panel-header">
                 <h3>AIチャット</h3>
-                <button class="ai-close-btn" onclick="toggleAiPanel()">×</button>
+                <button class="ai-close-btn" onclick="toggleAiPanel(); event.stopPropagation();">×</button>
             </div>
             <div class="ai-messages" id="aiMessages">
                 <div class="ai-message">
@@ -1014,37 +1473,142 @@
         </div>
         
         <main class="main-content" id="mainContent">
-            <div class="content-header">
-                <span>{{TITLE}}</span>
-                <div class="search-container">
-                    <input type="text" class="search-box" placeholder="ガイドラインを検索..." id="searchBox">
-                    <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
-                    <div class="search-results" id="searchResults"></div>
-                </div>
-            </div>
-            
             <div class="content-body">
-                {{CONTENT}}
-                <!-- 更新リクエストセクション -->
-                <div class="update-request-section">
-                    <div class="update-request-box">
-                        <h3>💡 このページについて</h3>
-                        <p>内容の追加・修正・質問がある場合は、GitHubでリクエストをお送りください：</p>
-                        <div class="update-request-buttons">
-                            <a href="https://github.com/Hisashi0001/harukaze/issues/new?template=content-addition.md&title=[追加] {{TITLE}}ページ" class="update-btn add-btn" target="_blank">
-                                📝 内容を追加
-                            </a>
-                            <a href="https://github.com/Hisashi0001/harukaze/issues/new?template=content-fix.md&title=[修正] {{TITLE}}ページ" class="update-btn fix-btn" target="_blank">
-                                ✏️ 内容を修正
-                            </a>
-                            <a href="https://github.com/Hisashi0001/harukaze/issues/new?template=question.md&title=[質問] {{TITLE}}ページ" class="update-btn question-btn" target="_blank">
-                                ❓ 質問する
-                            </a>
-                        </div>
-                        <p class="update-note">※GitHubアカウントが必要です。アカウントをお持ちでない場合は、<a href="feedback.html">改善提案フォーム</a>もご利用いただけます。</p>
-                    </div>
+                <h1 class="page-title">Harukazeから提供できること</h1>
+
+<h2 id="3">動画で理解する（3分）</h2>
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="https://www.loom.com/embed/f8c78ed5e5944935b5b6af3c113081ed?sid=03a10ca4-27e2-47cc-b967-77a23a04f546" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" webkitallowfullscreen=""></iframe></div>
+<div style="display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
+<a href="03_Harukazeの理念.html" style="text-decoration: none;">← 前へ: Harukazeの理念</a>
+<span>4/5</span>
+<a href="05_マニュアル活用法.html" style="text-decoration: none;">次へ: このガイドラインの活用法 →</a>
+</div>
+<h2 id="_1">内容</h2>
+<p>「一緒に仕事をするなら、お互いにとって価値のある関係でありたい」</p>
+<p>Harukazeは、パートナーの皆さまに関わっていただくからには、しっかりと価値を提供したいと考えています。<br/>
+ここでは、私たちが提供できる具体的な価値についてご紹介します。</p>
+<h3 id="1">1. 自社サービスで培った実践的ノウハウ</h3>
+<p><strong>デザジュクで3億円以上の売上実績</strong></p>
+<p>私たちは自社でデザインスクール「デザジュク」を運営し、3億円以上の売上を達成してきました。<br/>
+この経験から得られた貴重なノウハウを共有します：</p>
+<ul>
+<li><strong>マーケティングの実践知識</strong></li>
+<li>コンテンツマーケティングの具体的手法</li>
+<li>スクール事業の集客ノウハウ</li>
+<li>
+<p>売上を1億円規模に成長させる戦略</p>
+</li>
+<li>
+<p><strong>オペレーションの仕組み化</strong></p>
+</li>
+<li>効率的な運営体制の構築方法</li>
+<li>品質を保ちながらスケールする方法</li>
+<li>顧客満足度を高める具体的施策</li>
+</ul>
+<p>💡 <strong>活用例：</strong> 教育系・コンテンツ系のクライアント案件で、実際のデータと経験に基づいた提案が可能</p>
+<h3 id="2">2. 豊富な案件事例とその学び</h3>
+<p><strong>10万円〜100万円超まで、多様な案件実績</strong></p>
+<p>様々な規模・業種の案件を経験してきたからこそ、共有できる知見があります：</p>
+<ul>
+<li><strong>成功事例の共有</strong></li>
+<li>どんな提案が通ったのか</li>
+<li>どんな提案資料を作ったのか</li>
+<li>
+<p>クライアントの期待値をどう超えたか</p>
+</li>
+<li>
+<p><strong>失敗から学んだ教訓</strong></p>
+</li>
+<li>クレームに発展した事例とその対処法</li>
+<li>避けるべきミスとその予防策</li>
+<li>
+<p>トラブルを乗り越えた具体的方法</p>
+</li>
+<li>
+<p><strong>業種別のアプローチ</strong></p>
+</li>
+<li>業界ごとの特徴と攻略法</li>
+<li>効果的なコミュニケーション方法</li>
+<li>押さえるべきポイント</li>
+</ul>
+<p>これらの知見は随時アップデートされ、ガイドラインに集約されていきます。<br/>
+<strong>一人では得られない、組織の集合知</strong>として活用いただけます。</p>
+<h3 id="3_1">3. デザイン＆マーケティングの体系的知識</h3>
+<p><strong>理論と実践の両面からアプローチ</strong></p>
+<ul>
+<li><strong>コンセプトワークの方法論</strong></li>
+<li>ブランディングの考え方</li>
+<li>コンセプトの作り方</li>
+<li>
+<p>価値の言語化手法</p>
+</li>
+<li>
+<p><strong>実践的マーケティング知識</strong></p>
+</li>
+<li>デザジュクのマーケティング事例</li>
+<li>法人事業での成功パターン</li>
+<li>最新のトレンドと活用方法</li>
+</ul>
+<p>これらの知識は、案件提案の質を高め、クライアントからの信頼獲得につながります。</p>
+<h3 id="4">4. 質の高い案件へのアクセス</h3>
+<p><strong>個人では難しい大型案件・有名企業案件</strong></p>
+<ul>
+<li><strong>SNSクリエイティブ業界トップクラスの実績</strong></li>
+<li>1年以内に業界トップレベルへ成長</li>
+<li>
+<p>誰もが知る有名企業との取引実績</p>
+</li>
+<li>
+<p><strong>安定した案件供給</strong></p>
+</li>
+<li>毎日のように新規相談が来る状態</li>
+<li>多様な業種・規模の案件</li>
+<li>継続的な成長機会</li>
+</ul>
+<p>個人では獲得が難しい案件も、Harukazeのブランドと実績があることでアクセス可能になります。</p>
+<h3 id="5">5. このガイドライン自体の価値</h3>
+<p><strong>常に進化し続ける実践的マニュアル</strong></p>
+<p>このガイドライン自体が、大きな価値を持っています：</p>
+<ul>
+<li><strong>体系化されたオペレーション</strong></li>
+<li>デザイナーとの連携方法</li>
+<li>クライアントとのコミュニケーション術</li>
+<li>
+<p>プロジェクト管理のベストプラクティス</p>
+</li>
+<li>
+<p><strong>継続的なアップデート</strong></p>
+</li>
+<li>新しい事例の追加</li>
+<li>改善点の反映</li>
+<li>最新情報の共有</li>
+</ul>
+<p>成果を出すために必要な情報が、このガイドラインに集約されています。</p>
+<h3 id="6-ai">6. AI活用の最前線</h3>
+<p><strong>開発レベルでのAI活用ノウハウ</strong></p>
+<ul>
+<li><strong>実践的なAIツールの紹介</strong></li>
+<li>業務効率化ツール</li>
+<li>クリエイティブ支援ツール</li>
+<li>
+<p>具体的な活用事例</p>
+</li>
+<li>
+<p><strong>独自開発のAIソリューション</strong></p>
+</li>
+<li>カスタマイズされたワークフロー</li>
+<li>効率化の具体的成果</li>
+</ul>
+<p>AIを活用することで、より創造的な仕事に集中できる環境を提供します。</p>
+<hr/>
+<div style="display: flex; justify-content: space-between; margin-top: 40px; padding: 20px; background: #f5f5f5; border-radius: 8px;">
+<a href="03_Harukazeの理念.html" style="text-decoration: none;">← 前へ: Harukazeの理念</a>
+<span>4/5</span>
+<a href="05_マニュアル活用法.html" style="text-decoration: none;">次へ: このガイドラインの活用法 →</a>
+</div>
+                <!-- 更新リクエスト -->
+                <div class="update-request-minimal">
+                    <p>このページを改善する → <a href="feedback.html">ガイドライン追加/改善</a></p>
                 </div>
             </div>
         </main>
@@ -1075,14 +1639,27 @@
         function toggleAiPanel() {
             const aiPanel = document.getElementById('aiPanel');
             const mainContent = document.getElementById('mainContent');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
             const isActive = aiPanel.classList.contains('active');
             
             if (isActive) {
                 aiPanel.classList.remove('active');
                 mainContent.classList.remove('with-ai');
             } else {
-                aiPanel.classList.add('active');
-                mainContent.classList.add('with-ai');
+                // モバイルの場合、サイドバーを閉じてからAIパネルを開く
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                    // 少し遅延させてからAIパネルを開く
+                    setTimeout(() => {
+                        aiPanel.classList.add('active');
+                    }, 300);
+                } else {
+                    aiPanel.classList.add('active');
+                    mainContent.classList.add('with-ai');
+                }
             }
         }
 
@@ -1274,14 +1851,106 @@
             }
         });
 
+        // トグル機能の実装
+        function initializeToggleCategories() {
+            // カテゴリの初期化
+            document.querySelectorAll('.category').forEach(category => {
+                const title = category.querySelector('.category-title');
+                if (title) {
+                    const categoryName = title.textContent.trim();
+                    const savedState = localStorage.getItem(`category-${categoryName}`);
+                    
+                    if (savedState !== 'false') {
+                        category.classList.add('collapsed');
+                    } else {
+                        category.classList.remove('collapsed');
+                    }
+                    
+                    // トグルアイコン追加
+                    if (!title.querySelector('.toggle-icon')) {
+                        const icon = document.createElement('div');
+                        icon.className = 'toggle-icon';
+                        title.insertBefore(icon, title.firstChild);
+                    }
+                    
+                    // クリックイベント
+                    title.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        category.classList.toggle('collapsed');
+                        const isCollapsed = category.classList.contains('collapsed');
+                        localStorage.setItem(`category-${categoryName}`, isCollapsed);
+                    });
+                }
+            });
+            
+            // サブカテゴリフォルダの初期化
+            document.querySelectorAll('.subcategory-folder').forEach(folder => {
+                const title = folder.querySelector('.subcategory-folder-title');
+                if (title) {
+                    const folderName = title.textContent.trim();
+                    const savedState = localStorage.getItem(`subcategory-${folderName}`);
+                    
+                    if (savedState !== 'false') {
+                        folder.classList.add('collapsed');
+                    } else {
+                        folder.classList.remove('collapsed');
+                    }
+                    
+                    // トグルアイコン追加
+                    if (!title.querySelector('.toggle-icon')) {
+                        const icon = document.createElement('div');
+                        icon.className = 'toggle-icon';
+                        title.insertBefore(icon, title.firstChild);
+                    }
+                    
+                    // クリックイベント
+                    title.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        folder.classList.toggle('collapsed');
+                        const isCollapsed = folder.classList.contains('collapsed');
+                        localStorage.setItem(`subcategory-${folderName}`, isCollapsed);
+                    });
+                }
+            });
+        }
+        
         // アクティブなページをハイライト
         document.addEventListener('DOMContentLoaded', function() {
+            // 先にトグル機能を初期化（デフォルト状態を設定）
+            initializeToggleCategories();
+            
             const currentPage = window.location.pathname.split('/').pop();
             const navItems = document.querySelectorAll('.nav-item');
             
             navItems.forEach(item => {
                 if (item.getAttribute('href') === currentPage) {
                     item.classList.add('active');
+                    
+                    // アクティブなアイテムが含まれるカテゴリとサブカテゴリを展開
+                    let parent = item.parentElement;
+                    while (parent) {
+                        if (parent.classList.contains('category')) {
+                            parent.classList.remove('collapsed');
+                            // アクティブなカテゴリの状態を保存
+                            const title = parent.querySelector('.category-title');
+                            if (title) {
+                                const name = title.textContent.trim();
+                                localStorage.setItem(`category-${name}`, 'false');
+                            }
+                        } else if (parent.classList.contains('subcategory-folder')) {
+                            // サブカテゴリフォルダを展開
+                            parent.classList.remove('collapsed');
+                            const title = parent.querySelector('.subcategory-folder-title');
+                            if (title) {
+                                const name = title.textContent.trim();
+                                localStorage.setItem(`subcategory-${name}`, 'false');
+                            }
+                        }
+                        parent = parent.parentElement;
+                        if (parent && parent.classList.contains('sidebar-nav')) {
+                            break;
+                        }
+                    }
                 }
             });
 
@@ -1358,17 +2027,42 @@
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const mobileHeader = document.getElementById('mobileHeader');
+            const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+            
+            // モバイルヘッダーの表示制御
+            function updateMobileHeader() {
+                if (window.innerWidth <= 768) {
+                    mobileHeader.style.display = 'flex';
+                } else {
+                    mobileHeader.style.display = 'none';
+                }
+            }
+            
+            updateMobileHeader();
+            window.addEventListener('resize', updateMobileHeader);
             
             if (mobileMenuToggle) {
                 mobileMenuToggle.addEventListener('click', () => {
-                    sidebar.classList.toggle('active');
-                    sidebarOverlay.classList.toggle('active');
+                    sidebar.classList.add('active');
+                    sidebarOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // スクロール防止
                 });
                 
                 sidebarOverlay.addEventListener('click', () => {
                     sidebar.classList.remove('active');
                     sidebarOverlay.classList.remove('active');
+                    document.body.style.overflow = ''; // スクロール再開
                 });
+                
+                // サイドバー閉じるボタン
+                if (sidebarCloseBtn) {
+                    sidebarCloseBtn.addEventListener('click', () => {
+                        sidebar.classList.remove('active');
+                        sidebarOverlay.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                }
                 
                 // サイドバー内のリンクをクリックしたらメニューを閉じる
                 document.querySelectorAll('.nav-item').forEach(item => {
@@ -1376,9 +2070,44 @@
                         if (window.innerWidth <= 768) {
                             sidebar.classList.remove('active');
                             sidebarOverlay.classList.remove('active');
+                            document.body.style.overflow = '';
                         }
                     });
                 });
+                
+                // モバイルサイドバー内検索
+                const mobileSidebarSearch = document.getElementById('mobileSidebarSearch');
+                if (mobileSidebarSearch) {
+                    mobileSidebarSearch.addEventListener('input', (e) => {
+                        const searchTerm = e.target.value.toLowerCase();
+                        const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
+                        
+                        navItems.forEach(item => {
+                            const text = item.textContent.toLowerCase();
+                            if (text.includes(searchTerm)) {
+                                item.style.display = '';
+                                // 親カテゴリも展開
+                                let parent = item.parentElement;
+                                while (parent && parent.classList.contains('category-content')) {
+                                    parent.parentElement.classList.remove('collapsed');
+                                    parent = parent.parentElement.parentElement;
+                                }
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                        
+                        // カテゴリの表示/非表示
+                        document.querySelectorAll('.category').forEach(category => {
+                            const visibleItems = category.querySelectorAll('.nav-item:not([style*="display: none"])');
+                            if (visibleItems.length === 0 && searchTerm !== '') {
+                                category.style.display = 'none';
+                            } else {
+                                category.style.display = '';
+                            }
+                        });
+                    });
+                }
             }
             
             // 検索機能の実装

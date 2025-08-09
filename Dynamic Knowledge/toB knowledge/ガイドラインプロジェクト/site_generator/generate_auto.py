@@ -51,12 +51,6 @@ class AutoSiteGenerator:
             # 相対パスを取得
             relative_path = md_file.relative_to(self.content_dir)
             
-            # デバッグ情報を出力
-            if "プロジェクト管理" in md_file.name:
-                print(f"DEBUG: {md_file.name}")
-                print(f"  - Full path: {md_file}")
-                print(f"  - Relative path: {relative_path}")
-                print(f"  - Parts: {relative_path.parts}")
             
             # ファイル内容を読み込み
             with open(md_file, 'r', encoding='utf-8') as f:
@@ -76,9 +70,10 @@ class AutoSiteGenerator:
             # フロントマターから情報を取得（なければ自動生成）
             if frontmatter:
                 page_info['title'] = frontmatter.get('title', self.clean_filename(md_file.stem))
-                page_info['category'] = frontmatter.get('category', self.guess_category(relative_path))
+                page_info['category'] = frontmatter.get('category', self.guess_category(relative_path)) or ''
                 page_info['subcategory'] = frontmatter.get('subcategory', self.guess_subcategory(relative_path))
-                page_info['order'] = frontmatter.get('order', self.extract_order(md_file.name))
+                order_value = frontmatter.get('order', self.extract_order(md_file.name))
+                page_info['order'] = order_value if order_value is not None else 999
                 page_info['date'] = frontmatter.get('date', None)
                 page_info['tags'] = frontmatter.get('tags', [])
             else:
@@ -89,16 +84,11 @@ class AutoSiteGenerator:
                     page_info['title'] = h1_match.group(1).strip()
                 else:
                     page_info['title'] = self.clean_filename(md_file.stem)
-                page_info['category'] = self.guess_category(relative_path)
+                page_info['category'] = self.guess_category(relative_path) or ''
                 page_info['subcategory'] = self.guess_subcategory(relative_path)
                 page_info['order'] = self.extract_order(md_file.name)
                 page_info['date'] = None
                 page_info['tags'] = []
-            
-            # デバッグ：プロジェクト管理のコツのカテゴリを確認
-            if "プロジェクト管理" in md_file.name:
-                print(f"  - Assigned category: {page_info['category']}")
-                print(f"  - Assigned subcategory: {page_info.get('subcategory', 'None')}")
             
             # 出力ファイル名を生成
             page_info['output_name'] = self.safe_filename(md_file.stem, md_file.name) + '.html'
@@ -108,12 +98,23 @@ class AutoSiteGenerator:
         # 重複するファイル名を解決
         self._resolve_duplicate_filenames()
         
+        # None値をデフォルト値に置き換え
+        for page in self.pages:
+            if page.get('category') is None:
+                page['category'] = ''
+            if page.get('subcategory') is None:
+                page['subcategory'] = ''
+            if page.get('order') is None:
+                page['order'] = 999
+            if page.get('filename') is None:
+                page['filename'] = ''
+        
         # ソート（カテゴリ → サブカテゴリ → order → ファイル名）
         self.pages.sort(key=lambda x: (
-            x['category'],
+            x.get('category', ''),
             x.get('subcategory', ''),
-            x['order'],
-            x['filename']
+            x.get('order', 999),
+            x.get('filename', '')
         ))
     
     def guess_category(self, relative_path):
@@ -151,6 +152,8 @@ class AutoSiteGenerator:
     
     def extract_order(self, filename):
         """ファイル名から順序を抽出（例: 01_xxx.md → 1）"""
+        if not filename:
+            return 999
         match = re.match(r'^(\d+)', filename)
         if match:
             return int(match.group(1))
@@ -249,12 +252,20 @@ class AutoSiteGenerator:
         """ページ情報からサイドバーHTMLを生成"""
         categories = {}
         
-        # カテゴリごとにページを分類
+        # カテゴリごとにページを分類（サブカテゴリも考慮）
         for page in self.pages:
             category = page['category']
             if category not in categories:
-                categories[category] = []
-            categories[category].append(page)
+                categories[category] = {'pages': [], 'subcategories': {}}
+            
+            # サブカテゴリがある場合（例：01_はじめに/以下のファイル）
+            if page.get('subcategory'):
+                subcategory = page['subcategory']
+                if subcategory not in categories[category]['subcategories']:
+                    categories[category]['subcategories'][subcategory] = []
+                categories[category]['subcategories'][subcategory].append(page)
+            else:
+                categories[category]['pages'].append(page)
         
         # サイドバーHTML生成
         sidebar_html = '''<!-- モバイル用サイドバーヘッダー -->
@@ -287,31 +298,72 @@ class AutoSiteGenerator:
         # 定義された順序でカテゴリを表示
         for category in category_order:
             if category in categories:
-                pages = categories[category]
+                cat_data = categories[category]
                 sidebar_html += f'''
 <div class="category collapsed">
 <div class="category-title">{category}</div>
 <div class="category-content">'''
                 
-                for page in pages:
+                # まずサブカテゴリを表示（「はじめに」など）
+                for subcategory, subpages in cat_data['subcategories'].items():
+                    # サブカテゴリ名を整形（番号プレフィックスを除去）
+                    clean_subcat = re.sub(r'^\d+[_-]', '', subcategory)
+                    
+                    # サブカテゴリのタイトルを決定
+                    subcat_title = clean_subcat
+                    
+                    # サブカテゴリのセクション（独立したサブカテゴリフォルダとして）
+                    sidebar_html += f'''
+<div class="subcategory-folder collapsed">
+<div class="subcategory-folder-title">{subcat_title}</div>
+<div class="subcategory-folder-content">'''
+                    
+                    # サブページを表示
+                    for page in sorted(subpages, key=lambda x: x.get('order', 999)):
+                        # indexページはスキップ
+                        if 'index' in page.get('filename', '').lower():
+                            continue
+                        page_title = page['title']
+                        # 短縮版のタイトルを作成（長すぎる場合）
+                        if len(page_title) > 25:
+                            page_title = page_title.split('：')[0] if '：' in page_title else page_title[:25] + '...'
+                        sidebar_html += f'''
+<a href="{page['output_name']}" class="nav-item">{page_title}</a>'''
+                    
+                    sidebar_html += '\n</div>\n</div>'
+                
+                # 通常のページを表示（サブカテゴリに属さないもの）
+                for page in cat_data['pages']:
                     # サイドバー用のタイトル（AIチャットの場合は「（テスト版）」を除去）
                     sidebar_title = page['title']
                     if sidebar_title == 'AIチャット（テスト版）':
                         sidebar_title = 'AIチャット'
-                    sidebar_html += f'''
+                    
+                    # このページがサブカテゴリと同名でないかチェック
+                    is_subcategory_parent = False
+                    for subcategory in cat_data['subcategories'].keys():
+                        clean_subcat = re.sub(r'^\d+[_-]', '', subcategory)
+                        if clean_subcat == sidebar_title or clean_subcat == page['title']:
+                            is_subcategory_parent = True
+                            break
+                    
+                    # サブカテゴリの親ページでない場合のみ表示
+                    if not is_subcategory_parent:
+                        sidebar_html += f'''
 <a href="{page['output_name']}" class="nav-item">{sidebar_title}</a>'''
                 
                 sidebar_html += '\n</div>\n</div>'
         
         # 定義されていないカテゴリも追加
-        for category, pages in categories.items():
+        for category, cat_data in categories.items():
             if category not in category_order:
                 sidebar_html += f'''
 <div class="category collapsed">
 <div class="category-title">{category}</div>
 <div class="category-content">'''
                 
-                for page in pages:
+                # 通常のページ
+                for page in cat_data['pages']:
                     # サイドバー用のタイトル（AIチャットの場合は「（テスト版）」を除去）
                     sidebar_title = page['title']
                     if sidebar_title == 'AIチャット（テスト版）':
